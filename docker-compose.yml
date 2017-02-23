@@ -1,0 +1,35 @@
+version: '2'
+services:
+  db:
+    image: postgres
+
+  mail_server:
+    build:
+      context: ../api
+      dockerfile: Dockerfile-mail-server
+    ports:
+      - "7025:7025"
+      - "7080:7080"
+
+  api:
+    build: ../api
+    volumes:
+      - ./src:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - mail_server
+
+  app:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+
+
+
+
