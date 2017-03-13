@@ -6,13 +6,16 @@ module.exports = {
   context: __dirname + '/src',
 
   entry: [
-    './js/app.js'
+    './app/main.jsx'
   ],
 
   output: {
     filename: 'bundle.js',
+    sourceMapFilename: '[file].map',
     path: path.resolve(__dirname, 'dist')
   },
+
+  devtool: 'inline-source-map',
 
   resolve: {
     extensions: ['.js', '.jsx', '.json']
@@ -22,19 +25,27 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot-loader', 'babel-loader'], include: path.join(__dirname, 'src'),
+        loaders: ['react-hot-loader', 'babel-loader'],
+        include: path.join(__dirname, 'src'),
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
       }
     ]
   },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({ template: 'index.html' })
+    new HtmlWebpackPlugin({ template: './app/index.html' })
   ],
 
   devServer: {
     hot: true,
     host: '0.0.0.0',
-    port: '8080'
-  }
+    port: '8080',
+    historyApiFallback: true,
+  },
 };

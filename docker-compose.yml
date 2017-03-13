@@ -14,7 +14,7 @@ services:
   api:
     build: ../api
     volumes:
-      - ./src:/app
+      - ../api/src:/app
     ports:
       - "3000:3000"
     depends_on:
