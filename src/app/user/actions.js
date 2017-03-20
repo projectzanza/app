@@ -47,6 +47,7 @@ function httpPostSignIn(user) {
 }
 
 function httpRespSignIn(json) {
+  Object.assign(json.data, { authenticated: true });
   return {
     type: Actions.HTTP_RESP_SIGNIN,
     result: json,
@@ -55,14 +56,14 @@ function httpRespSignIn(json) {
 }
 
 function loginUser(user) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(httpPostSignIn(user));
 
     return fetch('/auth/sign_in',
       {
         method: 'POST',
         body: JSON.stringify(user),
-        // headers: getState().headers,
+        headers: getState().headers,
       },
       dispatch)
       .then(response => response.json())

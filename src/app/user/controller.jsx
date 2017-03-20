@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import LoginContainer from './Login/container';
 import RegisterContainer from './SignUp/container';
+import AuthContainer from './Auth/container';
 
 class UserController {
   constructor(store) {
@@ -22,6 +23,14 @@ class UserController {
 
   static signUpScene() {
     return <RegisterContainer onSignUpSuccess={UserController.onSignUpSuccess} />;
+  }
+
+  static onAuthError() {
+    browserHistory.push('/login');
+  }
+
+  static auth() {
+    return <AuthContainer onAuthError={UserController.onAuthError} />;
   }
 }
 

@@ -3,7 +3,6 @@ const Actions = {
 };
 
 function httpHeaderResponse(response) {
-  console.log(response);
   let headers = {};
   if (response.headers) {
     headers = {

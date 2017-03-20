@@ -19,7 +19,7 @@ function fetch(url, params, dispatch) {
     defaultParams,
     fetchParams,
   );
-  console.log(fetchParams);
+
   return originalFetch(`${Config.apiUrl}${url}`, fetchParams)
     .then((response) => {
       dispatch(httpHeaderResponse(response));

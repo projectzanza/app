@@ -1,6 +1,8 @@
 import { Actions } from './actions';
 
-export default function userReducer(state = {}, action) {
+const initialState = { authenticated: false };
+
+export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case Actions.HTTP_POST_AUTH:
     case Actions.HTTP_POST_SIGNIN:
