@@ -1,15 +1,17 @@
-import { HTTP_POST_AUTH, HTTP_RESP_AUTH } from './actions';
+import { Actions } from './actions';
 
 export default function userReducer(state = {}, action) {
   switch (action.type) {
-    case HTTP_POST_AUTH:
+    case Actions.HTTP_POST_AUTH:
+    case Actions.HTTP_POST_SIGNIN:
       return Object.assign(
         {},
         state,
         action.user,
       );
 
-    case HTTP_RESP_AUTH:
+    case Actions.HTTP_RESP_AUTH:
+    case Actions.HTTP_RESP_SIGNIN:
       return Object.assign(
         {},
         state,

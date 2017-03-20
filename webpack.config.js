@@ -32,7 +32,10 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader'
+        loader: 'eslint-loader',
+        options: {
+          emitWarning: true
+        }
       }
     ]
   },

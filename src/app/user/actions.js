@@ -1,43 +1,74 @@
-import fetch from 'isomorphic-fetch';
+import fetch from '../lib/fetch/fetch';
 
-export const HTTP_POST_AUTH = 'HTTP_POST_AUTH';
-export const HTTP_RESP_AUTH = 'HTTP_RESP_AUTH';
+const Actions = {
+  HTTP_POST_AUTH: 'HTTP_POST_AUTH',
+  HTTP_RESP_AUTH: 'HTTP_RESP_AUTH',
+  HTTP_POST_SIGNIN: 'HTTP_POST_SIGNIN',
+  HTTP_RESP_SIGNIN: 'HTTP_RESP_SIGNIN',
+};
 
 function httpPostAuth(user) {
   return {
-    type: HTTP_POST_AUTH,
+    type: Actions.HTTP_POST_AUTH,
     user,
   };
 }
 
 function httpRespAuth(json) {
   return {
-    type: HTTP_RESP_AUTH,
+    type: Actions.HTTP_RESP_AUTH,
     result: json,
     receivedAt: Date.now(),
   };
 }
 
-export function createUser(user) {
-  return (dispatch) => {
+function createUser(user) {
+  return (dispatch, getState) => {
     dispatch(httpPostAuth(user));
 
-    return fetch('http://0.0.0.0:3000/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'cors',
-      body: JSON.stringify(user),
-    })
+    return fetch(
+      '/auth',
+      {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: getState().headers,
+      }, dispatch)
       .then(response => response.json())
       .then(json => dispatch(httpRespAuth(json)),
       );
   };
 }
 
-export function loginUser() {
-  return () => {
-
+function httpPostSignIn(user) {
+  return {
+    type: Actions.HTTP_POST_SIGNIN,
+    user,
   };
 }
+
+function httpRespSignIn(json) {
+  return {
+    type: Actions.HTTP_RESP_SIGNIN,
+    result: json,
+    receivedAt: Date.now(),
+  };
+}
+
+function loginUser(user) {
+  return (dispatch) => {
+    dispatch(httpPostSignIn(user));
+
+    return fetch('/auth/sign_in',
+      {
+        method: 'POST',
+        body: JSON.stringify(user),
+        // headers: getState().headers,
+      },
+      dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespSignIn(json)),
+      );
+  };
+}
+
+export { Actions, createUser, loginUser };

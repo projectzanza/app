@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from './components/form';
-// import { loginUser } from '../actions';
+import { loginUser } from '../actions';
 
 class LoginContainer extends React.Component {
   constructor(props) {
@@ -8,12 +8,11 @@ class LoginContainer extends React.Component {
     this.submitLoginForm = this.submitLoginForm.bind(this);
   }
 
-  submitLoginForm(e) {
+  submitLoginForm(e, form) {
     e.preventDefault();
-    // const { store } = this.context;
-    // store.dispatch(loginUser(form))
-    //   .then(this.props.onLoginSuccess);
-    this.props.onLoginSuccess();
+    const { store } = this.context;
+    store.dispatch(loginUser(form))
+      .then(this.props.onLoginSuccess);
   }
 
   render() {

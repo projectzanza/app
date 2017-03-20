@@ -1,25 +1,29 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import LoginContainer from './Login/container';
-import RegisterContainer from './Register/container';
+import RegisterContainer from './SignUp/container';
 
-const UserController = {
-  onLoginSuccess() {
+class UserController {
+  constructor(store) {
+    this.store = store;
+  }
+
+  static onLoginSuccess() {
     browserHistory.push('/dashboard');
-  },
+  }
 
-  onRegisterSuccess() {
+  static onSignUpSuccess() {
     browserHistory.push('/login');
-  },
+  }
 
-  loginScene() {
-    this.onLoginSuccess = function () {};
-    return <LoginContainer onLoginSuccess={this.onLoginSuccess} />;
-  },
+  static loginScene() {
+    return <LoginContainer onLoginSuccess={UserController.onLoginSuccess} />;
+  }
 
-  registerScene() {
-    return <RegisterContainer onRegisterSuccess={this.onRegisterSuccess} />;
-  },
-};
+  static signUpScene() {
+    return <RegisterContainer onSignUpSuccess={UserController.onSignUpSuccess} />;
+  }
+}
+
 
 export default UserController;

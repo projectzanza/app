@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Register extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +49,8 @@ class Register extends React.Component {
   }
 }
 
-Register.propTypes = {
+SignUp.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
 };
 
-export default Register;
+export default SignUp;
