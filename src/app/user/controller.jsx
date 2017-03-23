@@ -2,7 +2,8 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import LoginContainer from './Login/container';
 import RegisterContainer from './SignUp/container';
-import AuthContainer from './Auth/container';
+import SessionContainer from './Session/container';
+import AuthButtonsContainer from './AuthButtons/container';
 
 class UserController {
   constructor(store) {
@@ -29,8 +30,30 @@ class UserController {
     browserHistory.push('/login');
   }
 
-  static auth() {
-    return <AuthContainer onAuthError={UserController.onAuthError} />;
+  static session() {
+    return <SessionContainer onAuthError={UserController.onAuthError} />;
+  }
+
+  static onClickLogin() {
+    browserHistory.push('/login');
+  }
+
+  static onLogout() {
+    browserHistory.push('/');
+  }
+
+  static onClickSignUp() {
+    browserHistory.push('/signup');
+  }
+
+  static authButtons() {
+    return (
+      <AuthButtonsContainer
+        onClickLogin={UserController.onClickLogin}
+        onClickSignUp={UserController.onClickSignUp}
+        onLogout={UserController.onLogout}
+      />
+    );
   }
 }
 

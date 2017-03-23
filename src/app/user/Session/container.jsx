@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AuthContainer extends React.Component {
+class SessionContainer extends React.Component {
 
   componentDidMount() {
     const { store } = this.context;
@@ -18,16 +18,16 @@ class AuthContainer extends React.Component {
   }
 }
 
-AuthContainer.contextTypes = {
+SessionContainer.contextTypes = {
   store: React.PropTypes.object,
 };
 
-AuthContainer.propTypes = {
+SessionContainer.propTypes = {
   onAuthError: React.PropTypes.func.isRequired,
   children: React.PropTypes.node,
 };
-AuthContainer.getDefaultProps = {
+SessionContainer.getDefaultProps = {
   children: null,
 };
 
-export default AuthContainer;
+export default SessionContainer;

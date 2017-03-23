@@ -1,0 +1,13 @@
+@import '../css/scheme';
+
+.header {
+  background: $primary;
+  border-bottom: 2px solid $secondary;
+  padding: 2em;
+
+  h2 {
+    color: $tertiary;
+    margin: 0;
+  }
+}
+

@@ -9,7 +9,7 @@ const routes = (
     <Route path="/" component={App} >
       <Route path="signup" component={UserController.signUpScene} />
       <Route path="login" component={UserController.loginScene} />
-      <Route component={UserController.auth} >
+      <Route component={UserController.session} >
         <Route path="dashboard" component={DashboardController.scene} />
       </Route>
     </Route>

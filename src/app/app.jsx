@@ -1,8 +1,10 @@
 import React from 'react';
+import HeaderController from './header/controller';
 
 export default function App(props) {
   return (
     <div>
+      {HeaderController.scene()}
       {props.children}
     </div>
   );

@@ -4,10 +4,13 @@ const Actions = {
 
 function httpHeaderResponse(response) {
   let headers = {};
-  if (response.headers) {
+  if (response.headers.get('uid')) {
     headers = {
-      access_token: response.headers.get('access_token'),
+      'access-token': response.headers.get('access-token'),
       uid: response.headers.get('uid'),
+      client: response.headers.get('client'),
+      expiry: response.headers.get('expiry'),
+      'token-type': response.headers.get('token-type'),
     };
   }
 

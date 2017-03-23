@@ -6,6 +6,7 @@ import createLogger from 'redux-logger';
 import { Provider } from 'react-redux';
 import routes from './routes';
 import rootReducer from './reducers';
+import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
 const logger = createLogger();
 const store = createStore(

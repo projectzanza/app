@@ -5,6 +5,7 @@ const Actions = {
   HTTP_RESP_AUTH: 'HTTP_RESP_AUTH',
   HTTP_POST_SIGNIN: 'HTTP_POST_SIGNIN',
   HTTP_RESP_SIGNIN: 'HTTP_RESP_SIGNIN',
+  HTTP_RESP_SIGNOUT: 'HTTP_RESP_SIGNOUT',
 };
 
 function httpPostAuth(user) {
@@ -72,4 +73,26 @@ function loginUser(user) {
   };
 }
 
-export { Actions, createUser, loginUser };
+
+function httpRespSignOut() {
+  return {
+    type: Actions.HTTP_RESP_SIGNOUT,
+    result: { data: { authenticated: false } },
+    receivedAt: Date.now(),
+  };
+}
+
+function logoutUser() {
+  return (dispatch, getState) =>
+    fetch(
+      '/auth/sign_out',
+      {
+        method: 'DELETE',
+        headers: getState().headers,
+      },
+      dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespSignOut(json)));
+}
+
+export { Actions, createUser, loginUser, logoutUser };
