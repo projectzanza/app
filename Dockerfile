@@ -8,4 +8,4 @@ RUN mkdir $APP_HOME
 COPY . $APP_HOME
 WORKDIR $APP_HOME
 EXPOSE 8080
-CMD npm install && npm run start
+CMD npm install && npm run build:watch

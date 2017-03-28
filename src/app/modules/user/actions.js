@@ -1,6 +1,6 @@
-import fetch from '../lib/fetch/fetch';
+import fetch from '../../lib/fetch/fetch';
 
-const Actions = {
+export const Actions = {
   HTTP_POST_AUTH: 'HTTP_POST_AUTH',
   HTTP_RESP_AUTH: 'HTTP_RESP_AUTH',
   HTTP_POST_SIGNIN: 'HTTP_POST_SIGNIN',
@@ -8,22 +8,21 @@ const Actions = {
   HTTP_RESP_SIGNOUT: 'HTTP_RESP_SIGNOUT',
 };
 
-function httpPostAuth(user) {
+export function httpPostAuth(user) {
   return {
     type: Actions.HTTP_POST_AUTH,
     user,
   };
 }
 
-function httpRespAuth(json) {
+export function httpRespAuth(json) {
   return {
     type: Actions.HTTP_RESP_AUTH,
-    result: json,
-    receivedAt: Date.now(),
+    result: json.data,
   };
 }
 
-function createUser(user) {
+export function createUser(user) {
   return (dispatch, getState) => {
     dispatch(httpPostAuth(user));
 
@@ -40,23 +39,21 @@ function createUser(user) {
   };
 }
 
-function httpPostSignIn(user) {
+export function httpPostSignIn(user) {
   return {
     type: Actions.HTTP_POST_SIGNIN,
     user,
   };
 }
 
-function httpRespSignIn(json) {
-  Object.assign(json.data, { authenticated: true });
+export function httpRespSignIn(json) {
   return {
     type: Actions.HTTP_RESP_SIGNIN,
-    result: json,
-    receivedAt: Date.now(),
+    result: json.data,
   };
 }
 
-function loginUser(user) {
+export function loginUser(user) {
   return (dispatch, getState) => {
     dispatch(httpPostSignIn(user));
 
@@ -74,15 +71,13 @@ function loginUser(user) {
 }
 
 
-function httpRespSignOut() {
+export function httpRespSignOut() {
   return {
     type: Actions.HTTP_RESP_SIGNOUT,
-    result: { data: { authenticated: false } },
-    receivedAt: Date.now(),
   };
 }
 
-function logoutUser() {
+export function logoutUser() {
   return (dispatch, getState) =>
     fetch(
       '/auth/sign_out',
@@ -94,5 +89,3 @@ function logoutUser() {
       .then(response => response.json())
       .then(json => dispatch(httpRespSignOut(json)));
 }
-
-export { Actions, createUser, loginUser, logoutUser };

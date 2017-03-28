@@ -1,5 +1,5 @@
 import React from 'react';
-import HeaderController from './header/controller';
+import HeaderController from './modules/header/controller';
 
 export default function App(props) {
   return (

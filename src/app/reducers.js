@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import user from './user/reducers';
+import user from './modules/user/reducer';
 import headers from './lib/fetch/reducers';
 
 function app(state = {}) {

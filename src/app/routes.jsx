@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Router, browserHistory } from 'react-router';
 import App from './app';
-import UserController from './user/controller';
-import DashboardController from './dashboard/controller';
+import UserController from './modules/user/controller';
+import DashboardController from './modules/dashboard/controller';
 
 const routes = (
   <Router history={browserHistory}>

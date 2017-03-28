@@ -16,17 +16,27 @@ export default function userReducer(state = initialState, action) {
       return nextState;
 
     case Actions.HTTP_RESP_AUTH:
+      return Object.assign(
+        {},
+        state,
+        action.result,
+      );
+
     case Actions.HTTP_RESP_SIGNIN:
       return Object.assign(
         {},
         state,
-        action.result.data,
+        action.result,
+        { authenticated: true },
       );
+
     case Actions.HTTP_RESP_SIGNOUT:
       return Object.assign(
         {},
-        action.result.data,
+        action.result,
+        { authenticated: false },
       );
+
     default:
       return state;
   }
