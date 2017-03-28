@@ -2,7 +2,7 @@ version: '2'
 services:
   sut:
     build: .
-    command:  ["npm", "install", "&&", "npm", "run", "lint:test"]
+    command: npm install && npm run lint:test
     volumes:
       - ./:/app
     ports:
