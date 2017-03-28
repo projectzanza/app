@@ -1,0 +1,9 @@
+version: '2'
+services:
+  sut:
+    build: .
+    command:  ["npm", "run", "lint:test"]
+    volumes:
+      - ./:/app
+    ports:
+      - "8080:8080"

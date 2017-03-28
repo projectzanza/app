@@ -8,7 +8,8 @@
     "build:watch": "webpack-dev-server",
     "test": "jest ./src/app/modules",
     "test:watch": "npm test -- --watch",
-    "lint": "node_modules/eslint/bin/eslint.js src/app/"
+    "lint": "node_modules/eslint/bin/eslint.js src/app/",
+    "lint:test": "node_modules/eslint/bin/eslint.js src/app/ && jest ./src/app/modules"
   },
   "author": "",
   "license": "ISC",
