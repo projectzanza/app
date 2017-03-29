@@ -11,7 +11,8 @@ class SessionContainer extends React.Component {
 
   render() {
     const { store } = this.context;
-    if (store.user && store.user.authenticated) {
+    const user = store.getState().user;
+    if (user && user.authenticated) {
       return this.props.children;
     }
     return null;

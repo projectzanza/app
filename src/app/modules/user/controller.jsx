@@ -30,8 +30,12 @@ class UserController {
     browserHistory.push('/login');
   }
 
-  static session() {
-    return <SessionContainer onAuthError={UserController.onAuthError} />;
+  static session(props) {
+    return (
+      <SessionContainer onAuthError={UserController.onAuthError} >
+        { props.children }
+      </SessionContainer>
+    );
   }
 
   static onClickLogin() {

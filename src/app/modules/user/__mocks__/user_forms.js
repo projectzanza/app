@@ -1,9 +1,10 @@
 export const signup = {
-  uid: 'user1@test.com',
   username: 'user1',
+  password: '123123123',
+  password_confirmation: '123123123',
 };
 
 export const signin = {
-  uid: 'user1@test.com',
   username: 'user1',
+  password: '123123123'
 };
