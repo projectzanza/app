@@ -18,7 +18,10 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  saveState({ user: store.getState().user });
+  saveState({
+    user: store.getState().user,
+    headers: store.getState().headers,
+  });
 });
 
 ReactDOM.render(
