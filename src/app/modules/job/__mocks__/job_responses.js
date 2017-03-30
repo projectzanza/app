@@ -1,8 +1,6 @@
 export const job = {
-  data: {
-    id: 1,
-    title: 'job title',
-    created_at: '01-01-2017',
-    updated_at: '01-01-2017',
-  }
+  id: 1,
+  title: 'job title',
+  created_at: '01-01-2017',
+  updated_at: '01-01-2017',
 };

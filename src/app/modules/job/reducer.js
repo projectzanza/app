@@ -19,6 +19,23 @@ export default function jobReducer(state = initialState, action) {
         { loading: false },
       );
 
+    case Actions.HTTP_GET_JOB:
+      return Object.assign(
+        {},
+        state,
+        {
+          loading: { id: action.id },
+        },
+      );
+
+    case Actions.HTTP_PUT_JOB:
+      return Object.assign(
+        {},
+        state,
+        action.job,
+        { loading: { id: action.job.id }},
+      );
+
     default:
       return state;
   }

@@ -7,36 +7,93 @@ import * as forms from '../__mocks__/job_forms';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('createJob', () => {
+describe('jobActions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
 
-  it('creates HTTP_RESP_JOB on create success', () => {
-    nock('http://0.0.0.0:3000')
-      .post('/jobs')
-      .reply(200, responses.job);
 
-    const expectedActions = [
-      {
-        type: actions.Actions.HTTP_POST_JOB,
-        job: forms.quickCreate,
-      },
-      {
-        type: actions.Actions.HTTP_RESP_JOB,
-        result: responses.job.data,
-      },
-    ];
+  describe('createJob', () => {
+    it('creates HTTP_RESP_JOB on create success', () => {
+      nock('http://0.0.0.0:3000')
+        .post('/jobs')
+        .reply(200, responses.job);
 
-    const store = mockStore();
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_POST_JOB,
+          job: forms.quickCreate,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_JOB,
+          result: responses.job,
+        },
+      ];
 
-    store.dispatch(actions.createJob(forms.quickCreate))
-      .then(() => {
-        expect(
-          store.getActions(),
-        ).toEqual(
-          expect.arrayContaining(expectedActions),
-        );
-      });
+      const store = mockStore();
+
+      store.dispatch(actions.createJob(forms.quickCreate))
+        .then(() => {
+          expect(
+            store.getActions(),
+          ).toEqual(
+            expect.arrayContaining(expectedActions),
+          );
+        });
+    });
+  });
+
+  describe('getJob', () => {
+    it('creates HTTP_RESP_JOB on get success', () => {
+      nock('http://0.0.0.0:3000')
+        .get('/jobs/1')
+        .reply(200, responses.job);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_GET_JOB,
+          id: 1,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_JOB,
+          result: responses.job,
+        }
+      ];
+
+      const store = mockStore();
+
+      store.dispatch(actions.getJob(1))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions))
+        });
+    })
+  });
+
+  describe('putJob', () => {
+    it('creates HTTP_RESP_JOB on put success', () => {
+      nock('http://0.0.0.0:3000')
+        .put('/jobs/1')
+        .reply(200, responses.job);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_PUT_JOB,
+          job: forms.existingJob,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_JOB,
+          result: responses.job,
+        }
+      ];
+
+      const store = mockStore();
+
+      store.dispatch(actions.putJob(forms.existingJob))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions))
+        });
+    })
   });
 });

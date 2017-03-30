@@ -3,6 +3,8 @@ import fetch from '../../lib/fetch/fetch';
 export const Actions = {
   HTTP_POST_JOB: 'HTTP_POST_JOB',
   HTTP_RESP_JOB: 'HTTP_RESP_JOB',
+  HTTP_GET_JOB: 'HTTP_GET_JOB',
+  HTTP_PUT_JOB: 'HTTP_PUT_JOB',
 };
 
 export function httpPostJob(job) {
@@ -15,7 +17,7 @@ export function httpPostJob(job) {
 export function httpRespJob(json) {
   return {
     type: Actions.HTTP_RESP_JOB,
-    result: json.data,
+    result: json,
   };
 }
 
@@ -27,6 +29,51 @@ export function createJob(job) {
       '/jobs',
       {
         method: 'POST',
+        body: JSON.stringify(job),
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespJob(json)));
+  };
+}
+
+export function httpGetJob(id) {
+  return {
+    type: Actions.HTTP_GET_JOB,
+    id,
+  };
+}
+
+export function getJob(id) {
+  return (dispatch, getState) => {
+    dispatch(httpGetJob(id));
+
+    return fetch(
+      `/jobs/${id}`,
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespJob(json)));
+  };
+}
+
+export function httpPutJob(job) {
+  return {
+    type: Actions.HTTP_PUT_JOB,
+    job,
+  };
+}
+
+export function putJob(job) {
+  return (dispatch, getState) => {
+    dispatch(httpPutJob(job));
+
+    return fetch(
+      `/jobs/${job.id}`,
+      {
+        method: 'PUT',
         body: JSON.stringify(job),
         headers: getState().headers,
       }, dispatch)
