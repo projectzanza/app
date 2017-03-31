@@ -12,7 +12,7 @@ const routes = (
       <Route path="login" component={UserController.loginScene} />
       <Route component={UserController.session} >
         <Route path="dashboard" component={DashboardController.scene} />
-        <Route path="job/:id" component={JobController.editScene} />
+        <Route path="/job/:id(/:mode)" component={JobController.showScene} />
       </Route>
     </Route>
   </Router>

@@ -33,7 +33,7 @@ export default function jobReducer(state = initialState, action) {
         {},
         state,
         action.job,
-        { loading: { id: action.job.id }},
+        { loading: { id: action.job.id } },
       );
 
     default:

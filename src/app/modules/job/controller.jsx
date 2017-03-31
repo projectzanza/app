@@ -1,12 +1,12 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import QuickCreateJobContainer from './QuickCreate/container';
-import EditJobContainer from './Edit/container';
+import ShowJobContainer from './Show/container';
 
 class JobController {
 
   static onQuickCreateSuccess(jobId) {
-    browserHistory.push(`/job/${jobId}`);
+    browserHistory.push(`/job/${jobId}/edit`);
   }
 
   static quickCreateScene() {
@@ -19,9 +19,9 @@ class JobController {
     console.log('success');
   }
 
-  static editScene(props) {
+  static showScene(props) {
     return (
-      <EditJobContainer
+      <ShowJobContainer
         {...props}
         onUpdateSuccess={JobController.updateSuccess}
       />
