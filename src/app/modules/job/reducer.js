@@ -5,6 +5,7 @@ export const initialState = {
   tag_list: [],
   title: '',
   text: '',
+  per_diem: 300,
 };
 
 export default function jobReducer(state = initialState, action) {
