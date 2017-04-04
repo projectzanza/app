@@ -5,16 +5,16 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
+import TagInput from '../../../../components/TagInput/container';
+import JobPropTypes from '../../propTypes';
 
-class Form extends React.Component {
+class Edit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign(
-      { title: '', text: '' },
-      props.job,
-    );
+    this.state = Object.assign({}, props.job);
 
     this.onChange = this.onChange.bind(this);
+    this.onTagChange = this.onTagChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,6 +23,10 @@ class Form extends React.Component {
 
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  onTagChange(tags) {
+    this.setState({ tag_list: tags });
   }
 
   render() {
@@ -43,8 +47,16 @@ class Form extends React.Component {
             type="textarea"
             componentClass="textarea"
             name="text"
-            value={this.state.text || ''}
+            value={this.state.text}
             onChange={this.onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel htmlFor="tags">Tags</ControlLabel>
+          <TagInput
+            mode="edit"
+            value={this.state.tag_list}
+            onChange={this.onTagChange}
           />
         </FormGroup>
         <FormGroup>
@@ -55,17 +67,10 @@ class Form extends React.Component {
   }
 }
 
-Form.propTypes = {
-  job: React.PropTypes.shape({
-    title: React.PropTypes.string,
-    text: React.PropTypes.string,
-  }),
+Edit.propTypes = {
+  job: JobPropTypes.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
 };
 
-Form.defaultProps = {
-  job: {},
-};
-
-export default Form;
+export default Edit;
 

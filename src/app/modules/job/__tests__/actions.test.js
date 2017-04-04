@@ -57,7 +57,7 @@ describe('jobActions', () => {
         {
           type: actions.Actions.HTTP_RESP_JOB,
           result: responses.job,
-        }
+        },
       ];
 
       const store = mockStore();
@@ -65,9 +65,9 @@ describe('jobActions', () => {
       store.dispatch(actions.getJob(1))
         .then(() => {
           expect(store.getActions())
-            .toEqual(expect.arrayContaining(expectedActions))
+            .toEqual(expect.arrayContaining(expectedActions));
         });
-    })
+    });
   });
 
   describe('putJob', () => {
@@ -84,7 +84,7 @@ describe('jobActions', () => {
         {
           type: actions.Actions.HTTP_RESP_JOB,
           result: responses.job,
-        }
+        },
       ];
 
       const store = mockStore();
@@ -92,8 +92,8 @@ describe('jobActions', () => {
       store.dispatch(actions.putJob(forms.existingJob))
         .then(() => {
           expect(store.getActions())
-            .toEqual(expect.arrayContaining(expectedActions))
+            .toEqual(expect.arrayContaining(expectedActions));
         });
-    })
+    });
   });
 });

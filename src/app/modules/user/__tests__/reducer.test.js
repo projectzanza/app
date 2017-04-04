@@ -12,7 +12,7 @@ describe('user reducer', () => {
   describe('HTTP_POST_SIGNIN', () => {
     it('should not store the password in the store', () => {
       const action = actions.httpPostSignIn(forms.signin);
-      let state = Object.assign(
+      const state = Object.assign(
         {},
         forms.signin,
         { authenticated: false },

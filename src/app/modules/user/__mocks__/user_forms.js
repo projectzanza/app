@@ -6,5 +6,5 @@ export const signup = {
 
 export const signin = {
   username: 'user1',
-  password: '123123123'
+  password: '123123123',
 };

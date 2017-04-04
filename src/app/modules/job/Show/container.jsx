@@ -2,13 +2,14 @@ import React from 'react';
 import Edit from './components/edit';
 import View from './components/view';
 import { getJob, putJob } from '../actions';
+import { initialState } from '../reducer';
 
-class EditContainer extends React.Component {
+class ShowJobContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
     this.state = {
-      job: {},
+      job: initialState,
       mode: props.params.mode,
     };
 
@@ -51,7 +52,7 @@ class EditContainer extends React.Component {
   }
 }
 
-EditContainer.propTypes = {
+ShowJobContainer.propTypes = {
   params: React.PropTypes.shape({
     id: React.PropTypes.string,
     mode: React.PropTypes.string,
@@ -59,8 +60,8 @@ EditContainer.propTypes = {
   onUpdateSuccess: React.PropTypes.func.isRequired,
 };
 
-EditContainer.contextTypes = {
+ShowJobContainer.contextTypes = {
   store: React.PropTypes.object,
 };
 
-export default EditContainer;
+export default ShowJobContainer;

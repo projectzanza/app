@@ -1,6 +1,11 @@
 import { Actions } from './actions';
 
-const initialState = { loading: false };
+export const initialState = {
+  loading: false,
+  tag_list: [],
+  title: '',
+  text: '',
+};
 
 export default function jobReducer(state = initialState, action) {
   switch (action.type) {

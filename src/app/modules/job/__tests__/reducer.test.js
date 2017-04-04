@@ -1,4 +1,4 @@
-import reducer from '../reducer';
+import reducer, { initialState } from '../reducer';
 import * as actions from '../actions';
 import * as forms from '../__mocks__/job_forms';
 import * as responses from '../__mocks__/job_responses';
@@ -6,7 +6,7 @@ import * as responses from '../__mocks__/job_responses';
 describe('job reducer', () => {
   it('should return an initial state', () => {
     expect(reducer(undefined, {}))
-      .toEqual({ loading: false });
+      .toEqual(initialState);
   });
 
   describe('HTTP_POST_JOB', () => {
@@ -15,8 +15,12 @@ describe('job reducer', () => {
 
       expect(reducer(undefined, action))
         .toEqual(
-          { loading: true }
-        )
+          Object.assign(
+            {},
+            initialState,
+            { loading: true },
+          ),
+        );
     });
   });
 
@@ -30,7 +34,7 @@ describe('job reducer', () => {
             {},
             responses.job,
             { loading: false },
-          )
+          ),
         );
     });
   });
@@ -41,8 +45,12 @@ describe('job reducer', () => {
 
       expect(reducer(undefined, action))
         .toEqual(
-          { loading: { id: 1 } }
-        )
+          Object.assign(
+            {},
+            initialState,
+            { loading: { id: 1 } },
+          ),
+        );
     });
   });
 
@@ -53,10 +61,12 @@ describe('job reducer', () => {
       expect(reducer(undefined, action))
         .toEqual(
           Object.assign(
+            {},
+            initialState,
             { loading: { id: forms.existingJob.id } },
             forms.existingJob,
-          )
-        )
+          ),
+        );
     });
   });
 });
