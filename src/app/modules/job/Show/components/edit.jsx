@@ -5,6 +5,8 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
+import ReactBootstrapSlider from 'react-bootstrap-slider';
+import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import TagInput from '../../../../components/TagInput/container';
 import JobPropTypes from '../../propTypes';
 
@@ -15,6 +17,7 @@ class Edit extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
+    this.onSliderChange = this.onSliderChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,6 +30,10 @@ class Edit extends React.Component {
 
   onTagChange(tags) {
     this.setState({ tag_list: tags });
+  }
+
+  onSliderChange(event) {
+    this.setState({ per_diem: event.target.value });
   }
 
   render() {
@@ -47,8 +54,18 @@ class Edit extends React.Component {
             type="textarea"
             componentClass="textarea"
             name="text"
-            value={this.state.text}
+            value={this.state.text || ''}
             onChange={this.onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel htmlFor="slider">Price Per Day</ControlLabel><br />
+          <ReactBootstrapSlider
+            value={this.state.per_diem}
+            max={1000}
+            min={0}
+            step={50}
+            slideStop={this.onSliderChange}
           />
         </FormGroup>
         <FormGroup>
