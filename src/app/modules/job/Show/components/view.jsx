@@ -9,6 +9,8 @@ const View = props => (
       <dd>{props.job.title}</dd>
       <dt>Description</dt>
       <dd>{props.job.text}</dd>
+      <dt>Day Rate</dt>
+      <dd>{props.job.per_diem.min} - {props.job.per_diem.max}</dd>
       <dt>Tags</dt>
       <dd>
         <TagInput

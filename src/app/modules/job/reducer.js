@@ -5,7 +5,7 @@ export const initialState = {
   tag_list: [],
   title: '',
   text: '',
-  per_diem: 0,
+  per_diem: { min: 0, max: 1000 },
 };
 
 const overrideNull = (state) => {

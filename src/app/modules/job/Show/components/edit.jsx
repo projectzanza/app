@@ -33,7 +33,12 @@ class Edit extends React.Component {
   }
 
   onSliderChange(event) {
-    this.setState({ per_diem: event.target.value });
+    this.setState({
+      per_diem: {
+        min: event.target.value[0],
+        max: event.target.value[1],
+      },
+    });
   }
 
   render() {
@@ -61,7 +66,7 @@ class Edit extends React.Component {
         <FormGroup>
           <ControlLabel htmlFor="slider">Price Per Day</ControlLabel><br />
           <ReactBootstrapSlider
-            value={this.state.per_diem}
+            value={[this.state.per_diem.min, this.state.per_diem.max]}
             max={1000}
             min={0}
             step={50}

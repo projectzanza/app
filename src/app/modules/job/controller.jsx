@@ -15,8 +15,8 @@ class JobController {
     );
   }
 
-  static updateSuccess() {
-    console.log('success');
+  static updateSuccess(job) {
+    browserHistory.push(`/job/${job.id}`);
   }
 
   static showScene(props) {
