@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import * as actions from '../actions';
-import * as responses from '../__mocks__/responses';
+import * as responses from '../__mocks__/user_responses';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -36,12 +36,6 @@ describe('createUser', () => {
         ).toEqual(
           expect.arrayContaining(expectedActions),
         );
-        //
-        // expect(
-        //   store.getActions()
-        // ).arrayContaining(
-        //   expectedActions.HTTP_RESP_AUTH
-        // );
       });
   });
 });

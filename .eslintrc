@@ -3,7 +3,8 @@
   "plugins": ["import"],
   "globals": {
     "window": true,
-    "document": true
+    "document": true,
+    "localStorage": true
   },
   "env": {
     "jest": true

@@ -1,36 +1,26 @@
 import reducer from '../reducer';
 import * as actions from '../actions';
-import * as responses from '../__mocks__/responses';
-import * as forms from '../__mocks__/forms';
+import * as responses from '../__mocks__/user_responses';
+import * as forms from '../__mocks__/user_forms';
 
 describe('user reducer', () => {
   it('should return the initial state', () => {
-    expect(
-      reducer(undefined, {}),
-    ).toEqual(
-      { authenticated: false },
-    );
+    expect(reducer(undefined, {}))
+      .toEqual({ authenticated: false });
   });
 
   describe('HTTP_POST_SIGNIN', () => {
     it('should not store the password in the store', () => {
-      const action = actions.httpPostSignIn(
-        Object.assign(
-          {},
-          forms.signin,
-          { password: '1234' },
-        ),
+      const action = actions.httpPostSignIn(forms.signin);
+      const state = Object.assign(
+        {},
+        forms.signin,
+        { authenticated: false },
       );
+      delete state.password;
 
-      expect(
-        reducer(undefined, action),
-      ).toEqual(
-        Object.assign(
-          {},
-          responses.authSignInJson.data,
-          { authenticated: false },
-        ),
-      );
+      expect(reducer(undefined, action))
+        .toEqual(state);
     });
   });
 

@@ -34,8 +34,7 @@ export function createUser(user) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespAuth(json)),
-      );
+      .then(json => dispatch(httpRespAuth(json)));
   };
 }
 
