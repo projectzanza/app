@@ -1,15 +1,16 @@
 export const job = {
   id: 1,
   title: 'job title',
-  tags: ['tag1', 'tag2', 'tag3'],
+  tag_list: ['tag1', 'tag2', 'tag3'],
   created_at: '01-01-2017',
   updated_at: '01-01-2017',
 };
 
-export const jobNoTags = {
+export const jobNullValues = {
   id: 1,
   title: 'job title',
-  tags: ['tag1', 'tag2', 'tag3'],
+  tag_list: null,
+  per_diem: null,
   created_at: '01-01-2017',
   updated_at: '01-01-2017',
 };

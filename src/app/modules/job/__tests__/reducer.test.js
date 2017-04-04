@@ -37,6 +37,23 @@ describe('job reducer', () => {
           ),
         );
     });
+
+    it('should override null values from the server with defaults', () => {
+      const action = actions.httpRespJob(responses.jobNullValues);
+
+      expect(reducer({ loading: true }, action))
+        .toEqual(
+          Object.assign(
+            {},
+            responses.jobNullValues,
+            {
+              loading: false,
+              tag_list: [],
+              per_diem: 0,
+            },
+          ),
+        );
+    });
   });
 
   describe('HTTP_GET_JOB', () => {
