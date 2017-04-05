@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import JobPropType from '../../../job/propTypes';
+import JobPropType from '../../propTypes';
 
 const Job = props => (
   <Button block onClick={e => props.onClick(e, props.job)} >

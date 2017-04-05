@@ -12,22 +12,22 @@ class ShowJobListContainer extends React.Component {
   }
 
   componentWillMount() {
-    const { jobs } = this.store.getState();
-    if (jobs.results.length === 0) {
-      this.store.dispatch(getJobs());
-    } else {
-      this.setState({ jobs: this.store.getState().jobs.results });
-    }
+    this.store.dispatch(getJobs());
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ jobs: this.store.getState().jobs.results });
+      this.setState({ jobs: this.jobs() });
     });
   }
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  jobs() {
+    const { jobs } = this.store.getState();
+    return jobs.resultIds.map(key => jobs.items[key]) || [];
   }
 
   render() {

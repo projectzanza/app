@@ -1,6 +1,6 @@
 import React from 'react';
 import Job from './job';
-import JobPropType from '../../../job/propTypes';
+import JobPropType from '../../propTypes';
 
 class List extends React.Component {
 

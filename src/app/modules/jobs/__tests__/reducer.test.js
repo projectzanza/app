@@ -1,4 +1,4 @@
-import reducer, { initialState } from '../reducer';
+import reducer, { initialState, reducerInitialState } from '../reducer';
 import * as actions from '../actions';
 import * as forms from '../__mocks__/job_forms';
 import * as responses from '../__mocks__/job_responses';
@@ -6,7 +6,7 @@ import * as responses from '../__mocks__/job_responses';
 describe('job reducer', () => {
   it('should return an initial state', () => {
     expect(reducer(undefined, {}))
-      .toEqual(initialState);
+      .toEqual(reducerInitialState);
   });
 
   describe('HTTP_POST_JOB', () => {
@@ -17,7 +17,7 @@ describe('job reducer', () => {
         .toEqual(
           Object.assign(
             {},
-            initialState,
+            reducerInitialState,
             { loading: true },
           ),
         );
@@ -32,7 +32,7 @@ describe('job reducer', () => {
         .toEqual(
           Object.assign(
             {},
-            responses.job,
+            { items: { [responses.job.id]: responses.job }},
             { loading: false },
           ),
         );
@@ -41,18 +41,13 @@ describe('job reducer', () => {
     it('should override null values from the server with defaults', () => {
       const action = actions.httpRespJob(responses.jobNullValues);
 
-      expect(reducer({ loading: true }, action))
-        .toEqual(
-          Object.assign(
-            {},
-            responses.jobNullValues,
-            {
-              loading: false,
-              tag_list: [],
-              per_diem: { min: 0, max: 1000 },
-            },
-          ),
-        );
+      let state = reducer({ loading: true }, action);
+      let job = state.items[responses.jobNullValues.id];
+      let keys = Object.keys(job);
+
+      keys.forEach((key) => {
+        expect(job[key]).not.toBeNull();
+      });
     });
   });
 
@@ -64,7 +59,7 @@ describe('job reducer', () => {
         .toEqual(
           Object.assign(
             {},
-            initialState,
+            reducerInitialState,
             { loading: { id: 1 } },
           ),
         );
@@ -72,18 +67,43 @@ describe('job reducer', () => {
   });
 
   describe('HTTP_PUT_JOB', () => {
-    it('should update job and set loading to true', () => {
+    it('should set loading to true', () => {
       const action = actions.httpPutJob(forms.existingJob);
 
       expect(reducer(undefined, action))
         .toEqual(
           Object.assign(
             {},
-            initialState,
+            reducerInitialState,
             { loading: { id: forms.existingJob.id } },
-            forms.existingJob,
           ),
         );
+    });
+  });
+
+  describe('HTTP_GET_JOBS', () => {
+    it('should set loading to true', () => {
+      const action = actions.httpGetJobs();
+
+      expect(reducer(undefined, action))
+        .toEqual(
+          Object.assign(
+            {},
+            reducerInitialState,
+            { loading: true },
+          ),
+        );
+    });
+  });
+
+  describe('HTTP_RESP_JOBS', () => {
+    it('should place the jobs by key into items property', () => {
+      const action = actions.httpRespJobs(responses.jobs);
+      let state = reducer(undefined, action);
+
+      const jobIds = Object.keys(state.items);
+      expect(jobIds.length)
+        .toEqual(responses.jobs.length);
     });
   });
 });

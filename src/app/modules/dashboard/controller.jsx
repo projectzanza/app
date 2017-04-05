@@ -1,8 +1,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import DashboardContainer from './components/Dashboard/container';
-import JobController from '../job/controller';
-import JobsController from '../jobs/controller';
+import JobController from '../jobs/controller';
 
 class DashboardController {
 
@@ -14,7 +13,7 @@ class DashboardController {
         </Panel>
 
         <Panel header={<h3>Your Jobs</h3>}>
-          {JobsController.showListScene()}
+          {JobController.showListScene()}
         </Panel>
       </DashboardContainer>
     );

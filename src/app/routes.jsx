@@ -3,7 +3,7 @@ import { Route, Router, browserHistory } from 'react-router';
 import App from './app';
 import UserController from './modules/user/controller';
 import DashboardController from './modules/dashboard/controller';
-import JobController from './modules/job/controller';
+import JobController from './modules/jobs/controller';
 
 const routes = (
   <Router history={browserHistory}>

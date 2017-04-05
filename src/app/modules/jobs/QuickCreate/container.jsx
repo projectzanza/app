@@ -13,8 +13,8 @@ class QuickCreateJobContainer extends React.Component {
     e.preventDefault();
     const { store } = this.context;
     store.dispatch(createJob(form))
-      .then(() => {
-        this.props.onSubmitSuccess(store.getState().job.id);
+      .then((id) => {
+        this.props.onSubmitSuccess(store.getState().jobs.items[id]);
       });
   }
 

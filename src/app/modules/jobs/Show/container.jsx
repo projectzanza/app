@@ -17,8 +17,8 @@ class ShowJobContainer extends React.Component {
   }
 
   componentWillMount() {
-    const { job } = this.store.getState();
-    if (this.props.params.id !== job.id) {
+    const job = this.job();
+    if (job) {
       this.store.dispatch(getJob(this.props.params.id));
     } else {
       this.setState({ job });
@@ -27,7 +27,7 @@ class ShowJobContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ job: this.store.getState().job });
+      this.setState({ job: this.job() });
     });
   }
 
@@ -43,8 +43,13 @@ class ShowJobContainer extends React.Component {
     e.preventDefault();
     this.store.dispatch(putJob(form))
       .then(() => {
-        this.props.onUpdateSuccess(this.store.getState().job);
+        this.props.onUpdateSuccess(this.job());
       });
+  }
+
+  job() {
+    const { jobs } = this.store.getState();
+    return jobs.items[this.props.params.id];
   }
 
   render() {
