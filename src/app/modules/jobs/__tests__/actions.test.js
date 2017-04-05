@@ -4,6 +4,7 @@ import nock from 'nock';
 import * as actions from '../actions';
 import * as responses from '../__mocks__/job_responses';
 import * as forms from '../__mocks__/job_forms';
+import Config from '../../../config/app';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -15,7 +16,7 @@ describe('jobActions', () => {
 
   describe('createJob', () => {
     it('creates HTTP_RESP_JOB on create success', () => {
-      nock('http://0.0.0.0:3000')
+      nock(Config.apiUrl)
         .post('/jobs')
         .reply(200, responses.job);
 
@@ -45,7 +46,7 @@ describe('jobActions', () => {
 
   describe('getJob', () => {
     it('creates HTTP_RESP_JOB on get success', () => {
-      nock('http://0.0.0.0:3000')
+      nock(Config.apiUrl)
         .get('/jobs/1')
         .reply(200, responses.job);
 
@@ -72,7 +73,7 @@ describe('jobActions', () => {
 
   describe('putJob', () => {
     it('creates HTTP_RESP_JOB on put success', () => {
-      nock('http://0.0.0.0:3000')
+      nock(Config.apiUrl)
         .put('/jobs/1')
         .reply(200, responses.job);
 
@@ -90,6 +91,56 @@ describe('jobActions', () => {
       const store = mockStore();
 
       store.dispatch(actions.putJob(forms.existingJob))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('getJobs', () => {
+    it('creates HTTP_RESP_JOB on get success', () => {
+      nock(Config.apiUrl)
+        .get('/jobs')
+        .reply(200, responses.jobs);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_GET_JOBS,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_JOBS,
+          result: responses.jobs
+        },
+      ];
+
+      const store = mockStore();
+
+      store.dispatch(actions.getJobs())
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+
+    it('requests jobs by user id when supplied', () => {
+      nock(Config.apiUrl)
+        .get('/users/1/jobs')
+        .reply(200, responses.jobs);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_GET_JOBS,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_JOBS,
+          result: responses.jobs
+        },
+      ];
+
+      const store = mockStore();
+
+      store.dispatch(actions.getJobs(1))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

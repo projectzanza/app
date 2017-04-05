@@ -12,7 +12,7 @@ class ShowJobListContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.store.dispatch(getJobs());
+    this.store.dispatch(getJobs(this.props.userId));
   }
 
   componentDidMount() {
@@ -44,6 +44,11 @@ ShowJobListContainer.contextTypes = {
 
 ShowJobListContainer.propTypes = {
   onClickJob: React.PropTypes.func.isRequired,
+  userId: React.PropTypes.string
+};
+
+ShowJobListContainer.defaultProps = {
+  userId: undefined,
 };
 
 export default ShowJobListContainer;

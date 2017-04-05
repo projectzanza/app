@@ -100,12 +100,13 @@ export function httpRespJobs(json) {
   };
 }
 
-export function getJobs() {
+export function getJobs(userId) {
   return (dispatch, getState) => {
     dispatch(httpGetJobs());
+    const path = userId ? `/users/${userId}/jobs` : '/jobs';
 
     return fetch(
-      '/jobs',
+      path,
       {
         method: 'GET',
         headers: getState().headers,

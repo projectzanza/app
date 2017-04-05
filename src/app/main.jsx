@@ -4,7 +4,7 @@ import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
 import { Provider } from 'react-redux';
-import routes from './routes';
+import Routes from './routes';
 import rootReducer from './reducers';
 import { loadState, saveState } from './localStorage';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
@@ -26,7 +26,7 @@ store.subscribe(() => {
 
 ReactDOM.render(
   <Provider store={store}>
-    {routes}
+    <Routes />
   </Provider>,
   document.getElementById('root'),
 );

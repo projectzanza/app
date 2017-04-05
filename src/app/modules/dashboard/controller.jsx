@@ -5,7 +5,9 @@ import JobController from '../jobs/controller';
 
 class DashboardController {
 
-  static scene() {
+  static scene(router) {
+    const { store } = router.route;
+
     return (
       <DashboardContainer>
         <Panel header={<h3>Quick Create Job</h3>}>
@@ -13,7 +15,7 @@ class DashboardController {
         </Panel>
 
         <Panel header={<h3>Your Jobs</h3>}>
-          {JobController.showListScene()}
+          {JobController.showListScene({ userId: store.getState().user.id })}
         </Panel>
       </DashboardContainer>
     );
