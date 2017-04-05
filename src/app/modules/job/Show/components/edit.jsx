@@ -82,6 +82,7 @@ class Edit extends React.Component {
           />
         </FormGroup>
         <FormGroup>
+          <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>
           <Button type="submit" bsStyle="primary">Submit</Button>
         </FormGroup>
       </form>
@@ -92,6 +93,7 @@ class Edit extends React.Component {
 Edit.propTypes = {
   job: JobPropTypes.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func.isRequired,
 };
 
 export default Edit;

@@ -3,11 +3,16 @@
 .header {
   background: $primary;
   border-bottom: 2px solid $secondary;
-  padding: 2em;
+  padding-top: 0.5em;
 
-  h2 {
+  button.title {
     color: $tertiary;
     margin: 0;
+    font-size: 1.5em;
+  }
+
+  button.title:hover {
+    text-decoration: none;
   }
 }
 

@@ -19,11 +19,21 @@ class JobController {
     browserHistory.push(`/job/${job.id}`);
   }
 
+  static onCancelEdit(job) {
+    browserHistory.push(`/job/${job.id}`);
+  }
+
+  static onEdit(job) {
+    browserHistory.push(`/job/${job.id}/edit`);
+  }
+
   static showScene(props) {
     return (
       <ShowJobContainer
         {...props}
         onUpdateSuccess={JobController.updateSuccess}
+        onCancelEdit={JobController.onCancelEdit}
+        onEdit={JobController.onEdit}
       />
     );
   }

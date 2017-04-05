@@ -4,11 +4,13 @@ import './style.scss';
 
 const HeaderContainer = props =>
   <Header
+    onClickTitle={props.onClickTitle}
     authButtons={props.authButtons()}
   />;
 
 HeaderContainer.propTypes = {
   authButtons: React.PropTypes.func.isRequired,
+  onClickTitle: React.PropTypes.func.isRequired,
 };
 
 export default HeaderContainer;

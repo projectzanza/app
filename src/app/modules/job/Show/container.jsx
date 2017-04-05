@@ -53,10 +53,16 @@ class ShowJobContainer extends React.Component {
         <Edit
           job={this.state.job}
           onSubmit={this.onSubmit}
+          onCancel={this.props.onCancelEdit}
         />
       );
     }
-    return <View job={this.state.job} />;
+    return (
+      <View
+        job={this.state.job}
+        onEdit={this.props.onEdit}
+      />
+    );
   }
 }
 
@@ -66,6 +72,8 @@ ShowJobContainer.propTypes = {
     mode: React.PropTypes.string,
   }).isRequired,
   onUpdateSuccess: React.PropTypes.func.isRequired,
+  onCancelEdit: React.PropTypes.func.isRequired,
+  onEdit: React.PropTypes.func.isRequired,
 };
 
 ShowJobContainer.contextTypes = {

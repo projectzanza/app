@@ -1,16 +1,21 @@
 import React from 'react';
+import { Panel } from 'react-bootstrap';
 import DashboardContainer from './components/Dashboard/container';
-import QuickCreatePanel from './components/QuickCreatePanel/container';
 import JobController from '../job/controller';
+import JobsController from '../jobs/controller';
 
 class DashboardController {
 
   static scene() {
     return (
       <DashboardContainer>
-        <QuickCreatePanel>
+        <Panel header={<h3>Quick Create Job</h3>}>
           {JobController.quickCreateScene()}
-        </QuickCreatePanel>
+        </Panel>
+
+        <Panel header={<h3>Your Jobs</h3>}>
+          {JobsController.showListScene()}
+        </Panel>
       </DashboardContainer>
     );
   }
