@@ -1,11 +1,19 @@
 import { Actions } from './actions';
+import { overrideNull } from '../../lib/reducers/utils';
 
-export const initialState = {
+export const userInitialState = {
+  name: '',
+  bio: '',
+  tag_list: '',
+  per_diem: { min: 0, max: 1000 },
+};
+
+export const reducerInitialState = {
   items: {},
   currentUser: undefined,
 };
 
-export default function userReducer(state = initialState, action) {
+export default function userReducer(state = reducerInitialState, action) {
   let nextState;
   let user;
 
@@ -17,7 +25,8 @@ export default function userReducer(state = initialState, action) {
     case Actions.HTTP_RESP_AUTH:
       user = Object.assign(
         { authenticated: false },
-        action.data,
+        userInitialState,
+        overrideNull(userInitialState, action.data),
       );
 
       nextState = Object.assign(
@@ -31,14 +40,15 @@ export default function userReducer(state = initialState, action) {
         state,
         {
           items: nextState,
-          currentUser: action.data.id
+          currentUser: action.data.id,
         },
       );
 
     case Actions.HTTP_RESP_SIGNIN:
       user = Object.assign(
         { authenticated: true },
-        action.data,
+        userInitialState,
+        overrideNull(userInitialState, action.data),
       );
 
       nextState = Object.assign(
@@ -75,6 +85,27 @@ export default function userReducer(state = initialState, action) {
         {
           items: nextState,
           currentUser: undefined,
+        },
+      );
+
+    case Actions.HTTP_RESP_USER:
+      user = Object.assign(
+        {},
+        state.items[action.data.id],
+        overrideNull(userInitialState, action.data),
+      );
+
+      nextState = Object.assign(
+        {},
+        state.items,
+        { [action.data.id]: user },
+      );
+
+      return Object.assign(
+        {},
+        state,
+        {
+          items: nextState,
         },
       );
 

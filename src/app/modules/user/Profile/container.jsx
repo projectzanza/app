@@ -1,5 +1,6 @@
 import React from 'react';
 import Edit from './components/edit';
+import View from './components/view';
 import { getUser, putUser } from '../actions';
 import { selectedUser } from '../utils';
 
@@ -7,8 +8,12 @@ class ProfileContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
+    this.state = {
+      user: {},
+      mode: props.params.mode,
+    };
+
     this.onSubmit = this.onSubmit.bind(this);
-    this.state = { user: {} };
   }
 
   componentWillMount() {
@@ -26,24 +31,36 @@ class ProfileContainer extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ mode: nextProps.params.mode });
+  }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  onSubmit(ev, user) {
+  onSubmit(ev, form) {
     ev.preventDefault();
-    this.store.dispatch(putUser(user))
+    this.store.dispatch(putUser(form))
       .then(() => {
         this.props.onUpdateSuccess(selectedUser(this.store, this.props.params.id));
       });
   }
 
   render() {
+    if (this.state.mode === 'edit') {
+      return (
+        <Edit
+          user={this.state.user}
+          onSubmit={this.onSubmit}
+          onCancel={this.props.onCancelEdit}
+        />
+      );
+    }
     return (
-      <Edit
+      <View
         user={this.state.user}
-        onSubmit={this.onSubmit}
-        onCancel={this.props.onCancelEdit}
+        onEdit={this.props.onEdit}
       />
     );
   }
@@ -56,6 +73,7 @@ ProfileContainer.propTypes = {
   }).isRequired,
   onUpdateSuccess: React.PropTypes.func.isRequired,
   onCancelEdit: React.PropTypes.func.isRequired,
+  onEdit: React.PropTypes.func.isRequired,
 };
 
 ProfileContainer.contextTypes = {

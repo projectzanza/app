@@ -1,4 +1,5 @@
 import { Actions } from './actions';
+import { overrideNull } from '../../lib/reducers/utils';
 
 export const initialState = {
   loading: false,
@@ -8,16 +9,9 @@ export const initialState = {
   per_diem: { min: 0, max: 1000 },
 };
 
-export const reducerInitialState = { items: {}, resultIds: [] };
-
-const overrideNull = (state) => {
-  const nextState = Object.assign({}, state);
-  Object.keys(nextState).forEach((key) => {
-    if (nextState[key] === null) {
-      nextState[key] = initialState[key];
-    }
-  });
-  return nextState;
+export const reducerInitialState = {
+  items: {},
+  resultIds: [],
 };
 
 export default function jobReducer(state = reducerInitialState, action) {
@@ -57,7 +51,7 @@ export default function jobReducer(state = reducerInitialState, action) {
       nextState = Object.assign(
         {},
         state.items,
-        { [action.data.id]: overrideNull(action.data) },
+        { [action.data.id]: overrideNull(initialState, action.data) },
       );
 
       return Object.assign(
@@ -69,7 +63,7 @@ export default function jobReducer(state = reducerInitialState, action) {
 
     case Actions.HTTP_RESP_JOBS:
       jobEntry = action.data.reduce(
-        (jobs, job) => (Object.assign(jobs, { [job.id]: overrideNull(job) })),
+        (jobs, job) => (Object.assign(jobs, { [job.id]: overrideNull(initialState, job) })),
         {},
       );
 

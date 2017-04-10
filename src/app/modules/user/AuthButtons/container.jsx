@@ -14,11 +14,7 @@ class AuthButtonsContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      if (currentUser(this.store)) {
-        this.setState({ authenticated: currentUser(this.store).authenticated });
-      } else {
-        this.setState({ authenticated: false });
-      }
+      this.setState({ user: currentUser(this.store) });
     });
   }
 
@@ -37,7 +33,8 @@ class AuthButtonsContainer extends React.Component {
         onClickLogout={this.onClickLogout}
         onClickLogin={this.props.onClickLogin}
         onClickSignUp={this.props.onClickSignUp}
-        authenticated={this.state.authenticated}
+        onClickProfile={this.props.onClickProfile}
+        user={this.state.user}
       />
     );
   }
@@ -46,6 +43,7 @@ class AuthButtonsContainer extends React.Component {
 AuthButtonsContainer.propTypes = {
   onClickSignUp: React.PropTypes.func.isRequired,
   onClickLogin: React.PropTypes.func.isRequired,
+  onClickProfile: React.PropTypes.func.isRequired,
   onLogout: React.PropTypes.func.isRequired,
 };
 

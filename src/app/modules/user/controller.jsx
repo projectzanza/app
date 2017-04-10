@@ -51,11 +51,16 @@ class UserController {
     browserHistory.push('/signup');
   }
 
+  static onClickProfile(user) {
+    browserHistory.push(`/user/${user.id}`);
+  }
+
   static authButtons() {
     return (
       <AuthButtonsContainer
         onClickLogin={UserController.onClickLogin}
         onClickSignUp={UserController.onClickSignUp}
+        onClickProfile={UserController.onClickProfile}
         onLogout={UserController.onLogout}
       />
     );

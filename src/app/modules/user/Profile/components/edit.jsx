@@ -16,6 +16,7 @@ class Edit extends React.Component {
     this.state = Object.assign({}, props.user);
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
+    this.onSliderChange = this.onSliderChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {

@@ -1,4 +1,4 @@
-import reducer, { initialState } from '../reducer';
+import reducer, { reducerInitialState } from '../reducer';
 import * as actions from '../actions';
 import * as responses from '../__mocks__/user_responses';
 import * as forms from '../__mocks__/user_forms';
@@ -6,7 +6,7 @@ import * as forms from '../__mocks__/user_forms';
 describe('user reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {}))
-      .toEqual(initialState);
+      .toEqual(reducerInitialState);
   });
 
   describe('HTTP_POST_SIGNIN', () => {
@@ -14,7 +14,7 @@ describe('user reducer', () => {
       const action = actions.httpPostSignIn(forms.signin);
 
       expect(reducer(undefined, action))
-        .toEqual(initialState);
+        .toEqual(reducerInitialState);
     });
   });
 

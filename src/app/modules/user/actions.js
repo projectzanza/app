@@ -32,7 +32,7 @@ export function httpRespAuth(json) {
 
 export function httpRespUser(json) {
   return {
-    type: Actions.HTTP_RESP_AUTH,
+    type: Actions.HTTP_RESP_USER,
     data: json.data,
   };
 }

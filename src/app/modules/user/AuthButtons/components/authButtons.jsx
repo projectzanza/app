@@ -3,6 +3,7 @@ import {
   ButtonToolbar,
   Button,
 } from 'react-bootstrap';
+import UserPropTypes from '../../propTypes';
 
 class AuthButtons extends React.Component {
 
@@ -16,14 +17,20 @@ class AuthButtons extends React.Component {
   }
 
   loggedInState() {
-    return <Button onClick={this.props.onClickLogout}> Logout </Button>;
+    return (
+      <ButtonToolbar>
+        <Button onClick={() => this.props.onClickProfile(this.props.user)}> Profile </Button>
+        <Button onClick={this.props.onClickLogout}> Logout </Button>
+      </ButtonToolbar>
+    );
   }
 
   render() {
+    const loggedInUser = this.props.user && this.props.user.authenticated;
     return (
       <ButtonToolbar>
-        { !this.props.authenticated && this.loggedOutState() }
-        { this.props.authenticated && this.loggedInState() }
+        { !(loggedInUser) && this.loggedOutState() }
+        { loggedInUser && this.loggedInState() }
       </ButtonToolbar>
     );
   }
@@ -33,7 +40,12 @@ AuthButtons.propTypes = {
   onClickLogin: React.PropTypes.func.isRequired,
   onClickLogout: React.PropTypes.func.isRequired,
   onClickSignUp: React.PropTypes.func.isRequired,
-  authenticated: React.PropTypes.bool.isRequired,
+  onClickProfile: React.PropTypes.func.isRequired,
+  user: UserPropTypes,
+};
+
+AuthButtons.defaultProps = {
+  user: undefined,
 };
 
 export default AuthButtons;
