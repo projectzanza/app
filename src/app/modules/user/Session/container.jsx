@@ -1,17 +1,20 @@
 import React from 'react';
+import { currentUser } from '../utils';
 
 class SessionContainer extends React.Component {
 
   componentDidMount() {
     const { store } = this.context;
-    if (!(store.getState().user && store.getState().user.authenticated)) {
+    const user = currentUser(store);
+    if (!(user && user.authenticated)) {
       this.props.onAuthError();
     }
   }
 
   render() {
     const { store } = this.context;
-    const user = store.getState().user;
+    const user = currentUser(store);
+    console.log(user);
     if (user && user.authenticated) {
       return this.props.children;
     }

@@ -27,13 +27,13 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOB,
-          result: responses.job,
+          data: responses.job.data,
         },
       ];
 
       const store = mockStore();
 
-      store.dispatch(actions.createJob(forms.quickCreate))
+      return store.dispatch(actions.createJob(forms.quickCreate))
         .then(() => {
           expect(
             store.getActions(),
@@ -57,13 +57,13 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOB,
-          result: responses.job,
+          data: responses.job.data,
         },
       ];
 
       const store = mockStore();
 
-      store.dispatch(actions.getJob(1))
+      return store.dispatch(actions.getJob(1))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -84,13 +84,13 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOB,
-          result: responses.job,
+          data: responses.job.data,
         },
       ];
 
       const store = mockStore();
 
-      store.dispatch(actions.putJob(forms.existingJob))
+      return store.dispatch(actions.putJob(forms.existingJob))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -110,13 +110,13 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
-          result: responses.jobs
+          data: responses.jobs.data
         },
       ];
 
       const store = mockStore();
 
-      store.dispatch(actions.getJobs())
+      return store.dispatch(actions.getJobs())
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -134,13 +134,13 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
-          result: responses.jobs
+          data: responses.jobs.data
         },
       ];
 
       const store = mockStore();
 
-      store.dispatch(actions.getJobs(1))
+      return store.dispatch(actions.getJobs(1))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

@@ -32,7 +32,7 @@ describe('job reducer', () => {
         .toEqual(
           Object.assign(
             {},
-            { items: { [responses.job.id]: responses.job }},
+            { items: { [responses.job.data.id]: responses.job.data }},
             { loading: false },
           ),
         );
@@ -42,7 +42,7 @@ describe('job reducer', () => {
       const action = actions.httpRespJob(responses.jobNullValues);
 
       let state = reducer({ loading: true }, action);
-      let job = state.items[responses.jobNullValues.id];
+      let job = state.items[responses.jobNullValues.data.id];
       let keys = Object.keys(job);
 
       keys.forEach((key) => {
@@ -103,7 +103,7 @@ describe('job reducer', () => {
 
       const jobIds = Object.keys(state.items);
       expect(jobIds.length)
-        .toEqual(responses.jobs.length);
+        .toEqual(responses.jobs.data.length);
     });
   });
 });

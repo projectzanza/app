@@ -1,40 +1,81 @@
 import { Actions } from './actions';
 
-const initialState = { authenticated: false };
+export const initialState = {
+  items: {},
+  currentUser: undefined,
+};
 
 export default function userReducer(state = initialState, action) {
   let nextState;
+  let user;
+
   switch (action.type) {
     case Actions.HTTP_POST_AUTH:
     case Actions.HTTP_POST_SIGNIN:
-      nextState = Object.assign(
-        {},
-        state,
-        action.user,
-      );
-      delete nextState.password;
-      return nextState;
+      return state;
 
     case Actions.HTTP_RESP_AUTH:
+      user = Object.assign(
+        { authenticated: false },
+        action.data,
+      );
+
+      nextState = Object.assign(
+        {},
+        state.items,
+        { [action.data.id]: user },
+      );
+
       return Object.assign(
         {},
         state,
-        action.result,
+        {
+          items: nextState,
+          currentUser: action.data.id
+        },
       );
 
     case Actions.HTTP_RESP_SIGNIN:
+      user = Object.assign(
+        { authenticated: true },
+        action.data,
+      );
+
+      nextState = Object.assign(
+        {},
+        state.items,
+        { [action.data.id]: user },
+      );
+
       return Object.assign(
         {},
         state,
-        action.result,
-        { authenticated: true },
+        {
+          items: nextState,
+          currentUser: action.data.id,
+        },
       );
 
     case Actions.HTTP_RESP_SIGNOUT:
+      user = Object.assign(
+        {},
+        state.items[state.currentUser],
+        { authenticated: false },
+      );
+
+      nextState = Object.assign(
+        {},
+        state.items,
+        { [state.currentUser]: user },
+      );
+
       return Object.assign(
         {},
-        action.result,
-        { authenticated: false },
+        state,
+        {
+          items: nextState,
+          currentUser: undefined,
+        },
       );
 
     default:

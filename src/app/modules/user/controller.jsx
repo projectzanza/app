@@ -4,6 +4,7 @@ import LoginContainer from './Login/container';
 import RegisterContainer from './SignUp/container';
 import SessionContainer from './Session/container';
 import AuthButtonsContainer from './AuthButtons/container';
+import ProfileContainer from './Profile/container';
 
 class UserController {
   constructor(store) {
@@ -58,6 +59,27 @@ class UserController {
         onLogout={UserController.onLogout}
       />
     );
+  }
+
+  static onUpdateSuccess(user) {
+    browserHistory.push(`/user/${user.id}`);
+  }
+
+  static onCancelEdit(user) {
+    browserHistory.push(`/user/${user.id}`);
+  }
+
+  static onEdit(user) {
+    browserHistory.push(`/user/${user.id}/edit`);
+  }
+
+  static profileScene(props) {
+    return (<ProfileContainer
+      {...props}
+      onUpdateSuccess={UserController.onUpdateSuccess}
+      onCancelEdit={UserController.onCancelEdit}
+      onEdit={UserController.onEdit}
+    />);
   }
 }
 

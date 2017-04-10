@@ -44,7 +44,7 @@ ShowJobListContainer.contextTypes = {
 
 ShowJobListContainer.propTypes = {
   onClickJob: React.PropTypes.func.isRequired,
-  userId: React.PropTypes.string
+  userId: React.PropTypes.string,
 };
 
 ShowJobListContainer.defaultProps = {

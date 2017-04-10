@@ -1,12 +1,6 @@
-export const authJson = {
+export const user = {
   data: {
-    uid: 'user1@test.com',
-    username: 'user1',
-  },
-};
-
-export const authSignInJson = {
-  data: {
+    id: 1,
     uid: 'user1@test.com',
     username: 'user1',
   },

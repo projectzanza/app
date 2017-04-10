@@ -8,20 +8,18 @@ import {
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import TagInput from '../../../../components/TagInput/container';
-import JobPropTypes from '../../propTypes';
+import UserPropTypes from '../../propTypes';
 
 class Edit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = Object.assign({}, props.job);
-
+  constructor(props, context) {
+    super(props, context);
+    this.state = Object.assign({}, props.user);
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
-    this.onSliderChange = this.onSliderChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.job);
+    this.setState(nextProps.user);
   }
 
   onChange(event) {
@@ -45,21 +43,21 @@ class Edit extends React.Component {
     return (
       <form onSubmit={e => this.props.onSubmit(e, this.state)}>
         <FormGroup>
-          <ControlLabel htmlFor="title">Title</ControlLabel>
+          <ControlLabel htmlFor="name">Name</ControlLabel>
           <FormControl
             type="text"
-            name="title"
-            value={this.state.title}
+            name="name"
+            value={this.state.name}
             onChange={this.onChange}
           />
         </FormGroup>
         <FormGroup>
-          <ControlLabel htmlFor="text">Description</ControlLabel>
+          <ControlLabel htmlFor="bio">Bio</ControlLabel>
           <FormControl
             type="textarea"
+            name="bio"
             componentClass="textarea"
-            name="text"
-            value={this.state.text || ''}
+            value={this.state.bio}
             onChange={this.onChange}
           />
         </FormGroup>
@@ -82,7 +80,7 @@ class Edit extends React.Component {
           />
         </FormGroup>
         <FormGroup>
-          <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>
+          <Button onClick={() => this.props.onCancel(this.state)}>Cancel</Button>
           <Button type="submit" bsStyle="primary">Submit</Button>
         </FormGroup>
       </form>
@@ -91,10 +89,9 @@ class Edit extends React.Component {
 }
 
 Edit.propTypes = {
-  job: JobPropTypes.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
+  user: UserPropTypes.isRequired,
   onCancel: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func.isRequired,
 };
 
 export default Edit;
-

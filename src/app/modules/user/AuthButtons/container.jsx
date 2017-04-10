@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthButtons from './components/authButtons';
 import { logoutUser } from '../actions';
+import { currentUser } from '../utils';
 
 class AuthButtonsContainer extends React.Component {
 
@@ -13,7 +14,11 @@ class AuthButtonsContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ authenticated: this.store.getState().user.authenticated });
+      if (currentUser(this.store)) {
+        this.setState({ authenticated: currentUser(this.store).authenticated });
+      } else {
+        this.setState({ authenticated: false });
+      }
     });
   }
 

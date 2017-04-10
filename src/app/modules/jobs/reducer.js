@@ -57,7 +57,7 @@ export default function jobReducer(state = reducerInitialState, action) {
       nextState = Object.assign(
         {},
         state.items,
-        { [action.result.id]: overrideNull(action.result) },
+        { [action.data.id]: overrideNull(action.data) },
       );
 
       return Object.assign(
@@ -68,7 +68,7 @@ export default function jobReducer(state = reducerInitialState, action) {
       );
 
     case Actions.HTTP_RESP_JOBS:
-      jobEntry = action.result.reduce(
+      jobEntry = action.data.reduce(
         (jobs, job) => (Object.assign(jobs, { [job.id]: overrideNull(job) })),
         {},
       );

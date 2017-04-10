@@ -1,9 +1,9 @@
 import React from 'react';
 
-const JobPropTypes =
+const UserPropTypes =
   React.PropTypes.shape({
-    title: React.PropTypes.string,
-    text: React.PropTypes.string,
+    name: React.PropTypes.string,
+    bio: React.PropTypes.string,
     tag_list: React.PropTypes.arrayOf(
       React.PropTypes.string,
     ),
@@ -13,4 +13,4 @@ const JobPropTypes =
     }),
   });
 
-export default JobPropTypes;
+export default UserPropTypes;

@@ -20,6 +20,7 @@ class Routes extends React.Component {
           <Route component={UserController.session} >
             <Route path="dashboard" store={this.store} component={DashboardController.scene} />
             <Route path="/job/:id(/:mode)" component={JobController.showScene} />
+            <Route path="/user/:id(/:mode)" component={UserController.profileScene} />
           </Route>
         </Route>
       </Router>

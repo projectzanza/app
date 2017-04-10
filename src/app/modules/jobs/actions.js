@@ -19,7 +19,7 @@ export function httpPostJob(job) {
 export function httpRespJob(json) {
   return {
     type: Actions.HTTP_RESP_JOB,
-    result: json,
+    data: json.data,
   };
 }
 
@@ -96,7 +96,7 @@ export function httpGetJobs() {
 export function httpRespJobs(json) {
   return {
     type: Actions.HTTP_RESP_JOBS,
-    result: json,
+    data: json.data,
   };
 }
 
