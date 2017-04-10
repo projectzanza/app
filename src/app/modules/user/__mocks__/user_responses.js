@@ -6,7 +6,7 @@ export const user = {
   },
 };
 
-export const signOutJson = {
+export const signOut = {
   data: {
     success: true,
   },

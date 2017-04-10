@@ -8,33 +8,130 @@ import Config from '../../../config/app';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('createUser', () => {
+describe('userActions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
 
-  it('creates HTTP_RESP_AUTH on create success', () => {
-    nock(Config.apiUrl)
-      .post('/auth')
-      .reply(200, responses.user);
+  describe('createUser', () => {
+    it('creates HTTP_RESP_AUTH on create success', () => {
+      nock(Config.apiUrl)
+        .post('/auth')
+        .reply(200, responses.user);
 
-    const expectedActions = [
-      {
-        type: actions.Actions.HTTP_POST_AUTH,
-        user: forms.signup,
-      },
-      {
-        type: actions.Actions.HTTP_RESP_AUTH,
-        data: responses.user.data,
-      },
-    ];
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_POST_AUTH,
+          user: forms.signup,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_AUTH,
+          data: responses.user.data,
+        },
+      ];
 
-    const store = mockStore();
+      const store = mockStore();
 
-    return store.dispatch(actions.createUser(forms.signup))
-      .then(() => {
-        expect(store.getActions())
-          .toEqual(expect.arrayContaining(expectedActions));
-      });
+      return store.dispatch(actions.createUser(forms.signup))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('loginUser', () => {
+    it('creates HTTP_RESP_SIGIN on login success', () => {
+      nock(Config.apiUrl)
+        .post('/auth/sign_in')
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_POST_SIGNIN,
+          user: forms.signin,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_SIGNIN,
+          data: responses.user.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.loginUser(forms.signin))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('logoutUser', () => {
+    it('creates HTTP_RESP_SIGNOUT on logout success', () => {
+      nock(Config.apiUrl)
+        .delete('/auth/sign_out')
+        .reply(200, responses.signOut);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_RESP_SIGNOUT
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.logoutUser())
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('getUser', () => {
+    it('creates HTTP_USER_RESP on success', () => {
+      nock(Config.apiUrl)
+        .get(`/users/${responses.user.data.id}`)
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_RESP_USER,
+          data: responses.user.data
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getUser(responses.user.data.id))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('putUser', () => {
+    it('creates HTTP_USER_RESP on success', () => {
+      nock(Config.apiUrl)
+        .put(`/users/${forms.profile.id}`)
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_RESP_USER,
+          data: responses.user.data
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.putUser(forms.profile))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
   });
 });
