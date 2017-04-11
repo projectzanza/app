@@ -6,7 +6,7 @@ class SessionContainer extends React.Component {
   componentDidMount() {
     const { store } = this.context;
     const user = currentUser(store);
-    if (!(user && user.authenticated)) {
+    if (!user) {
       this.props.onAuthError();
     }
   }
@@ -15,7 +15,7 @@ class SessionContainer extends React.Component {
     const { store } = this.context;
     const user = currentUser(store);
 
-    if (user && user.authenticated) {
+    if (user) {
       return this.props.children;
     }
     return null;

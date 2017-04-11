@@ -1,6 +1,7 @@
 import React from 'react';
 import List from './components/list';
 import { getJobs } from '../actions';
+import { storeResults } from '../../../lib/store/utils';
 
 class ShowJobListContainer extends React.Component {
   constructor(props, context) {
@@ -17,17 +18,12 @@ class ShowJobListContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ jobs: this.jobs() });
+      this.setState({ jobs: storeResults(this.store, 'jobs') });
     });
   }
 
   componentWillUnmount() {
     this.unsubscribe();
-  }
-
-  jobs() {
-    const { jobs } = this.store.getState();
-    return jobs.resultIds.map(key => jobs.items[key]) || [];
   }
 
   render() {

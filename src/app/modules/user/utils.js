@@ -6,6 +6,6 @@ export function currentUser(store) {
   return undefined;
 }
 
-export function selectedUser(store, userId) {
-  return store.getState().user.items[userId];
+export function isCurrentUser(store, user) {
+  return currentUser(store).id === user.id;
 }

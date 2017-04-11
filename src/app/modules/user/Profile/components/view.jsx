@@ -24,11 +24,12 @@ const View = props => (
       </dd>
     </dl>
     <FormGroup>
-      <Button
-        bsStyle="primary"
-        onClick={() => props.onEdit(props.user)}
-      > Edit
-      </Button>
+      { props.showEdit &&
+        <Button
+          bsStyle="primary"
+          onClick={() => props.onEdit(props.user)}
+        >Edit</Button>
+      }
     </FormGroup>
   </div>
 );
@@ -36,6 +37,11 @@ const View = props => (
 View.propTypes = {
   user: UserPropTypes.isRequired,
   onEdit: React.PropTypes.func.isRequired,
+  showEdit: React.PropTypes.bool,
+};
+
+View.defaultProps = {
+  showEdit: false,
 };
 
 export default View;

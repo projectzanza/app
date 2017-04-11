@@ -19,28 +19,15 @@ describe('user reducer', () => {
   });
 
   describe('HTTP_RESP_AUTH', () => {
-    it('should leave authenticated as false', () => {
+    it('should not set currentUser', () => {
       const action = actions.httpRespAuth(responses.user);
 
       const state = reducer(undefined, action);
-      expect(state.items[responses.user.data.id].authenticated).toEqual(false);
-    });
-
-    it('should set currentUser', () => {
-      const action = actions.httpRespAuth(responses.user);
-
-      const state = reducer(undefined, action);
-      expect(state.currentUser).toEqual(responses.user.data.id);
+      expect(state.currentUser).toEqual(undefined);
     });
   });
 
   describe('HTTP_RESP_SIGNIN', () => {
-    it('should set authenticated as true', () => {
-      const action = actions.httpRespSignIn(responses.user);
-      const state = reducer(undefined, action);
-      expect(state.items[responses.user.data.id].authenticated).toEqual(true);
-    });
-
     it('should set currentUser', () => {
       const action = actions.httpRespSignIn(responses.user);
 
@@ -50,7 +37,7 @@ describe('user reducer', () => {
   });
 
   describe('HTTP_RESP_SIGNOUT', () => {
-    it('should set authenticated as false and remove user details', () => {
+    it('should set currentUser as undefined', () => {
       let action = actions.httpRespSignIn(responses.user);
       let state = reducer(undefined, action);
 
@@ -58,7 +45,16 @@ describe('user reducer', () => {
       state = reducer(state, action);
 
       expect(state.currentUser).toEqual(undefined);
-      expect(state.items[responses.user.data.id].authenticated).toEqual(false);
+    });
+  });
+
+  describe('HTTP_RESP_USERS', () => {
+    it('should add the users to the items list, and place user ids in the results ids list', () => {
+      const action = actions.httpRespUsers(responses.users);
+      const state = reducer(undefined, action);
+
+      expect(state.resultIds).toEqual(responses.users.data.map(user => user.id.toString()));
+      expect(Object.keys(state.items).length).toEqual(responses.users.data.length);
     });
   });
 });

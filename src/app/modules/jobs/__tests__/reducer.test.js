@@ -1,4 +1,4 @@
-import reducer, { initialState, reducerInitialState } from '../reducer';
+import reducer, { reducerInitialState } from '../reducer';
 import * as actions from '../actions';
 import * as forms from '../__mocks__/job_forms';
 import * as responses from '../__mocks__/job_responses';
@@ -32,7 +32,7 @@ describe('job reducer', () => {
         .toEqual(
           Object.assign(
             {},
-            { items: { [responses.job.data.id]: responses.job.data }},
+            { items: { [responses.job.data.id]: responses.job.data } },
             { loading: false },
           ),
         );
@@ -41,9 +41,9 @@ describe('job reducer', () => {
     it('should override null values from the server with defaults', () => {
       const action = actions.httpRespJob(responses.jobNullValues);
 
-      let state = reducer({ loading: true }, action);
-      let job = state.items[responses.jobNullValues.data.id];
-      let keys = Object.keys(job);
+      const state = reducer({ loading: true }, action);
+      const job = state.items[responses.jobNullValues.data.id];
+      const keys = Object.keys(job);
 
       keys.forEach((key) => {
         expect(job[key]).not.toBeNull();
@@ -99,7 +99,7 @@ describe('job reducer', () => {
   describe('HTTP_RESP_JOBS', () => {
     it('should place the jobs by key into items property', () => {
       const action = actions.httpRespJobs(responses.jobs);
-      let state = reducer(undefined, action);
+      const state = reducer(undefined, action);
 
       const jobIds = Object.keys(state.items);
       expect(jobIds.length)

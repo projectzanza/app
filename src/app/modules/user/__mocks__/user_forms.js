@@ -15,7 +15,7 @@ export const profile = {
   bio: 'user1 bio',
   per_diem: {
     min: 200,
-    max: 500
+    max: 500,
   },
-  tag_list: ['tag1', 'tag2']
+  tag_list: ['tag1', 'tag2'],
 };

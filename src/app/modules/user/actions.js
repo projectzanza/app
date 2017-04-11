@@ -7,6 +7,8 @@ export const Actions = {
   HTTP_RESP_SIGNIN: 'HTTP_RESP_SIGNIN',
   HTTP_POST_SIGNIN: 'HTTP_POST_SIGNIN',
   HTTP_RESP_SIGNOUT: 'HTTP_RESP_SIGNOUT',
+  HTTP_GET_USERS: 'HTTP_GET_USERS',
+  HTTP_RESP_USERS: 'HTTP_RESP_USERS',
 };
 
 export function httpPostAuth(user) {
@@ -47,6 +49,19 @@ export function httpPostSignIn(user) {
 export function httpRespSignOut() {
   return {
     type: Actions.HTTP_RESP_SIGNOUT,
+  };
+}
+
+export function httpGetUsers() {
+  return {
+    type: Actions.HTTP_GET_USERS,
+  };
+}
+
+export function httpRespUsers(json) {
+  return {
+    type: Actions.HTTP_RESP_USERS,
+    data: json.data,
   };
 }
 
@@ -122,4 +137,20 @@ export function putUser(user) {
       dispatch)
       .then(response => response.json())
       .then(json => dispatch(httpRespUser(json)));
+}
+
+export function getMatchingUsers(jobId) {
+  return (dispatch, getState) => {
+    dispatch(httpGetUsers(jobId));
+
+    return fetch(
+      `/jobs/${jobId}/users/match`,
+      {
+        method: 'GET',
+        headers: getState().headers,
+      },
+      dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespUsers(json)));
+  };
 }

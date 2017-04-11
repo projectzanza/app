@@ -11,11 +11,13 @@ export const userInitialState = {
 export const reducerInitialState = {
   items: {},
   currentUser: undefined,
+  resultIds: [],
 };
 
 export default function userReducer(state = reducerInitialState, action) {
   let nextState;
   let user;
+  let users;
 
   switch (action.type) {
     case Actions.HTTP_POST_AUTH:
@@ -24,7 +26,7 @@ export default function userReducer(state = reducerInitialState, action) {
 
     case Actions.HTTP_RESP_AUTH:
       user = Object.assign(
-        { authenticated: false },
+        {},
         userInitialState,
         overrideNull(userInitialState, action.data),
       );
@@ -40,13 +42,13 @@ export default function userReducer(state = reducerInitialState, action) {
         state,
         {
           items: nextState,
-          currentUser: action.data.id,
+          currentUser: undefined,
         },
       );
 
     case Actions.HTTP_RESP_SIGNIN:
       user = Object.assign(
-        { authenticated: true },
+        {},
         userInitialState,
         overrideNull(userInitialState, action.data),
       );
@@ -70,7 +72,6 @@ export default function userReducer(state = reducerInitialState, action) {
       user = Object.assign(
         {},
         state.items[state.currentUser],
-        { authenticated: false },
       );
 
       nextState = Object.assign(
@@ -104,8 +105,30 @@ export default function userReducer(state = reducerInitialState, action) {
       return Object.assign(
         {},
         state,
+        { items: nextState },
+      );
+
+    case Actions.HTTP_RESP_USERS:
+      users = action.data.reduce((userList, userJson) => {
+        Object.assign(
+          userList,
+          { [userJson.id]: overrideNull(userInitialState, userJson) },
+        );
+        return userList;
+      }, {});
+
+      nextState = Object.assign(
+        {},
+        state.items,
+        users,
+      );
+
+      return Object.assign(
+        {},
+        state,
         {
           items: nextState,
+          resultIds: Object.keys(users),
         },
       );
 

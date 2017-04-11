@@ -2,7 +2,8 @@ import React from 'react';
 import Edit from './components/edit';
 import View from './components/view';
 import { getUser, putUser } from '../actions';
-import { selectedUser } from '../utils';
+import { singleItem } from '../../../lib/store/utils';
+import { currentUser } from '../utils';
 
 class ProfileContainer extends React.Component {
   constructor(props, context) {
@@ -17,22 +18,18 @@ class ProfileContainer extends React.Component {
   }
 
   componentWillMount() {
-    const user = selectedUser(this.store, this.props.params.id);
-    if (user) {
-      this.setState({ user });
-    } else {
-      this.store.dispatch(getUser(this.props.params.id));
-    }
+    this.setUser(this.props.params.id);
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: selectedUser(this.store, this.props.params.id) });
+      this.setState({ user: singleItem(this.store, 'user', this.props.params.id) });
     });
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ mode: nextProps.params.mode });
+    this.setUser(nextProps.params.id);
   }
 
   componentWillUnmount() {
@@ -43,8 +40,17 @@ class ProfileContainer extends React.Component {
     ev.preventDefault();
     this.store.dispatch(putUser(form))
       .then(() => {
-        this.props.onUpdateSuccess(selectedUser(this.store, this.props.params.id));
+        this.props.onUpdateSuccess(this.state.user);
       });
+  }
+
+  setUser(id) {
+    const user = singleItem(this.store, 'user', id);
+    if (user) {
+      this.setState({ user });
+    } else {
+      this.store.dispatch(getUser(this.props.params.id));
+    }
   }
 
   render() {
@@ -60,6 +66,7 @@ class ProfileContainer extends React.Component {
     return (
       <View
         user={this.state.user}
+        showEdit={currentUser(this.store).id === this.state.user.id}
         onEdit={this.props.onEdit}
       />
     );

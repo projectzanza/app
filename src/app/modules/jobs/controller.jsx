@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import QuickCreateJobContainer from './QuickCreate/container';
 import ShowJobContainer from './Show/container';
 import ShowJobListContainer from './List/container';
+import UserController from '../user/controller';
 
 class JobController {
 
@@ -30,12 +31,15 @@ class JobController {
 
   static showScene(props) {
     return (
-      <ShowJobContainer
-        {...props}
-        onUpdateSuccess={JobController.updateSuccess}
-        onCancelEdit={JobController.onCancelEdit}
-        onEdit={JobController.onEdit}
-      />
+      <div>
+        <ShowJobContainer
+          {...props}
+          onUpdateSuccess={JobController.updateSuccess}
+          onCancelEdit={JobController.onCancelEdit}
+          onEdit={JobController.onEdit}
+        />
+        { UserController.listScene({ jobId: props.params.id })}
+      </div>
     );
   }
 

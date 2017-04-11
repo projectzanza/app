@@ -5,7 +5,7 @@ export const job = {
     tag_list: ['tag1', 'tag2', 'tag3'],
     created_at: '01-01-2017',
     updated_at: '01-01-2017',
-  }
+  },
 };
 
 export const jobNullValues = {
@@ -16,7 +16,7 @@ export const jobNullValues = {
     per_diem: null,
     created_at: '01-01-2017',
     updated_at: '01-01-2017',
-  }
+  },
 };
 
 export const jobs = {
@@ -34,6 +34,6 @@ export const jobs = {
       tag_list: ['tag1', 'tag2', 'tag3'],
       created_at: '01-01-2017',
       updated_at: '01-01-2017',
-    }
-  ]
+    },
+  ],
 };

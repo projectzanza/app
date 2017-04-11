@@ -19,15 +19,18 @@ class ShowJobContainer extends React.Component {
   componentWillMount() {
     const job = this.job();
     if (job) {
-      this.store.dispatch(getJob(this.props.params.id));
-    } else {
       this.setState({ job });
+    } else {
+      this.store.dispatch(getJob(this.props.params.id));
     }
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ job: this.job() });
+      const job = this.job();
+      if (job) {
+        this.setState({ job });
+      }
     });
   }
 

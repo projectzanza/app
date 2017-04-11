@@ -75,7 +75,7 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_RESP_SIGNOUT
+          type: actions.Actions.HTTP_RESP_SIGNOUT,
         },
       ];
 
@@ -98,7 +98,7 @@ describe('userActions', () => {
       const expectedActions = [
         {
           type: actions.Actions.HTTP_RESP_USER,
-          data: responses.user.data
+          data: responses.user.data,
         },
       ];
 
@@ -121,13 +121,39 @@ describe('userActions', () => {
       const expectedActions = [
         {
           type: actions.Actions.HTTP_RESP_USER,
-          data: responses.user.data
+          data: responses.user.data,
         },
       ];
 
       const store = mockStore();
 
       return store.dispatch(actions.putUser(forms.profile))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('getMatchingUsers', () => {
+    it('creates HTTP_RESP_USERS on success', () => {
+      nock(Config.apiUrl)
+        .get('/jobs/1/users/match')
+        .reply(200, responses.users);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_GET_USERS,
+        },
+        {
+          type: actions.Actions.HTTP_RESP_USERS,
+          data: responses.users.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getMatchingUsers(1))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

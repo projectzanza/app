@@ -5,6 +5,7 @@ import RegisterContainer from './SignUp/container';
 import SessionContainer from './Session/container';
 import AuthButtonsContainer from './AuthButtons/container';
 import ProfileContainer from './Profile/container';
+import ListContainer from './List/container';
 
 class UserController {
   constructor(store) {
@@ -85,6 +86,20 @@ class UserController {
       onCancelEdit={UserController.onCancelEdit}
       onEdit={UserController.onEdit}
     />);
+  }
+
+  static onClickUser(ev, user) {
+    ev.preventDefault();
+    browserHistory.push(`/user/${user.id}`);
+  }
+
+  static listScene(props) {
+    return (
+      <ListContainer
+        {...props}
+        onClickUser={UserController.onClickUser}
+      />
+    );
   }
 }
 

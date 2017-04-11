@@ -7,7 +7,7 @@ class AuthButtonsContainer extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = { authenticated: false };
+    this.state = {};
     this.store = context.store;
     this.onClickLogout = this.onClickLogout.bind(this);
   }

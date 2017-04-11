@@ -26,11 +26,10 @@ class AuthButtons extends React.Component {
   }
 
   render() {
-    const loggedInUser = this.props.user && this.props.user.authenticated;
     return (
       <ButtonToolbar>
-        { !(loggedInUser) && this.loggedOutState() }
-        { loggedInUser && this.loggedInState() }
+        { !(this.props.user) && this.loggedOutState() }
+        { this.props.user && this.loggedInState() }
       </ButtonToolbar>
     );
   }

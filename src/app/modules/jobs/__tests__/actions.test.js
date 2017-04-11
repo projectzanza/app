@@ -110,7 +110,7 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
-          data: responses.jobs.data
+          data: responses.jobs.data,
         },
       ];
 
@@ -134,7 +134,7 @@ describe('jobActions', () => {
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
-          data: responses.jobs.data
+          data: responses.jobs.data,
         },
       ];
 
