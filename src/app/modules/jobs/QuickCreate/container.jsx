@@ -1,6 +1,7 @@
 import React from 'react';
 import QuickCreateJob from './components/form';
 import { createJob } from '../actions';
+import { singleItem } from '../../../lib/store/utils';
 
 class QuickCreateJobContainer extends React.Component {
 
@@ -14,7 +15,7 @@ class QuickCreateJobContainer extends React.Component {
     const { store } = this.context;
     store.dispatch(createJob(form))
       .then((id) => {
-        this.props.onSubmitSuccess(store.getState().jobs.items[id]);
+        this.props.onSubmitSuccess(singleItem(store, 'jobs', id));
       });
   }
 

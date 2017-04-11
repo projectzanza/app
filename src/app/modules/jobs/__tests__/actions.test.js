@@ -42,6 +42,19 @@ describe('jobActions', () => {
           );
         });
     });
+
+    it('should return the id of the created job', () => {
+      nock(Config.apiUrl)
+        .post('/jobs')
+        .reply(200, responses.job);
+
+      const store = mockStore();
+
+      return store.dispatch(actions.createJob(forms.quickCreate))
+        .then((id) => {
+          expect(id).toEqual(responses.job.data.id);
+        });
+    })
   });
 
   describe('getJob', () => {

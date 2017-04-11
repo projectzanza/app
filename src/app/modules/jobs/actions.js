@@ -37,7 +37,7 @@ export function createJob(job) {
       .then(response => response.json())
       .then((json) => {
         dispatch(httpRespJob(json));
-        return json.id;
+        return json.data.id;
       });
   };
 }
