@@ -5,7 +5,9 @@ export default function App(props) {
   return (
     <div>
       {HeaderController.scene()}
-      {props.children}
+      <div className="content">
+        {props.children}
+      </div>
     </div>
   );
 }
