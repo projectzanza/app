@@ -18,7 +18,10 @@ module.exports = {
   devtool: 'inline-source-map',
 
   resolve: {
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      jquery: path.resolve(__dirname, './jquery-stub.js')
+    }
   },
 
   module: {
