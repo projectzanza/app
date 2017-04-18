@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedDate } from 'react-intl';
 import {
   FormGroup,
   Button,
@@ -15,6 +16,10 @@ const View = props => (
       <dd>{props.job.text}</dd>
       <dt>Day Rate</dt>
       <dd>{props.job.per_diem.min} - {props.job.per_diem.max}</dd>
+      <dt>Proposed State Date</dt>
+      <dd><FormattedDate value={props.job.proposed_start_at} /></dd>
+      <dt>Proposed End Date</dt>
+      <dd><FormattedDate value={props.job.proposed_end_at} /></dd>
       <dt>Tags</dt>
       <dd>
         <TagInput
@@ -22,6 +27,8 @@ const View = props => (
           value={props.job.tag_list}
         />
       </dd>
+      <dt>Contact Me</dt>
+      <dd>{props.job.allow_contact ? 'True' : 'False'}</dd>
     </dl>
     <FormGroup>
       <Button

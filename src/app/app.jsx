@@ -1,14 +1,18 @@
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import HeaderController from './modules/header/controller';
+
 
 export default function App(props) {
   return (
-    <div>
-      {HeaderController.scene()}
-      <div className="content">
-        {props.children}
+    <IntlProvider locale="en-GB">
+      <div>
+        {HeaderController.scene()}
+        <div className="content">
+          {props.children}
+        </div>
       </div>
-    </div>
+    </IntlProvider>
   );
 }
 

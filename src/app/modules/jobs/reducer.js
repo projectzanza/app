@@ -7,6 +7,9 @@ export const initialState = {
   title: '',
   text: '',
   per_diem: { min: 0, max: 1000 },
+  proposed_start_at: '',
+  proposed_end_at: '',
+  allow_contact: true,
 };
 
 export const reducerInitialState = {
