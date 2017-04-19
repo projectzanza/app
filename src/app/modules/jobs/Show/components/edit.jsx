@@ -4,9 +4,11 @@ import {
   ControlLabel,
   FormControl,
   Button,
+  Checkbox,
 } from 'react-bootstrap';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
+import DatePicker from 'react-bootstrap-date-picker';
 import TagInput from '../../../../components/TagInput/container';
 import JobPropTypes from '../../propTypes';
 
@@ -18,6 +20,8 @@ class Edit extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
     this.onSliderChange = this.onSliderChange.bind(this);
+    this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.onEndDateChange = this.onEndDateChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,7 +29,13 @@ class Edit extends React.Component {
   }
 
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    let value;
+    if (event.target.type === 'checkbox') {
+      value = event.target.checked;
+    } else {
+      value = event.target.value;
+    }
+    this.setState({ [event.target.name]: value });
   }
 
   onTagChange(tags) {
@@ -39,6 +49,14 @@ class Edit extends React.Component {
         max: event.target.value[1],
       },
     });
+  }
+
+  onStartDateChange(value) {
+    this.setState({ proposed_start_at: value });
+  }
+
+  onEndDateChange(value) {
+    this.setState({ proposed_end_at: value });
   }
 
   render() {
@@ -74,12 +92,35 @@ class Edit extends React.Component {
           />
         </FormGroup>
         <FormGroup>
+          <ControlLabel htmlFor="proposed_start_at">Proposed State Date</ControlLabel>
+          <DatePicker
+            name="proposed_start_at"
+            value={this.state.proposed_start_at}
+            onChange={this.onStartDateChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel htmlFor="proposed_end_at">Proposed End Date</ControlLabel>
+          <DatePicker
+            name="proposed_end_at"
+            value={this.state.proposed_end_at}
+            onChange={this.onEndDateChange}
+          />
+        </FormGroup>
+        <FormGroup>
           <ControlLabel htmlFor="tag_list">Tags</ControlLabel>
           <TagInput
             mode="edit"
             value={this.state.tag_list}
             onChange={this.onTagChange}
           />
+        </FormGroup>
+        <FormGroup>
+          <Checkbox
+            name="allow_contact"
+            checked={this.state.allow_contact}
+            onChange={this.onChange}
+          > Contact Me </Checkbox>
         </FormGroup>
         <FormGroup>
           <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>
