@@ -17,6 +17,13 @@ class DashboardController {
         <Panel header={<h3>Your Jobs</h3>}>
           {JobController.showListScene({ userId: store.getState().user.currentUser })}
         </Panel>
+
+        <Panel header={<h3>Available Jobs</h3>}>
+          {JobController.showListScene({
+            userId: store.getState().user.currentUser,
+            matching: true,
+          })}
+        </Panel>
       </DashboardContainer>
     );
   }

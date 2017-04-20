@@ -14,11 +14,12 @@ export const initialState = {
 
 export const reducerInitialState = {
   items: {},
-  resultIds: [],
+  results: {},
 };
 
 export default function jobReducer(state = reducerInitialState, action) {
   let nextState;
+  let resultState;
   let jobEntry = {};
 
   switch (action.type) {
@@ -44,10 +45,16 @@ export default function jobReducer(state = reducerInitialState, action) {
       );
 
     case Actions.HTTP_GET_JOBS:
+      nextState = Object.assign(
+        {},
+        state.results,
+        { [action.resultsId]: [] },
+      );
+
       return Object.assign(
         {},
         state,
-        { loading: true },
+        { results: nextState },
       );
 
     case Actions.HTTP_RESP_JOB:
@@ -76,12 +83,18 @@ export default function jobReducer(state = reducerInitialState, action) {
         jobEntry,
       );
 
+      resultState = Object.assign(
+        {},
+        state.results,
+        { [action.resultsId]: Object.keys(jobEntry) },
+      );
+
       return Object.assign(
         {},
         state,
         {
           items: nextState,
-          resultIds: Object.keys(jobEntry),
+          results: resultState,
           loading: false,
         },
       );

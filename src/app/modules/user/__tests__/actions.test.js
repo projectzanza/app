@@ -144,16 +144,18 @@ describe('userActions', () => {
       const expectedActions = [
         {
           type: actions.Actions.HTTP_GET_USERS,
+          resultsId: '123',
         },
         {
           type: actions.Actions.HTTP_RESP_USERS,
           data: responses.users.data,
+          resultsId: '123',
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsers(1))
+      return store.dispatch(actions.getMatchingUsersForJob({ jobId: 1, resultsId: '123'}))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

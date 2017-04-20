@@ -49,12 +49,19 @@ describe('user reducer', () => {
   });
 
   describe('HTTP_RESP_USERS', () => {
-    it('should add the users to the items list, and place user ids in the results ids list', () => {
-      const action = actions.httpRespUsers(responses.users);
+    it('should add the users to the items list', () => {
+      const action = actions.httpRespUsers(responses.users, '123');
       const state = reducer(undefined, action);
 
-      expect(state.resultIds).toEqual(responses.users.data.map(user => user.id.toString()));
+
       expect(Object.keys(state.items).length).toEqual(responses.users.data.length);
+    });
+
+    it('place user ids in the correct results array', () => {
+      const action = actions.httpRespUsers(responses.users, '123');
+      const state = reducer(undefined, action);
+
+      expect(state.results['123']).toEqual(responses.users.data.map(user => user.id.toString()));
     });
   });
 });

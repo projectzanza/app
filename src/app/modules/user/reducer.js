@@ -11,11 +11,12 @@ export const userInitialState = {
 export const reducerInitialState = {
   items: {},
   currentUser: undefined,
-  resultIds: [],
+  results: {},
 };
 
 export default function userReducer(state = reducerInitialState, action) {
   let nextState;
+  let resultState;
   let user;
   let users;
 
@@ -108,14 +109,27 @@ export default function userReducer(state = reducerInitialState, action) {
         { items: nextState },
       );
 
+    case Actions.HTTP_GET_USERS:
+      nextState = Object.assign(
+        {},
+        state.results,
+        { [action.resultsId]: [] },
+      );
+
+      return Object.assign(
+        {},
+        state,
+        { results: nextState },
+      );
+
     case Actions.HTTP_RESP_USERS:
-      users = action.data.reduce((userList, userJson) => {
-        Object.assign(
-          userList,
-          { [userJson.id]: overrideNull(userInitialState, userJson) },
-        );
-        return userList;
-      }, {});
+      users = action.data.reduce((userList, userJson) =>
+        (
+          Object.assign(
+            userList,
+            { [userJson.id]: overrideNull(userInitialState, userJson) },
+          )
+        ), {});
 
       nextState = Object.assign(
         {},
@@ -123,12 +137,18 @@ export default function userReducer(state = reducerInitialState, action) {
         users,
       );
 
+      resultState = Object.assign(
+        {},
+        state.results,
+        { [action.resultsId]: Object.keys(users) },
+      );
+
       return Object.assign(
         {},
         state,
         {
           items: nextState,
-          resultIds: Object.keys(users),
+          results: resultState,
         },
       );
 

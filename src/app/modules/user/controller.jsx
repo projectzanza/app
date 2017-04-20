@@ -6,10 +6,11 @@ import SessionContainer from './Session/container';
 import AuthButtonsContainer from './AuthButtons/container';
 import ProfileContainer from './Profile/container';
 import ListContainer from './List/container';
+import { currentUser } from './utils';
 
 class UserController {
-  constructor(store) {
-    this.store = store;
+  static currentUser(store) {
+    return currentUser(store);
   }
 
   static onLoginSuccess() {

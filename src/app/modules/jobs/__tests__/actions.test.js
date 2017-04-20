@@ -120,16 +120,18 @@ describe('jobActions', () => {
       const expectedActions = [
         {
           type: actions.Actions.HTTP_GET_JOBS,
+          resultsId: '123',
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
           data: responses.jobs.data,
+          resultsId: '123',
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs())
+      return store.dispatch(actions.getJobs({resultsId: '123'}))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -144,16 +146,18 @@ describe('jobActions', () => {
       const expectedActions = [
         {
           type: actions.Actions.HTTP_GET_JOBS,
+          resultsId: '123',
         },
         {
           type: actions.Actions.HTTP_RESP_JOBS,
           data: responses.jobs.data,
+          resultsId: '123',
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs(1))
+      return store.dispatch(actions.getJobs({userId: 1, resultsId: '123'}))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

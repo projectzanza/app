@@ -1,6 +1,7 @@
 import React from 'react';
+import uuid from 'uuid/v4';
 import List from './components/list';
-import { getJobs } from '../actions';
+import { getJobs, getMatchingJobsForUser } from '../actions';
 import { storeResults } from '../../../lib/store/utils';
 
 class ShowJobListContainer extends React.Component {
@@ -10,15 +11,26 @@ class ShowJobListContainer extends React.Component {
     this.state = {
       jobs: [],
     };
+    this.resultsId = uuid();
   }
 
   componentWillMount() {
-    this.store.dispatch(getJobs(this.props.userId));
+    if (this.props.matching) {
+      this.store.dispatch(getMatchingJobsForUser({
+        userId: this.props.userId,
+        resultsId: this.resultsId,
+      }));
+    } else {
+      this.store.dispatch(getJobs({
+        userId: this.props.userId,
+        resultsId: this.resultsId,
+      }));
+    }
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ jobs: storeResults(this.store, 'jobs') });
+      this.setState({ jobs: storeResults(this.store, 'jobs', this.resultsId) });
     });
   }
 
@@ -41,10 +53,12 @@ ShowJobListContainer.contextTypes = {
 ShowJobListContainer.propTypes = {
   onClickJob: React.PropTypes.func.isRequired,
   userId: React.PropTypes.string,
+  matching: React.PropTypes.bool,
 };
 
 ShowJobListContainer.defaultProps = {
   userId: undefined,
+  matching: undefined,
 };
 
 export default ShowJobListContainer;

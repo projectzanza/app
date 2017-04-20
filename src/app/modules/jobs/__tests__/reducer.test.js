@@ -82,15 +82,15 @@ describe('job reducer', () => {
   });
 
   describe('HTTP_GET_JOBS', () => {
-    it('should set loading to true', () => {
-      const action = actions.httpGetJobs();
+    it('should set up the results id array', () => {
+      const action = actions.httpGetJobs('123');
 
       expect(reducer(undefined, action))
         .toEqual(
           Object.assign(
             {},
             reducerInitialState,
-            { loading: true },
+            { results: { '123': [] } },
           ),
         );
     });
@@ -104,6 +104,13 @@ describe('job reducer', () => {
       const jobIds = Object.keys(state.items);
       expect(jobIds.length)
         .toEqual(responses.jobs.data.length);
+    });
+
+    it('should place the job ids in the correct results array', () => {
+      const action = actions.httpRespJobs(responses.jobs, '123');
+      const state = reducer(undefined, action);
+
+      expect(state.results['123'].length).toEqual(responses.jobs.data.length);
     });
   });
 });

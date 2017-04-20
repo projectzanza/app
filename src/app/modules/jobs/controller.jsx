@@ -30,16 +30,15 @@ class JobController {
   }
 
   static showScene(props) {
+    const { store } = props.router;
     return (
-      <div>
-        <ShowJobContainer
-          {...props}
-          onUpdateSuccess={JobController.updateSuccess}
-          onCancelEdit={JobController.onCancelEdit}
-          onEdit={JobController.onEdit}
-        />
-        { UserController.listScene({ jobId: props.params.id })}
-      </div>
+      <ShowJobContainer
+        {...props}
+        onUpdateSuccess={JobController.updateSuccess}
+        onCancelEdit={JobController.onCancelEdit}
+        onEdit={JobController.onEdit}
+        currentUser={UserController.currentUser(store)}
+      />
     );
   }
 

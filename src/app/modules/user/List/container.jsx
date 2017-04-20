@@ -1,6 +1,7 @@
 import React from 'react';
+import uuid from 'uuid/v4';
 import List from './components/list';
-import { getMatchingUsers } from '../actions';
+import { getMatchingUsersForJob } from '../actions';
 import { storeResults } from '../../../lib/store/utils';
 
 class ListContainer extends React.Component {
@@ -10,6 +11,7 @@ class ListContainer extends React.Component {
     this.state = {
       users: [],
     };
+    this.resultsId = uuid();
   }
 
   componentWillMount() {
@@ -18,7 +20,7 @@ class ListContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ users: storeResults(this.store, 'user') });
+      this.setState({ users: storeResults(this.store, 'user', this.resultsId) });
     });
   }
 
@@ -31,7 +33,10 @@ class ListContainer extends React.Component {
   }
 
   setUsers(jobId) {
-    this.store.dispatch(getMatchingUsers(jobId));
+    this.store.dispatch(getMatchingUsersForJob({
+      jobId,
+      resultsId: this.resultsId,
+    }));
   }
 
   render() {

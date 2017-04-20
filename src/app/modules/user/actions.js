@@ -52,16 +52,18 @@ export function httpRespSignOut() {
   };
 }
 
-export function httpGetUsers() {
+export function httpGetUsers(resultsId) {
   return {
     type: Actions.HTTP_GET_USERS,
+    resultsId,
   };
 }
 
-export function httpRespUsers(json) {
+export function httpRespUsers(json, resultsId) {
   return {
     type: Actions.HTTP_RESP_USERS,
     data: json.data,
+    resultsId,
   };
 }
 
@@ -139,18 +141,18 @@ export function putUser(user) {
       .then(json => dispatch(httpRespUser(json)));
 }
 
-export function getMatchingUsers(jobId) {
+export function getMatchingUsersForJob(props) {
   return (dispatch, getState) => {
-    dispatch(httpGetUsers(jobId));
+    dispatch(httpGetUsers(props.resultsId));
 
     return fetch(
-      `/jobs/${jobId}/users/match`,
+      `/jobs/${props.jobId}/users/match`,
       {
         method: 'GET',
         headers: getState().headers,
       },
       dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespUsers(json)));
+      .then(json => dispatch(httpRespUsers(json, props.resultsId)));
   };
 }

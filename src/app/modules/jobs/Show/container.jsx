@@ -68,6 +68,7 @@ class ShowJobContainer extends React.Component {
     return (
       <View
         job={this.state.job}
+        showEdit={this.props.currentUser.id === this.state.job.user_id}
         onEdit={this.props.onEdit}
       />
     );
@@ -82,6 +83,13 @@ ShowJobContainer.propTypes = {
   onUpdateSuccess: React.PropTypes.func.isRequired,
   onCancelEdit: React.PropTypes.func.isRequired,
   onEdit: React.PropTypes.func.isRequired,
+  currentUser: React.PropTypes.shape({
+    id: React.PropTypes.string,
+  }).isRequired,
+};
+
+ShowJobContainer.defaultProps = {
+  matchingUserListScene: undefined,
 };
 
 ShowJobContainer.contextTypes = {
