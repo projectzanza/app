@@ -44,7 +44,7 @@ const View = props => (
 
 View.propTypes = {
   job: JobPropTypes.isRequired,
-  showEdit: React.PropTypes.boolean,
+  showEdit: React.PropTypes.bool,
   onEdit: React.PropTypes.func.isRequired,
 };
 

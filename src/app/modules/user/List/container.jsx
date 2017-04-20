@@ -15,7 +15,7 @@ class ListContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.setUsers(this.props.jobId);
+    this.getUsers(this.props.jobId);
   }
 
   componentDidMount() {
@@ -25,14 +25,16 @@ class ListContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setUsers(nextProps.jobId);
+    if (this.props.jobId !== nextProps.jobId) {
+      this.getUsers(nextProps.jobId);
+    }
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  setUsers(jobId) {
+  getUsers(jobId) {
     this.store.dispatch(getMatchingUsersForJob({
       jobId,
       resultsId: this.resultsId,

@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthButtons from './components/authButtons';
 import { logoutUser } from '../actions';
-import { currentUser } from '../utils';
+import UserController from '../controller';
 
 class AuthButtonsContainer extends React.Component {
 
@@ -14,7 +14,7 @@ class AuthButtonsContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: currentUser(this.store) });
+      this.setState({ user: UserController.currentUser(this.store) });
     });
   }
 

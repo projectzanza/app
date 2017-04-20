@@ -7,8 +7,8 @@ export const initialState = {
   title: '',
   text: '',
   per_diem: { min: 0, max: 1000 },
-  proposed_start_at: '',
-  proposed_end_at: '',
+  proposed_start_at: 0,
+  proposed_end_at: 0,
   allow_contact: true,
 };
 

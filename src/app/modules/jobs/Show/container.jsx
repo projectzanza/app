@@ -1,7 +1,8 @@
 import React from 'react';
 import Edit from './components/edit';
 import View from './components/view';
-import { getJob, putJob } from '../actions';
+import { putJob } from '../actions';
+import JobPropTypes from '../propTypes';
 import { initialState } from '../reducer';
 
 class ShowJobContainer extends React.Component {
@@ -9,50 +10,34 @@ class ShowJobContainer extends React.Component {
     super(props, context);
     this.store = context.store;
     this.state = {
-      job: initialState,
-      mode: props.params.mode,
+      job: props.job,
+      mode: props.mode,
     };
 
+    this.onEdit = this.onEdit.bind(this);
+    this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillMount() {
-    const job = this.job();
-    if (job) {
-      this.setState({ job });
-    } else {
-      this.store.dispatch(getJob(this.props.params.id));
-    }
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.store.subscribe(() => {
-      const job = this.job();
-      if (job) {
-        this.setState({ job });
-      }
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    this.setState({ mode: nextProps.params.mode });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+    this.setState({
+      mode: nextProps.mode,
+      job: nextProps.job,
+    });
   }
 
   onSubmit(e, form) {
     e.preventDefault();
     this.store.dispatch(putJob(form))
-      .then(() => {
-        this.props.onUpdateSuccess(this.job());
-      });
+      .then(() => { this.setState({ mode: 'view' }); });
   }
 
-  job() {
-    const { jobs } = this.store.getState();
-    return jobs.items[this.props.params.id];
+  onEdit() {
+    this.setState({ mode: 'edit' });
+  }
+
+  onCancelEdit() {
+    this.setState({ mode: 'view' });
   }
 
   render() {
@@ -61,7 +46,7 @@ class ShowJobContainer extends React.Component {
         <Edit
           job={this.state.job}
           onSubmit={this.onSubmit}
-          onCancel={this.props.onCancelEdit}
+          onCancel={this.onCancelEdit}
         />
       );
     }
@@ -69,20 +54,15 @@ class ShowJobContainer extends React.Component {
       <View
         job={this.state.job}
         showEdit={this.props.currentUser.id === this.state.job.user_id}
-        onEdit={this.props.onEdit}
+        onEdit={this.onEdit}
       />
     );
   }
 }
 
 ShowJobContainer.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    mode: React.PropTypes.string,
-  }).isRequired,
-  onUpdateSuccess: React.PropTypes.func.isRequired,
-  onCancelEdit: React.PropTypes.func.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
+  job: JobPropTypes,
+  mode: React.PropTypes.string,
   currentUser: React.PropTypes.shape({
     id: React.PropTypes.string,
   }).isRequired,
@@ -90,6 +70,8 @@ ShowJobContainer.propTypes = {
 
 ShowJobContainer.defaultProps = {
   matchingUserListScene: undefined,
+  mode: 'view',
+  job: initialState,
 };
 
 ShowJobContainer.contextTypes = {
