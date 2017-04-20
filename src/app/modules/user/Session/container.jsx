@@ -1,11 +1,11 @@
 import React from 'react';
-import { currentUser } from '../utils';
+import UserController from '../controller';
 
 class SessionContainer extends React.Component {
 
   componentDidMount() {
     const { store } = this.context;
-    const user = currentUser(store);
+    const user = UserController.currentUser(store);
     if (!user) {
       this.props.onAuthError();
     }
@@ -13,7 +13,7 @@ class SessionContainer extends React.Component {
 
   render() {
     const { store } = this.context;
-    const user = currentUser(store);
+    const user = UserController.currentUser(store);
 
     if (user) {
       return this.props.children;

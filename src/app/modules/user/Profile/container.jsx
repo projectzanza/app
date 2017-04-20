@@ -3,7 +3,7 @@ import Edit from './components/edit';
 import View from './components/view';
 import { getUser, putUser } from '../actions';
 import { singleItem } from '../../../lib/store/utils';
-import { currentUser } from '../utils';
+import UserController from '../controller';
 
 class ProfileContainer extends React.Component {
   constructor(props, context) {
@@ -11,25 +11,29 @@ class ProfileContainer extends React.Component {
     this.store = context.store;
     this.state = {
       user: {},
-      mode: props.params.mode,
+      mode: props.mode,
     };
 
+    this.onEdit = this.onEdit.bind(this);
+    this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentWillMount() {
-    this.setUser(this.props.params.id);
+    this.setUser(this.props.id);
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: singleItem(this.store, 'user', this.props.params.id) });
+      this.setState({ user: singleItem(this.store, 'user', this.props.id) });
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ mode: nextProps.params.mode });
-    this.setUser(nextProps.params.id);
+    this.setState({ mode: nextProps.mode });
+    if (this.props.id !== nextProps.id) {
+      this.setUser(nextProps.id);
+    }
   }
 
   componentWillUnmount() {
@@ -40,8 +44,16 @@ class ProfileContainer extends React.Component {
     ev.preventDefault();
     this.store.dispatch(putUser(form))
       .then(() => {
-        this.props.onUpdateSuccess(this.state.user);
+        this.setState({ mode: 'view' });
       });
+  }
+
+  onCancelEdit() {
+    this.setState({ mode: 'view' });
+  }
+
+  onEdit() {
+    this.setState({ mode: 'edit' });
   }
 
   setUser(id) {
@@ -49,7 +61,7 @@ class ProfileContainer extends React.Component {
     if (user) {
       this.setState({ user });
     } else {
-      this.store.dispatch(getUser(this.props.params.id));
+      this.store.dispatch(getUser(this.props.id));
     }
   }
 
@@ -59,28 +71,27 @@ class ProfileContainer extends React.Component {
         <Edit
           user={this.state.user}
           onSubmit={this.onSubmit}
-          onCancel={this.props.onCancelEdit}
+          onCancel={this.onCancelEdit}
         />
       );
     }
     return (
       <View
         user={this.state.user}
-        showEdit={currentUser(this.store).id === this.state.user.id}
-        onEdit={this.props.onEdit}
+        showEdit={UserController.currentUser(this.store).id === this.state.user.id}
+        onEdit={this.onEdit}
       />
     );
   }
 }
 
 ProfileContainer.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    mode: React.PropTypes.string,
-  }).isRequired,
-  onUpdateSuccess: React.PropTypes.func.isRequired,
-  onCancelEdit: React.PropTypes.func.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
+  id: React.PropTypes.string.isRequired,
+  mode: React.PropTypes.string,
+};
+
+ProfileContainer.defaultProps = {
+  mode: 'view',
 };
 
 ProfileContainer.contextTypes = {

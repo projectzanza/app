@@ -1,7 +1,7 @@
-export const storeResults = (store, bucketName) => {
+export const storeResults = (store, bucketName, resultId) => {
   const bucket = store.getState()[bucketName];
-  if (bucket.resultIds) {
-    return bucket.resultIds.map(key => bucket.items[key]);
+  if (bucket.results[resultId]) {
+    return bucket.results[resultId].map(key => bucket.items[key]);
   }
   return [];
 };

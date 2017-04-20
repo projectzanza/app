@@ -1,9 +1,12 @@
 import React from 'react';
 import { Route, Router, browserHistory } from 'react-router';
-import App from './app';
-import UserController from './modules/user/controller';
-import DashboardController from './modules/dashboard/controller';
-import JobController from './modules/jobs/controller';
+import App from './scenes/app';
+import UserSession from './scenes/users/session';
+import JobShowScene from './scenes/jobs/show';
+import UserShowScene from './scenes/users/show';
+import UserSignInScene from './scenes/users/signin';
+import UserSignUpScene from './scenes/users/signup';
+import DashboardScene from './scenes/dashboard/show';
 
 class Routes extends React.Component {
   constructor(props, context) {
@@ -15,12 +18,12 @@ class Routes extends React.Component {
     return (
       <Router history={browserHistory}>
         <Route path="/" component={App} >
-          <Route path="signup" component={UserController.signUpScene} />
-          <Route path="login" component={UserController.loginScene} />
-          <Route component={UserController.session} >
-            <Route path="dashboard" store={this.store} component={DashboardController.scene} />
-            <Route path="/job/:id(/:mode)" component={JobController.showScene} />
-            <Route path="/user/:id(/:mode)" component={UserController.profileScene} />
+          <Route path="signup" component={UserSignUpScene} />
+          <Route path="signin" component={UserSignInScene} />
+          <Route component={UserSession} >
+            <Route path="/dashboard" component={DashboardScene} />
+            <Route path="/job/:id(/:mode)" component={JobShowScene} />
+            <Route path="/user/:id(/:mode)" component={UserShowScene} />
           </Route>
         </Route>
       </Router>

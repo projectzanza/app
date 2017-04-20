@@ -31,18 +31,25 @@ const View = props => (
       <dd>{props.job.allow_contact ? 'True' : 'False'}</dd>
     </dl>
     <FormGroup>
-      <Button
-        bsStyle="primary"
-        onClick={() => props.onEdit(props.job)}
-      > Edit
-      </Button>
+      { props.showEdit &&
+        <Button
+          bsStyle="primary"
+          onClick={() => props.onEdit(props.job)}
+        > Edit
+        </Button>
+      }
     </FormGroup>
   </div>
 );
 
 View.propTypes = {
   job: JobPropTypes.isRequired,
+  showEdit: React.PropTypes.bool,
   onEdit: React.PropTypes.func.isRequired,
+};
+
+View.defaultProps = {
+  showEdit: false,
 };
 
 export default View;

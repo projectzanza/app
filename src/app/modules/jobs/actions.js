@@ -23,6 +23,35 @@ export function httpRespJob(json) {
   };
 }
 
+export function httpGetJob(id) {
+  return {
+    type: Actions.HTTP_GET_JOB,
+    id,
+  };
+}
+
+export function httpPutJob(job) {
+  return {
+    type: Actions.HTTP_PUT_JOB,
+    job,
+  };
+}
+
+export function httpGetJobs(resultsId) {
+  return {
+    type: Actions.HTTP_GET_JOBS,
+    resultsId,
+  };
+}
+
+export function httpRespJobs(json, resultsId) {
+  return {
+    type: Actions.HTTP_RESP_JOBS,
+    data: json.data,
+    resultsId,
+  };
+}
+
 export function createJob(job) {
   return (dispatch, getState) => {
     dispatch(httpPostJob(job));
@@ -42,13 +71,6 @@ export function createJob(job) {
   };
 }
 
-export function httpGetJob(id) {
-  return {
-    type: Actions.HTTP_GET_JOB,
-    id,
-  };
-}
-
 export function getJob(id) {
   return (dispatch, getState) => {
     dispatch(httpGetJob(id));
@@ -61,13 +83,6 @@ export function getJob(id) {
       }, dispatch)
       .then(response => response.json())
       .then(json => dispatch(httpRespJob(json)));
-  };
-}
-
-export function httpPutJob(job) {
-  return {
-    type: Actions.HTTP_PUT_JOB,
-    job,
   };
 }
 
@@ -87,23 +102,10 @@ export function putJob(job) {
   };
 }
 
-export function httpGetJobs() {
-  return {
-    type: Actions.HTTP_GET_JOBS,
-  };
-}
-
-export function httpRespJobs(json) {
-  return {
-    type: Actions.HTTP_RESP_JOBS,
-    data: json.data,
-  };
-}
-
-export function getJobs(userId) {
+export function getJobs(props) {
   return (dispatch, getState) => {
-    dispatch(httpGetJobs());
-    const path = userId ? `/users/${userId}/jobs` : '/jobs';
+    dispatch(httpGetJobs(props.resultsId));
+    const path = props.userId ? `/users/${props.userId}/jobs` : '/jobs';
 
     return fetch(
       path,
@@ -112,6 +114,21 @@ export function getJobs(userId) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespJobs(json)));
+      .then(json => dispatch(httpRespJobs(json, props.resultsId)));
+  };
+}
+
+export function getMatchingJobsForUser(props) {
+  return (dispatch, getState) => {
+    dispatch(httpGetJobs(props.resultsId));
+
+    return fetch(
+      `/users/${props.userId}/jobs/match`,
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespJobs(json, props.resultsId)));
   };
 }
