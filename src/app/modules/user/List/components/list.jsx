@@ -9,6 +9,7 @@ class List extends React.Component {
       key={user.id}
       user={user}
       onClick={this.props.onClickUser}
+      onClickInvite={this.props.onClickInviteUser}
     />);
   }
 
@@ -25,7 +26,12 @@ List.propTypes = {
   users: React.PropTypes.arrayOf(
     UserPropTypes,
   ).isRequired,
+  onClickInviteUser: React.PropTypes.func,
   onClickUser: React.PropTypes.func.isRequired,
+};
+
+List.defaultProps = {
+  onClickInviteUser: undefined,
 };
 
 export default List;

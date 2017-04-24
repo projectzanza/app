@@ -20,7 +20,7 @@ class AuthButtons extends React.Component {
     return (
       <ButtonToolbar>
         <Button onClick={() => this.props.onClickProfile(this.props.user)}> Profile </Button>
-        <Button onClick={this.props.onClickLogout}> Logout </Button>
+        <Button onClick={this.props.onClickSignOut}> Logout </Button>
       </ButtonToolbar>
     );
   }
@@ -37,7 +37,7 @@ class AuthButtons extends React.Component {
 
 AuthButtons.propTypes = {
   onClickLogin: React.PropTypes.func.isRequired,
-  onClickLogout: React.PropTypes.func.isRequired,
+  onClickSignOut: React.PropTypes.func.isRequired,
   onClickSignUp: React.PropTypes.func.isRequired,
   onClickProfile: React.PropTypes.func.isRequired,
   user: UserPropTypes,
