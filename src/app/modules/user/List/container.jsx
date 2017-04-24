@@ -39,6 +39,10 @@ class ListContainer extends React.Component {
     this.unsubscribe();
   }
 
+  onClickInviteUser(ev, user) {
+    this.props.onClickInviteUser(ev, user, this.resultsId);
+  }
+
   getUsers(jobId) {
     if (this.props.match && jobId) {
       this.store.dispatch(getMatchingUsersForJob({
@@ -51,10 +55,6 @@ class ListContainer extends React.Component {
         resultsId: this.resultsId,
       }));
     }
-  }
-
-  onClickInviteUser(ev, user) {
-    this.props.onClickInviteUser(ev, user, this.resultsId);
   }
 
   render() {

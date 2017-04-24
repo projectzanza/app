@@ -90,7 +90,7 @@ describe('job reducer', () => {
           Object.assign(
             {},
             reducerInitialState,
-            { results: { '123': [] } },
+            { results: { 123: [] } },
           ),
         );
     });
