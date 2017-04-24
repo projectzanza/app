@@ -1,7 +1,10 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import List from './components/list';
-import { getMatchingUsersForJob } from '../actions';
+import {
+  getMatchingUsersForJob,
+  getInvitedUsersForJob,
+} from '../actions';
 import { storeResults } from '../../../lib/store/utils';
 
 class ListContainer extends React.Component {
@@ -12,6 +15,8 @@ class ListContainer extends React.Component {
       users: [],
     };
     this.resultsId = uuid();
+
+    this.onClickInviteUser = this.onClickInviteUser.bind(this);
   }
 
   componentWillMount() {
@@ -34,17 +39,29 @@ class ListContainer extends React.Component {
     this.unsubscribe();
   }
 
+  onClickInviteUser(ev, user) {
+    this.props.onClickInviteUser(ev, user, this.resultsId);
+  }
+
   getUsers(jobId) {
-    this.store.dispatch(getMatchingUsersForJob({
-      jobId,
-      resultsId: this.resultsId,
-    }));
+    if (this.props.match && jobId) {
+      this.store.dispatch(getMatchingUsersForJob({
+        jobId,
+        resultsId: this.resultsId,
+      }));
+    } else if (this.props.invited && jobId) {
+      this.store.dispatch(getInvitedUsersForJob({
+        jobId,
+        resultsId: this.resultsId,
+      }));
+    }
   }
 
   render() {
     return (
       <List
         users={this.state.users}
+        onClickInviteUser={this.props.onClickInviteUser && this.onClickInviteUser}
         onClickUser={this.props.onClickUser}
       />
     );
@@ -58,6 +75,15 @@ ListContainer.contextTypes = {
 ListContainer.propTypes = {
   jobId: React.PropTypes.string.isRequired,
   onClickUser: React.PropTypes.func.isRequired,
+  onClickInviteUser: React.PropTypes.func,
+  match: React.PropTypes.bool,
+  invited: React.PropTypes.bool,
+};
+
+ListContainer.defaultProps = {
+  onClickInviteUser: undefined,
+  match: undefined,
+  invited: undefined,
 };
 
 export default ListContainer;

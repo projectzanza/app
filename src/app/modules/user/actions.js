@@ -67,6 +67,14 @@ export function httpRespUsers(json, resultsId) {
   };
 }
 
+export function httpRespInviteUsersToJob(json, jobId) {
+  return {
+    type: Actions.HTTP_RESP_USERS_INVITED_TO_JOB,
+    data: json.data,
+    jobId,
+  };
+}
+
 export function createUser(user) {
   return (dispatch, getState) => {
     dispatch(httpPostAuth(user));
@@ -155,4 +163,37 @@ export function getMatchingUsersForJob(props) {
       .then(response => response.json())
       .then(json => dispatch(httpRespUsers(json, props.resultsId)));
   };
+}
+
+export function getInvitedUsersForJob(props) {
+  return (dispatch, getState) => {
+    dispatch(httpGetUsers(props.resultsId));
+
+    return fetch(
+      '/users/invited',
+      {
+        method: 'GET',
+        query: { job_id: props.jobId },
+        headers: getState().headers,
+      },
+      dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(httpRespUsers(json, props.resultsId)));
+  };
+}
+
+export function inviteToJob(props) {
+  return (dispatch, getState) => fetch(
+      `/users/${props.userId}/invite`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ job_id: props.jobId }),
+      headers: getState().headers,
+    },
+      dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(httpRespUsers(json, props.resultsId));
+      },
+    );
 }

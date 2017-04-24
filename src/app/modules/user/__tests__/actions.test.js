@@ -155,7 +155,61 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsersForJob({ jobId: 1, resultsId: '123'}))
+      return store.dispatch(actions.getMatchingUsersForJob({ jobId: 1, resultsId: '123' }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('getInvitedUsersForJob', () => {
+    it('creates HTTP_RESP_USERS on success', () => {
+      nock(Config.apiUrl)
+        .get('/users/invited?job_id=1')
+        .reply(200, responses.users);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_GET_USERS,
+          resultsId: '123',
+        },
+        {
+          type: actions.Actions.HTTP_RESP_USERS,
+          data: responses.users.data,
+          resultsId: '123',
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getInvitedUsersForJob({ jobId: 1, resultsId: '123' }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('inviteToJob', () => {
+    it('creates HTTP_RESP_USERS on success', () => {
+      const userId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/users/${userId}/invite`)
+        .reply(200, responses.users);
+
+      const expectedActions = [
+        {
+          type: actions.Actions.HTTP_RESP_USERS,
+          data: responses.users.data,
+          resultsId: '123',
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.inviteToJob({ jobId: 1, userId, resultsId: '123' }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

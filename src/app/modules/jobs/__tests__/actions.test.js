@@ -54,7 +54,7 @@ describe('jobActions', () => {
         .then((id) => {
           expect(id).toEqual(responses.job.data.id);
         });
-    })
+    });
   });
 
   describe('getJob', () => {
@@ -131,7 +131,7 @@ describe('jobActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs({resultsId: '123'}))
+      return store.dispatch(actions.getJobs({ resultsId: '123' }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -157,7 +157,7 @@ describe('jobActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs({userId: 1, resultsId: '123'}))
+      return store.dispatch(actions.getJobs({ userId: 1, resultsId: '123' }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

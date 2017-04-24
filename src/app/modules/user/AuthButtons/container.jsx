@@ -9,7 +9,7 @@ class AuthButtonsContainer extends React.Component {
     super(props, context);
     this.state = {};
     this.store = context.store;
-    this.onClickLogout = this.onClickLogout.bind(this);
+    this.onClickSignOut = this.onClickSignOut.bind(this);
   }
 
   componentDidMount() {
@@ -22,15 +22,15 @@ class AuthButtonsContainer extends React.Component {
     this.unsubscribe();
   }
 
-  onClickLogout() {
+  onClickSignOut() {
     this.store.dispatch(logoutUser())
-      .then(this.props.onLogout);
+      .then(this.props.onSignOut);
   }
 
   render() {
     return (
       <AuthButtons
-        onClickLogout={this.onClickLogout}
+        onClickSignOut={this.onClickSignOut}
         onClickLogin={this.props.onClickLogin}
         onClickSignUp={this.props.onClickSignUp}
         onClickProfile={this.props.onClickProfile}
@@ -44,7 +44,7 @@ AuthButtonsContainer.propTypes = {
   onClickSignUp: React.PropTypes.func.isRequired,
   onClickLogin: React.PropTypes.func.isRequired,
   onClickProfile: React.PropTypes.func.isRequired,
-  onLogout: React.PropTypes.func.isRequired,
+  onSignOut: React.PropTypes.func.isRequired,
 };
 
 AuthButtonsContainer.contextTypes = {

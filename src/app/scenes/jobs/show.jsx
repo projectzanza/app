@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { Panel } from 'react-bootstrap';
 import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
 import ShowJob from '../../modules/jobs/Show/container';
@@ -12,12 +13,19 @@ class JobShowScene extends React.Component {
     browserHistory.push(routes.user.profile(user.id));
   }
 
+  onClickInviteUser(ev, user, resultsId) {
+    ev.preventDefault();
+    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
+  }
+
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
     this.state = {
       user: UserController.currentUser(this.store),
     };
+
+    this.onClickInviteUser = this.onClickInviteUser.bind(this);
   }
 
   componentWillMount() {
@@ -41,10 +49,29 @@ class JobShowScene extends React.Component {
   matchingUserList() {
     if (this.state.job && this.state.job.user_id === this.state.user.id) {
       return (
-        <UserList
-          jobId={this.state.job.id}
-          onClickUser={JobShowScene.onClickUser}
-        />
+        <Panel header={<h3>Matching Consultants</h3>}>
+          <UserList
+            jobId={this.state.job.id}
+            onClickInviteUser={this.onClickInviteUser}
+            onClickUser={JobShowScene.onClickUser}
+            match
+          />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
+  invitedUserList() {
+    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+      return (
+        <Panel header={<h3>Invited Consultants</h3>}>
+          <UserList
+            jobId={this.state.job.id}
+            onClickUser={JobShowScene.onClickUser}
+            invited
+          />
+        </Panel>
       );
     }
     return null;
@@ -58,6 +85,7 @@ class JobShowScene extends React.Component {
           mode={this.props.params.mode}
           currentUser={this.state.user}
         />
+        {this.invitedUserList()}
         {this.matchingUserList()}
       </div>
     );
