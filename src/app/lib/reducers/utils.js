@@ -9,14 +9,14 @@ export function overrideNull(initialState, state) {
 }
 
 export const createEntityEntries = (state, data) => {
-  let newEntities = data.reduce(
+  const newEntities = data.reduce(
     (entities, entity) => (
       Object.assign(entities, { [entity.id]: entity })
     ),
     {},
   );
 
-  let entitiesState = Object.assign(
+  const entitiesState = Object.assign(
     {},
     state.entities,
     newEntities,
@@ -30,9 +30,15 @@ export const createEntityEntries = (state, data) => {
 };
 
 export const updateJoinTableState = (state, primaryKey, foreignKeys) => {
+  const entities = Object.assign(
+    {},
+    state.entities,
+    { [primaryKey]: foreignKeys },
+  );
+
   return Object.assign(
     {},
     state,
-    { [primaryKey]: foreignKeys }
+    { entities },
   );
 };

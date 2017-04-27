@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
-import * as joinActionTypes from '../../../lib/reducers/join-actions'
+import * as joinActionTypes from '../../../lib/reducers/join-actions';
 import * as responses from '../__mocks__/job_responses';
 import * as forms from '../__mocks__/job_forms';
 import Config from '../../../config/app';
@@ -132,7 +132,7 @@ describe('jobActions', () => {
         {
           type: joinActionTypes.Types.USER_JOBS,
           jobIds: responses.jobs.data.map(job => job.id),
-          userId
+          userId,
         },
       ];
 
@@ -165,7 +165,7 @@ describe('jobActions', () => {
         {
           type: joinActionTypes.Types.USER_MATCHING_JOBS,
           jobIds: responses.jobs.data.map(job => job.id),
-          userId
+          userId,
         },
       ];
 

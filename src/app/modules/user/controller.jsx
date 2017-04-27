@@ -1,10 +1,11 @@
 import { inviteToJob } from './actions';
+import { getEntity } from '../../lib/store/utils';
 
 class UserController {
   static currentUser(store) {
     const { user } = store.getState();
     if (user.currentUser) {
-      return user.items[user.currentUser];
+      return getEntity(store, 'user', user.currentUser);
     }
     return undefined;
   }

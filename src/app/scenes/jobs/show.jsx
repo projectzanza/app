@@ -13,11 +13,6 @@ class JobShowScene extends React.Component {
     browserHistory.push(routes.user.profile(user.id));
   }
 
-  onClickInviteUser(ev, user, resultsId) {
-    ev.preventDefault();
-    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
-  }
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
@@ -44,6 +39,11 @@ class JobShowScene extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  onClickInviteUser(ev, user, resultsId) {
+    ev.preventDefault();
+    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
   }
 
   matchingUserList() {

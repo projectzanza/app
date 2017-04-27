@@ -5,7 +5,7 @@ import {
   getMatchingUsersForJob,
   getInvitedUsersForJob,
 } from '../actions';
-import { storeResults } from '../../../lib/store/utils';
+import { getJoinEntities } from '../../../lib/store/utils';
 
 class ListContainer extends React.Component {
   constructor(props, context) {
@@ -25,7 +25,7 @@ class ListContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ users: storeResults(this.store, 'user', this.resultsId) });
+      this.setState({ users: this.queryUsers() });
     });
   }
 
@@ -47,13 +47,29 @@ class ListContainer extends React.Component {
     if (this.props.match && jobId) {
       this.store.dispatch(getMatchingUsersForJob({
         jobId,
-        resultsId: this.resultsId,
       }));
     } else if (this.props.invited && jobId) {
       this.store.dispatch(getInvitedUsersForJob({
         jobId,
-        resultsId: this.resultsId,
       }));
+    }
+  }
+
+  queryUsers() {
+    if (this.props.match) {
+      getJoinEntities({
+        store: this.store,
+        primaryKey: this.props.jobId,
+        joinTable: 'jobMatchingUsers',
+        entityTable: 'user',
+      });
+    } else {
+      getJoinEntities({
+        store: this.store,
+        primaryKey: this.props.jobId,
+        joinTable: 'jobInvitedUsers',
+        entityTable: 'user',
+      });
     }
   }
 

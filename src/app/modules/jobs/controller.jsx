@@ -1,23 +1,23 @@
-import { singleItem } from '../../lib/store/utils';
+import { getEntity } from '../../lib/store/utils';
 import { getJob } from './actions';
 
 class JobController {
 
   static fetchJob(store, id) {
     return new Promise((resolve) => {
-      const job = singleItem(store, 'jobs', id);
+      const job = getEntity(store, 'jobs', id);
       if (job) {
         resolve(job);
       } else {
         store.dispatch(getJob(id)).then(() => {
-          resolve(singleItem(store, 'jobs', id));
+          resolve(getEntity(store, 'jobs', id));
         });
       }
     });
   }
 
   static getJob(store, id) {
-    return singleItem(store, 'jobs', id);
+    return getEntity(store, 'jobs', id);
   }
 }
 

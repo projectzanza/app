@@ -6,7 +6,7 @@ export const initialState = {
 };
 
 export const userJobs = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case Types.USER_JOBS:
       return updateJoinTableState(state, action.userId, action.jobIds);
     default:

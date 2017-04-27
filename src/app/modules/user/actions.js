@@ -30,10 +30,10 @@ export function loginUser(user) {
       },
       dispatch)
       .then(response => response.json())
-      .then(json => {
+      .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatch(ActionTypes.httpRespSignIn(json));
-        }
+      },
       );
   };
 }
@@ -91,9 +91,9 @@ export function getMatchingUsersForJob(props) {
       },
       dispatch)
       .then(response => response.json())
-      .then(json => {
+      .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActionTypes.jobMatchingUsers(props.jobId, json))
+        dispatch(joinActionTypes.jobMatchingUsers(props.jobId, json));
       });
   };
 }
@@ -111,7 +111,7 @@ export function getInvitedUsersForJob(props) {
       },
       dispatch)
       .then(response => response.json())
-      .then(json => {
+      .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActionTypes.jobInvitedUsers(props.jobId, json));
       });

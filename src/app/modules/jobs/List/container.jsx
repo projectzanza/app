@@ -1,8 +1,8 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import List from './components/list';
-import { getJobs, getMatchingJobsForUser } from '../actions';
-import { storeResults } from '../../../lib/store/utils';
+import { getUserJobs, getMatchingJobsForUser } from '../actions';
+import { getJoinEntities } from '../../../lib/store/utils';
 
 class ShowJobListContainer extends React.Component {
   constructor(props, context) {
@@ -18,24 +18,38 @@ class ShowJobListContainer extends React.Component {
     if (this.props.matching) {
       this.store.dispatch(getMatchingJobsForUser({
         userId: this.props.userId,
-        resultsId: this.resultsId,
       }));
     } else {
-      this.store.dispatch(getJobs({
+      this.store.dispatch(getUserJobs({
         userId: this.props.userId,
-        resultsId: this.resultsId,
       }));
     }
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ jobs: storeResults(this.store, 'jobs', this.resultsId) });
+      this.setState({ jobs: this.queryJobs() });
     });
   }
 
   componentWillUnmount() {
     this.unsubscribe();
+  }
+
+  queryJobs() {
+    if (this.props.matching) {
+      return getJoinEntities({
+        store: this.store,
+        primaryKey: this.props.userId,
+        joinTable: 'userMatchingJobs',
+        entityTable: 'jobs',
+      });
+    }
+    return getJoinEntities({
+      store: this.store,
+      primaryKey: this.props.userId,
+      joinTable: 'userJobs',
+      entityTable: 'jobs' });
   }
 
   render() {

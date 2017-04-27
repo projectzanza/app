@@ -63,7 +63,7 @@ export function getUserJobs(props) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => {
+      .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userJobs(props.userId, json));
       });
@@ -81,7 +81,7 @@ export function getMatchingJobsForUser(props) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => {
+      .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userMatchingJobs(props.userId, json));
       });
