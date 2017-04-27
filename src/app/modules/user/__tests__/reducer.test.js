@@ -1,26 +1,26 @@
-import reducer, { reducerInitialState } from '../reducer';
-import * as actions from '../actions';
+import reducer, { initialState } from '../reducer';
+import * as actionTypes from '../actionTypes';
 import * as responses from '../__mocks__/user_responses';
 import * as forms from '../__mocks__/user_forms';
 
 describe('user reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {}))
-      .toEqual(reducerInitialState);
+      .toEqual(initialState);
   });
 
   describe('HTTP_POST_SIGNIN', () => {
     it('should not store the password in the store', () => {
-      const action = actions.httpPostSignIn(forms.signin);
+      const action = actionTypes.httpPostSignIn(forms.signin);
 
       expect(reducer(undefined, action))
-        .toEqual(reducerInitialState);
+        .toEqual(initialState);
     });
   });
 
   describe('HTTP_RESP_AUTH', () => {
     it('should not set currentUser', () => {
-      const action = actions.httpRespAuth(responses.user);
+      const action = actionTypes.httpRespAuth(responses.user);
 
       const state = reducer(undefined, action);
       expect(state.currentUser).toEqual(undefined);
@@ -29,7 +29,7 @@ describe('user reducer', () => {
 
   describe('HTTP_RESP_SIGNIN', () => {
     it('should set currentUser', () => {
-      const action = actions.httpRespSignIn(responses.user);
+      const action = actionTypes.httpRespSignIn(responses.user);
 
       const state = reducer(undefined, action);
       expect(state.currentUser).toEqual(responses.user.data.id);
@@ -38,10 +38,10 @@ describe('user reducer', () => {
 
   describe('HTTP_RESP_SIGNOUT', () => {
     it('should set currentUser as undefined', () => {
-      let action = actions.httpRespSignIn(responses.user);
+      let action = actionTypes.httpRespSignIn(responses.user);
       let state = reducer(undefined, action);
 
-      action = actions.httpRespSignOut(responses.signOutJson);
+      action = actionTypes.httpRespSignOut(responses.signOutJson);
       state = reducer(state, action);
 
       expect(state.currentUser).toEqual(undefined);
@@ -50,18 +50,10 @@ describe('user reducer', () => {
 
   describe('HTTP_RESP_USERS', () => {
     it('should add the users to the items list', () => {
-      const action = actions.httpRespUsers(responses.users, '123');
+      const action = actionTypes.httpRespUsers(responses.users, '123');
       const state = reducer(undefined, action);
 
-
-      expect(Object.keys(state.items).length).toEqual(responses.users.data.length);
-    });
-
-    it('place user ids in the correct results array', () => {
-      const action = actions.httpRespUsers(responses.users, '123');
-      const state = reducer(undefined, action);
-
-      expect(state.results['123']).toEqual(responses.users.data.map(user => user.id.toString()));
+      expect(Object.keys(state.entities).length).toEqual(responses.users.data.length);
     });
   });
 });

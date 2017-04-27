@@ -1,7 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
+import * as joinActionTypes from '../../../lib/reducers/join-actions'
 import * as responses from '../__mocks__/job_responses';
 import * as forms from '../__mocks__/job_forms';
 import Config from '../../../config/app';
@@ -22,11 +24,11 @@ describe('jobActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_POST_JOB,
+          type: actionTypes.Types.HTTP_POST_JOB,
           job: forms.quickCreate,
         },
         {
-          type: actions.Actions.HTTP_RESP_JOB,
+          type: actionTypes.Types.HTTP_RESP_JOB,
           data: responses.job.data,
         },
       ];
@@ -65,11 +67,11 @@ describe('jobActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_GET_JOB,
+          type: actionTypes.Types.HTTP_GET_JOB,
           id: 1,
         },
         {
-          type: actions.Actions.HTTP_RESP_JOB,
+          type: actionTypes.Types.HTTP_RESP_JOB,
           data: responses.job.data,
         },
       ];
@@ -92,11 +94,11 @@ describe('jobActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_PUT_JOB,
+          type: actionTypes.Types.HTTP_PUT_JOB,
           job: forms.existingJob,
         },
         {
-          type: actions.Actions.HTTP_RESP_JOB,
+          type: actionTypes.Types.HTTP_RESP_JOB,
           data: responses.job.data,
         },
       ];
@@ -111,53 +113,65 @@ describe('jobActions', () => {
     });
   });
 
-  describe('getJobs', () => {
-    it('creates HTTP_RESP_JOB on get success', () => {
+  describe('getUserJobs', () => {
+    it('requests jobs by user id', () => {
+      const userId = 1;
+
       nock(Config.apiUrl)
-        .get('/jobs')
+        .get(`/users/${userId}/jobs`)
         .reply(200, responses.jobs);
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_GET_JOBS,
-          resultsId: '123',
+          type: actionTypes.Types.HTTP_GET_JOBS,
         },
         {
-          type: actions.Actions.HTTP_RESP_JOBS,
+          type: actionTypes.Types.HTTP_RESP_JOBS,
           data: responses.jobs.data,
-          resultsId: '123',
+        },
+        {
+          type: joinActionTypes.Types.USER_JOBS,
+          jobIds: responses.jobs.data.map(job => job.id),
+          userId
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs({ resultsId: '123' }))
+      return store.dispatch(actions.getUserJobs({ userId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
         });
     });
+  });
 
-    it('requests jobs by user id when supplied', () => {
+  describe('getMatchingJobsForUser', () => {
+    it('should create HTTP_RESP_JOB and USER_MATCHING_JOBS on success', () => {
+      const userId = 1;
+
       nock(Config.apiUrl)
-        .get('/users/1/jobs')
+        .get(`/users/${userId}/jobs/match`)
         .reply(200, responses.jobs);
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_GET_JOBS,
-          resultsId: '123',
+          type: actionTypes.Types.HTTP_GET_JOBS,
         },
         {
-          type: actions.Actions.HTTP_RESP_JOBS,
+          type: actionTypes.Types.HTTP_RESP_JOBS,
           data: responses.jobs.data,
-          resultsId: '123',
+        },
+        {
+          type: joinActionTypes.Types.USER_MATCHING_JOBS,
+          jobIds: responses.jobs.data.map(job => job.id),
+          userId
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getJobs({ userId: 1, resultsId: '123' }))
+      return store.dispatch(actions.getMatchingJobsForUser({ userId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

@@ -1,60 +1,10 @@
 import fetch from '../../lib/fetch/fetch';
-
-export const Actions = {
-  HTTP_POST_JOB: 'HTTP_POST_JOB',
-  HTTP_RESP_JOB: 'HTTP_RESP_JOB',
-  HTTP_GET_JOB: 'HTTP_GET_JOB',
-  HTTP_PUT_JOB: 'HTTP_PUT_JOB',
-  HTTP_GET_JOBS: 'HTTP_GET_JOBS',
-  HTTP_RESP_JOBS: 'HTTP_RESP_JOBS',
-};
-
-export function httpPostJob(job) {
-  return {
-    type: Actions.HTTP_POST_JOB,
-    job,
-  };
-}
-
-export function httpRespJob(json) {
-  return {
-    type: Actions.HTTP_RESP_JOB,
-    data: json.data,
-  };
-}
-
-export function httpGetJob(id) {
-  return {
-    type: Actions.HTTP_GET_JOB,
-    id,
-  };
-}
-
-export function httpPutJob(job) {
-  return {
-    type: Actions.HTTP_PUT_JOB,
-    job,
-  };
-}
-
-export function httpGetJobs(resultsId) {
-  return {
-    type: Actions.HTTP_GET_JOBS,
-    resultsId,
-  };
-}
-
-export function httpRespJobs(json, resultsId) {
-  return {
-    type: Actions.HTTP_RESP_JOBS,
-    data: json.data,
-    resultsId,
-  };
-}
+import * as joinActions from '../../lib/reducers/join-actions';
+import * as ActionTypes from './actionTypes';
 
 export function createJob(job) {
   return (dispatch, getState) => {
-    dispatch(httpPostJob(job));
+    dispatch(ActionTypes.httpPostJob(job));
 
     return fetch(
       '/jobs',
@@ -65,7 +15,7 @@ export function createJob(job) {
       }, dispatch)
       .then(response => response.json())
       .then((json) => {
-        dispatch(httpRespJob(json));
+        dispatch(ActionTypes.httpRespJob(json));
         return json.data.id;
       });
   };
@@ -73,7 +23,7 @@ export function createJob(job) {
 
 export function getJob(id) {
   return (dispatch, getState) => {
-    dispatch(httpGetJob(id));
+    dispatch(ActionTypes.httpGetJob(id));
 
     return fetch(
       `/jobs/${id}`,
@@ -82,13 +32,13 @@ export function getJob(id) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespJob(json)));
+      .then(json => dispatch(ActionTypes.httpRespJob(json)));
   };
 }
 
 export function putJob(job) {
   return (dispatch, getState) => {
-    dispatch(httpPutJob(job));
+    dispatch(ActionTypes.httpPutJob(job));
 
     return fetch(
       `/jobs/${job.id}`,
@@ -98,29 +48,31 @@ export function putJob(job) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespJob(json)));
+      .then(json => dispatch(ActionTypes.httpRespJob(json)));
   };
 }
 
-export function getJobs(props) {
+export function getUserJobs(props) {
   return (dispatch, getState) => {
-    dispatch(httpGetJobs(props.resultsId));
-    const path = props.userId ? `/users/${props.userId}/jobs` : '/jobs';
+    dispatch(ActionTypes.httpGetJobs());
 
     return fetch(
-      path,
+      `/users/${props.userId}/jobs`,
       {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespJobs(json, props.resultsId)));
+      .then(json => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userJobs(props.userId, json));
+      });
   };
 }
 
 export function getMatchingJobsForUser(props) {
   return (dispatch, getState) => {
-    dispatch(httpGetJobs(props.resultsId));
+    dispatch(ActionTypes.httpGetJobs());
 
     return fetch(
       `/users/${props.userId}/jobs/match`,
@@ -129,6 +81,9 @@ export function getMatchingJobsForUser(props) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(httpRespJobs(json, props.resultsId)));
+      .then(json => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userMatchingJobs(props.userId, json));
+      });
   };
 }
