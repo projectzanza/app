@@ -1,41 +1,19 @@
 import React from 'react';
-import uuid from 'uuid/v4';
+import PropTypes from 'prop-types';
 import List from './components/list';
-import { getJobs, getMatchingJobsForUser } from '../actions';
-import { storeResults } from '../../../lib/store/utils';
+import Job from '../model';
 
 class ShowJobListContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
     this.state = {
-      jobs: [],
+      jobs: this.props.jobs,
     };
-    this.resultsId = uuid();
   }
 
-  componentWillMount() {
-    if (this.props.matching) {
-      this.store.dispatch(getMatchingJobsForUser({
-        userId: this.props.userId,
-        resultsId: this.resultsId,
-      }));
-    } else {
-      this.store.dispatch(getJobs({
-        userId: this.props.userId,
-        resultsId: this.resultsId,
-      }));
-    }
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ jobs: storeResults(this.store, 'jobs', this.resultsId) });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+  componentWillReceiveProps(nextProps) {
+    this.setState({ jobs: nextProps.jobs });
   }
 
   render() {
@@ -47,18 +25,14 @@ class ShowJobListContainer extends React.Component {
 }
 
 ShowJobListContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 ShowJobListContainer.propTypes = {
-  onClickJob: React.PropTypes.func.isRequired,
-  userId: React.PropTypes.string,
-  matching: React.PropTypes.bool,
-};
-
-ShowJobListContainer.defaultProps = {
-  userId: undefined,
-  matching: undefined,
+  onClickJob: PropTypes.func.isRequired,
+  jobs: PropTypes.arrayOf(
+    Job.propTypes,
+  ).isRequired,
 };
 
 export default ShowJobListContainer;

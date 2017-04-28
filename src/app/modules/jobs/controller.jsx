@@ -1,24 +1,29 @@
-import { singleItem } from '../../lib/store/utils';
-import { getJob } from './actions';
+import * as actions from './actions';
+import Job from './model';
 
 class JobController {
 
   static fetchJob(store, id) {
-    return new Promise((resolve) => {
-      const job = singleItem(store, 'jobs', id);
-      if (job) {
-        resolve(job);
-      } else {
-        store.dispatch(getJob(id)).then(() => {
-          resolve(singleItem(store, 'jobs', id));
-        });
-      }
-    });
+    return store.dispatch(actions.getJob(id));
+  }
+
+  static fetchUserJobs(store, userId) {
+    return store.dispatch(actions.getUserJobs({ userId }));
+  }
+
+  static fetchInvitedJobsForUser(store, userId) {
+    return store.dispatch(actions.getInvitedJobsForUser({ userId }));
+  }
+
+  static fetchMatchingJobsForUser(store, userId) {
+    return store.dispatch(actions.getMatchingJobsForUser({ userId }));
   }
 
   static getJob(store, id) {
-    return singleItem(store, 'jobs', id);
+    return Job.find(store, id);
   }
+
+
 }
 
 export default JobController;

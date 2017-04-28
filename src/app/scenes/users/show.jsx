@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ShowUser from '../../modules/user/Profile/container';
 
 class UserShowScene extends React.Component {
@@ -19,14 +20,14 @@ class UserShowScene extends React.Component {
 }
 
 UserShowScene.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    mode: React.PropTypes.string,
+  params: PropTypes.shape({
+    id: PropTypes.string,
+    mode: PropTypes.string,
   }).isRequired,
 };
 
 UserShowScene.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default UserShowScene;

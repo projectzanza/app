@@ -1,19 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
-import JobPropType from '../../propTypes';
+import Job from '../../model';
 
-const Job = props => (
-  <Button block onClick={e => props.onClick(e, props.job)} >
-    <dl className="dl-horizontal">
-      <dt>{ props.job.title }</dt>
-      <dd>{ props.job.text }</dd>
-    </dl>
-  </Button>
+const JobView = props => (
+  <tr>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+        { props.job.title }
+      </Button>
+    </td>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+        { props.job.text }
+      </Button>
+    </td>
+  </tr>
 );
 
-Job.propTypes = {
-  job: JobPropType.isRequired,
-  onClick: React.PropTypes.func.isRequired,
+JobView.propTypes = {
+  job: Job.propTypes.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
-export default Job;
+export default JobView;

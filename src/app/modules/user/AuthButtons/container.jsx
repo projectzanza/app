@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AuthButtons from './components/authButtons';
 import { logoutUser } from '../actions';
 import UserController from '../controller';
@@ -41,14 +42,14 @@ class AuthButtonsContainer extends React.Component {
 }
 
 AuthButtonsContainer.propTypes = {
-  onClickSignUp: React.PropTypes.func.isRequired,
-  onClickLogin: React.PropTypes.func.isRequired,
-  onClickProfile: React.PropTypes.func.isRequired,
-  onSignOut: React.PropTypes.func.isRequired,
+  onClickSignUp: PropTypes.func.isRequired,
+  onClickLogin: PropTypes.func.isRequired,
+  onClickProfile: PropTypes.func.isRequired,
+  onSignOut: PropTypes.func.isRequired,
 };
 
 AuthButtonsContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default AuthButtonsContainer;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { Panel } from 'react-bootstrap';
 import UserController from '../../modules/user/controller';
@@ -13,31 +14,31 @@ class JobShowScene extends React.Component {
     browserHistory.push(routes.user.profile(user.id));
   }
 
-  onClickInviteUser(ev, user, resultsId) {
-    ev.preventDefault();
-    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
-  }
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
     this.state = {
       user: UserController.currentUser(this.store),
+      job: JobController.getJob(this.store, props.params.id),
     };
 
     this.onClickInviteUser = this.onClickInviteUser.bind(this);
   }
 
   componentWillMount() {
-    JobController.fetchJob(this.store, this.props.params.id)
-      .then(job => this.setState({ job }));
+    JobController.fetchJob(this.store, this.props.params.id);
+    UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
+    UserController.fetchInvitedUsersForJob(this.store, this.props.params.id);
   }
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      const job = JobController.getJob(this.store, this.props.params.id);
-      if (job) {
-        this.setState({ job });
+      this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
+      if (this.state && this.state.job) {
+        this.setState({
+          matchingUsers: this.state.job.matchingUsers(this.store),
+          invitedUsers: this.state.job.invitedUsers(this.store),
+        });
       }
     });
   }
@@ -46,12 +47,18 @@ class JobShowScene extends React.Component {
     this.unsubscribe();
   }
 
+  onClickInviteUser(ev, user, resultsId) {
+    ev.preventDefault();
+    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
+  }
+
   matchingUserList() {
     if (this.state.job && this.state.job.user_id === this.state.user.id) {
       return (
         <Panel header={<h3>Matching Consultants</h3>}>
           <UserList
             jobId={this.state.job.id}
+            users={this.state.matchingUsers}
             onClickInviteUser={this.onClickInviteUser}
             onClickUser={JobShowScene.onClickUser}
             match
@@ -68,6 +75,7 @@ class JobShowScene extends React.Component {
         <Panel header={<h3>Invited Consultants</h3>}>
           <UserList
             jobId={this.state.job.id}
+            users={this.state.invitedUsers}
             onClickUser={JobShowScene.onClickUser}
             invited
           />
@@ -93,14 +101,14 @@ class JobShowScene extends React.Component {
 }
 
 JobShowScene.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    mode: React.PropTypes.string,
+  params: PropTypes.shape({
+    id: PropTypes.string,
+    mode: PropTypes.string,
   }).isRequired,
 };
 
 JobShowScene.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default JobShowScene;

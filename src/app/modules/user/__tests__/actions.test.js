@@ -2,6 +2,8 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import * as actions from '../actions';
+import * as actionTypes from '../actionTypes';
+import * as joinActionTypes from '../../../lib/reducers/join-actions';
 import * as responses from '../__mocks__/user_responses';
 import * as forms from '../__mocks__/user_forms';
 import Config from '../../../config/app';
@@ -21,11 +23,11 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_POST_AUTH,
+          type: actionTypes.Types.HTTP_POST_AUTH,
           user: forms.signup,
         },
         {
-          type: actions.Actions.HTTP_RESP_AUTH,
+          type: actionTypes.Types.HTTP_RESP_USER,
           data: responses.user.data,
         },
       ];
@@ -48,11 +50,15 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_POST_SIGNIN,
+          type: actionTypes.Types.HTTP_POST_SIGNIN,
           user: forms.signin,
         },
         {
-          type: actions.Actions.HTTP_RESP_SIGNIN,
+          type: actionTypes.Types.HTTP_RESP_USER,
+          data: responses.user.data,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_SIGNIN,
           data: responses.user.data,
         },
       ];
@@ -75,7 +81,7 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_RESP_SIGNOUT,
+          type: actionTypes.Types.HTTP_RESP_SIGNOUT,
         },
       ];
 
@@ -97,7 +103,7 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_RESP_USER,
+          type: actionTypes.Types.HTTP_RESP_USER,
           data: responses.user.data,
         },
       ];
@@ -120,7 +126,7 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_RESP_USER,
+          type: actionTypes.Types.HTTP_RESP_USER,
           data: responses.user.data,
         },
       ];
@@ -135,27 +141,31 @@ describe('userActions', () => {
     });
   });
 
-  describe('getMatchingUsers', () => {
+  describe('getMatchingUsersForJob', () => {
     it('creates HTTP_RESP_USERS on success', () => {
+      const jobId = 1;
       nock(Config.apiUrl)
-        .get('/jobs/1/users/match')
+        .get(`/jobs/${jobId}/users/match`)
         .reply(200, responses.users);
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_GET_USERS,
-          resultsId: '123',
+          type: actionTypes.Types.HTTP_GET_USERS,
         },
         {
-          type: actions.Actions.HTTP_RESP_USERS,
+          type: actionTypes.Types.HTTP_RESP_USERS,
           data: responses.users.data,
-          resultsId: '123',
+        },
+        {
+          type: joinActionTypes.Types.JOB_MATCHING_USERS,
+          userIds: responses.users.data.map(user => user.id),
+          jobId,
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsersForJob({ jobId: 1, resultsId: '123' }))
+      return store.dispatch(actions.getMatchingUsersForJob({ jobId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -164,26 +174,30 @@ describe('userActions', () => {
   });
 
   describe('getInvitedUsersForJob', () => {
-    it('creates HTTP_RESP_USERS on success', () => {
+    it('creates HTTP_RESP_USERS and on success', () => {
+      const jobId = 1;
       nock(Config.apiUrl)
-        .get('/users/invited?job_id=1')
+        .get(`/users/invited?job_id=${jobId}`)
         .reply(200, responses.users);
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_GET_USERS,
-          resultsId: '123',
+          type: actionTypes.Types.HTTP_GET_USERS,
         },
         {
-          type: actions.Actions.HTTP_RESP_USERS,
+          type: actionTypes.Types.HTTP_RESP_USERS,
           data: responses.users.data,
-          resultsId: '123',
+        },
+        {
+          type: joinActionTypes.Types.JOB_INVITED_USERS,
+          userIds: responses.users.data.map(user => user.id),
+          jobId,
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getInvitedUsersForJob({ jobId: 1, resultsId: '123' }))
+      return store.dispatch(actions.getInvitedUsersForJob({ jobId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -201,9 +215,8 @@ describe('userActions', () => {
 
       const expectedActions = [
         {
-          type: actions.Actions.HTTP_RESP_USERS,
+          type: actionTypes.Types.HTTP_RESP_USERS,
           data: responses.users.data,
-          resultsId: '123',
         },
       ];
 

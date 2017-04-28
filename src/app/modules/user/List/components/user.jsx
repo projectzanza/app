@@ -1,31 +1,38 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import UserPropTypes from '../../propTypes';
+import PropTypes from 'prop-types';
+import { tr, td, Button } from 'react-bootstrap';
+import User from '../../model';
 
-const User = props => (
-  <div>
-    <Button block onClick={e => props.onClick(e, props.user)} >
-      <dl className="dl-horizontal">
-        <dt>{ props.user.name }</dt>
-        <dd>{ props.user.email }</dd>
-      </dl>
-    </Button>
-    { props.onClickInvite &&
-      <Button onClick={e => props.onClickInvite(e, props.user)}>
-        Invite
+const View = props => (
+  <tr>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
+        { props.user.name }
       </Button>
+    </td>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
+        { props.user.email }
+      </Button>
+    </td>
+    { props.onClickInvite &&
+      <td>
+        <Button onClick={e => props.onClickInvite(e, props.user)}>
+          Invite
+        </Button>
+      </td>
     }
-  </div>
+  </tr>
 );
 
-User.propTypes = {
-  user: UserPropTypes.isRequired,
-  onClick: React.PropTypes.func.isRequired,
-  onClickInvite: React.PropTypes.func,
+View.propTypes = {
+  user: User.propTypes.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onClickInvite: PropTypes.func,
 };
 
-User.defaultProps = {
+View.defaultProps = {
   onClickInvite: undefined,
 };
 
-export default User;
+export default View;

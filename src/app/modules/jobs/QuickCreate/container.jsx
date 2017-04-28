@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import QuickCreateJob from './components/form';
 import { createJob } from '../actions';
-import { singleItem } from '../../../lib/store/utils';
+import Job from '../model';
 
 class QuickCreateJobContainer extends React.Component {
 
@@ -15,7 +16,7 @@ class QuickCreateJobContainer extends React.Component {
     const { store } = this.context;
     store.dispatch(createJob(form))
       .then((id) => {
-        this.props.onSubmitSuccess(singleItem(store, 'jobs', id));
+        this.props.onSubmitSuccess(Job.find(store, id));
       });
   }
 
@@ -27,11 +28,11 @@ class QuickCreateJobContainer extends React.Component {
 }
 
 QuickCreateJobContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 QuickCreateJobContainer.propTypes = {
-  onSubmitSuccess: React.PropTypes.func.isRequired,
+  onSubmitSuccess: PropTypes.func.isRequired,
 };
 
 export default QuickCreateJobContainer;

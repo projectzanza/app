@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedDate } from 'react-intl';
 import {
   FormGroup,
   Button,
 } from 'react-bootstrap';
 import TagInput from '../../../../components/TagInput/container';
-import JobPropTypes from '../../propTypes';
+import Job from '../../model';
 
 const View = props => (
   <div>
@@ -32,20 +33,20 @@ const View = props => (
     </dl>
     <FormGroup>
       { props.showEdit &&
-        <Button
-          bsStyle="primary"
-          onClick={() => props.onEdit(props.job)}
-        > Edit
-        </Button>
+      <Button
+        bsStyle="primary"
+        onClick={() => props.onEdit(props.job)}
+      > Edit
+      </Button>
       }
     </FormGroup>
   </div>
 );
 
 View.propTypes = {
-  job: JobPropTypes.isRequired,
-  showEdit: React.PropTypes.bool,
-  onEdit: React.PropTypes.func.isRequired,
+  job: Job.propTypes.isRequired,
+  showEdit: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
 };
 
 View.defaultProps = {

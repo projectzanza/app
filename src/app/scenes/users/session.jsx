@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import routes from '../routes';
 import UserController from '../../modules/user/controller';
@@ -26,11 +27,11 @@ class UserSession extends React.Component {
 }
 
 UserSession.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 UserSession.propTypes = {
-  children: React.PropTypes.node,
+  children: PropTypes.node,
 };
 
 UserSession.getDefaultProps = {

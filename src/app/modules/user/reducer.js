@@ -1,155 +1,43 @@
-import { Actions } from './actions';
-import { overrideNull } from '../../lib/reducers/utils';
+import { Types as ActionTypes } from './actionTypes';
+import { createEntityEntries } from '../../lib/reducers/utils';
+import User from './model';
 
-export const userInitialState = {
-  name: '',
-  bio: '',
-  tag_list: '',
-  per_diem: { min: 0, max: 1000 },
-};
-
-export const reducerInitialState = {
-  items: {},
+export const initialState = {
+  entities: {},
   currentUser: undefined,
-  results: {},
 };
 
-export default function userReducer(state = reducerInitialState, action) {
-  let nextState;
-  let resultState;
-  let user;
-  let users;
-
+export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case Actions.HTTP_POST_AUTH:
-    case Actions.HTTP_POST_SIGNIN:
+    case ActionTypes.HTTP_POST_AUTH:
+    case ActionTypes.HTTP_POST_SIGNIN:
       return state;
 
-    case Actions.HTTP_RESP_AUTH:
-      user = Object.assign(
-        {},
-        userInitialState,
-        overrideNull(userInitialState, action.data),
-      );
-
-      nextState = Object.assign(
-        {},
-        state.items,
-        { [action.data.id]: user },
-      );
-
+    case ActionTypes.HTTP_RESP_AUTH:
       return Object.assign(
-        {},
         state,
-        {
-          items: nextState,
-          currentUser: undefined,
-        },
+        { currentUser: undefined },
       );
 
-    case Actions.HTTP_RESP_SIGNIN:
-      user = Object.assign(
-        {},
-        userInitialState,
-        overrideNull(userInitialState, action.data),
-      );
-
-      nextState = Object.assign(
-        {},
-        state.items,
-        { [action.data.id]: user },
-      );
-
+    case ActionTypes.HTTP_RESP_SIGNIN:
       return Object.assign(
-        {},
         state,
-        {
-          items: nextState,
-          currentUser: action.data.id,
-        },
+        { currentUser: action.data.id },
       );
 
-    case Actions.HTTP_RESP_SIGNOUT:
-      user = Object.assign(
-        {},
-        state.items[state.currentUser],
-      );
-
-      nextState = Object.assign(
-        {},
-        state.items,
-        { [state.currentUser]: user },
-      );
-
+    case ActionTypes.HTTP_RESP_SIGNOUT:
       return Object.assign(
-        {},
         state,
-        {
-          items: nextState,
-          currentUser: undefined,
-        },
+        { currentUser: undefined },
       );
 
-    case Actions.HTTP_RESP_USER:
-      user = Object.assign(
-        {},
-        state.items[action.data.id],
-        overrideNull(userInitialState, action.data),
-      );
+    case ActionTypes.HTTP_RESP_USER:
+      return createEntityEntries(state, [new User(action.data)]);
 
-      nextState = Object.assign(
-        {},
-        state.items,
-        { [action.data.id]: user },
-      );
-
-      return Object.assign(
-        {},
+    case ActionTypes.HTTP_RESP_USERS:
+      return createEntityEntries(
         state,
-        { items: nextState },
-      );
-
-    case Actions.HTTP_GET_USERS:
-      nextState = Object.assign(
-        {},
-        state.results,
-        { [action.resultsId]: [] },
-      );
-
-      return Object.assign(
-        {},
-        state,
-        { results: nextState },
-      );
-
-    case Actions.HTTP_RESP_USERS:
-      users = action.data.reduce((userList, userJson) =>
-        (
-          Object.assign(
-            userList,
-            { [userJson.id]: overrideNull(userInitialState, userJson) },
-          )
-        ), {});
-
-      nextState = Object.assign(
-        {},
-        state.items,
-        users,
-      );
-
-      resultState = Object.assign(
-        {},
-        state.results,
-        { [action.resultsId]: Object.keys(users) },
-      );
-
-      return Object.assign(
-        {},
-        state,
-        {
-          items: nextState,
-          results: resultState,
-        },
+        action.data.map(userJson => new User(userJson)),
       );
 
     default:

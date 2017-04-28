@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Edit from './components/edit';
 import View from './components/view';
 import { getUser, putUser } from '../actions';
-import { singleItem } from '../../../lib/store/utils';
 import UserController from '../controller';
+import User from '../model';
 
 class ProfileContainer extends React.Component {
   constructor(props, context) {
@@ -25,7 +26,7 @@ class ProfileContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: singleItem(this.store, 'user', this.props.id) });
+      this.setState({ user: User.find(this.store, this.props.id) });
     });
   }
 
@@ -57,7 +58,7 @@ class ProfileContainer extends React.Component {
   }
 
   setUser(id) {
-    const user = singleItem(this.store, 'user', id);
+    const user = User.find(this.store, id);
     if (user) {
       this.setState({ user });
     } else {
@@ -86,8 +87,8 @@ class ProfileContainer extends React.Component {
 }
 
 ProfileContainer.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string,
+  id: PropTypes.string.isRequired,
+  mode: PropTypes.string,
 };
 
 ProfileContainer.defaultProps = {
@@ -95,7 +96,7 @@ ProfileContainer.defaultProps = {
 };
 
 ProfileContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default ProfileContainer;

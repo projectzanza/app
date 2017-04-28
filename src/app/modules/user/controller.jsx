@@ -1,10 +1,11 @@
-import { inviteToJob } from './actions';
+import { inviteToJob, getMatchingUsersForJob, getInvitedUsersForJob } from './actions';
+import User from './model';
 
 class UserController {
   static currentUser(store) {
     const { user } = store.getState();
     if (user.currentUser) {
-      return user.items[user.currentUser];
+      return User.find(store, user.currentUser);
     }
     return undefined;
   }
@@ -21,6 +22,14 @@ class UserController {
         resultsId,
       }),
     );
+  }
+
+  static fetchMatchingUsersForJob(store, jobId) {
+    return store.dispatch(getMatchingUsersForJob({ jobId }));
+  }
+
+  static fetchInvitedUsersForJob(store, jobId) {
+    return store.dispatch(getInvitedUsersForJob({ jobId }));
   }
 }
 

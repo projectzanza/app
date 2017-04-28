@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   ControlLabel,
@@ -10,7 +11,7 @@ import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import DatePicker from 'react-bootstrap-date-picker';
 import TagInput from '../../../../components/TagInput/container';
-import JobPropTypes from '../../propTypes';
+import Job from '../../model';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -132,9 +133,9 @@ class Edit extends React.Component {
 }
 
 Edit.propTypes = {
-  job: JobPropTypes.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
-  onCancel: React.PropTypes.func.isRequired,
+  job: Job.propTypes.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default Edit;

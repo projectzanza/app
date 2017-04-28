@@ -1,12 +1,24 @@
-export const storeResults = (store, bucketName, resultId) => {
+export const getEntity = (store, bucketName, entityId) => {
   const bucket = store.getState()[bucketName];
-  if (bucket.results[resultId]) {
-    return bucket.results[resultId].map(key => bucket.items[key]);
+  if (entityId in bucket.entities) {
+    return bucket.entities[entityId];
   }
-  return [];
+  return undefined;
 };
 
-export const singleItem = (store, bucketName, itemId) => {
-  const bucket = store.getState()[bucketName];
-  return bucket.items[itemId];
+// props.store
+// props.primaryKey
+// props.joinTable
+// props.entityTable
+export const getJoinEntities = (props) => {
+  const joinTableState = props.store.getState()[props.joinTable];
+  const entityTableState = props.store.getState()[props.entityTable];
+
+  if (joinTableState && props.primaryKey in joinTableState.entities) {
+    const entityIds = joinTableState.entities[props.primaryKey];
+    if (entityIds) {
+      return entityIds.map(entityId => entityTableState.entities[entityId]);
+    }
+  }
+  return [];
 };

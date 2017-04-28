@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import UserController from '../controller';
 
 class SessionContainer extends React.Component {
@@ -23,12 +24,12 @@ class SessionContainer extends React.Component {
 }
 
 SessionContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 SessionContainer.propTypes = {
-  onAuthError: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
+  onAuthError: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 SessionContainer.getDefaultProps = {
   children: null,

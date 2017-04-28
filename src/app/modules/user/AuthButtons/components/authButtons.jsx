@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ButtonToolbar,
   Button,
 } from 'react-bootstrap';
-import UserPropTypes from '../../propTypes';
+import User from '../../model';
 
 class AuthButtons extends React.Component {
 
@@ -36,11 +37,11 @@ class AuthButtons extends React.Component {
 }
 
 AuthButtons.propTypes = {
-  onClickLogin: React.PropTypes.func.isRequired,
-  onClickSignOut: React.PropTypes.func.isRequired,
-  onClickSignUp: React.PropTypes.func.isRequired,
-  onClickProfile: React.PropTypes.func.isRequired,
-  user: UserPropTypes,
+  onClickLogin: PropTypes.func.isRequired,
+  onClickSignOut: PropTypes.func.isRequired,
+  onClickSignUp: PropTypes.func.isRequired,
+  onClickProfile: PropTypes.func.isRequired,
+  user: User.propTypes,
 };
 
 AuthButtons.defaultProps = {

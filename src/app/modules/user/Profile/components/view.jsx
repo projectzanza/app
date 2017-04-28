@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   Button,
 } from 'react-bootstrap';
-import UserPropTypes from '../../propTypes';
+import User from '../../model';
 import TagInput from '../../../../components/TagInput/container';
 
 const View = props => (
@@ -35,9 +36,9 @@ const View = props => (
 );
 
 View.propTypes = {
-  user: UserPropTypes.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
-  showEdit: React.PropTypes.bool,
+  user: User.propTypes.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  showEdit: PropTypes.bool,
 };
 
 View.defaultProps = {

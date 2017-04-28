@@ -1,11 +1,13 @@
 import React from 'react';
-import Job from './job';
-import JobPropType from '../../propTypes';
+import PropTypes from 'prop-types';
+import { Table } from 'react-bootstrap';
+import JobComponent from './job';
+import Job from '../../model';
 
 class List extends React.Component {
 
   listItems() {
-    return this.props.jobs.map(job => <Job
+    return this.props.jobs.map(job => <JobComponent
       key={job.id}
       job={job}
       onClick={this.props.onClickJob}
@@ -14,18 +16,20 @@ class List extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.listItems()}
-      </div>
+      <Table striped bordered condensed hover>
+        <tbody>
+          {this.listItems()}
+        </tbody>
+      </Table>
     );
   }
 }
 
 List.propTypes = {
-  jobs: React.PropTypes.arrayOf(
-    JobPropType,
+  jobs: PropTypes.arrayOf(
+    Job.propTypes,
   ).isRequired,
-  onClickJob: React.PropTypes.func.isRequired,
+  onClickJob: PropTypes.func.isRequired,
 };
 
 export default List;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DashboardContainer = props => (
   <div>
@@ -7,7 +8,7 @@ const DashboardContainer = props => (
 );
 
 DashboardContainer.propTypes = {
-  children: React.PropTypes.node,
+  children: PropTypes.node,
 };
 
 DashboardContainer.defaultProps = {

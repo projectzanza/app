@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   ControlLabel,
@@ -8,7 +9,7 @@ import {
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import TagInput from '../../../../components/TagInput/container';
-import UserPropTypes from '../../propTypes';
+import User from '../../model';
 
 class Edit extends React.Component {
   constructor(props, context) {
@@ -90,9 +91,9 @@ class Edit extends React.Component {
 }
 
 Edit.propTypes = {
-  user: UserPropTypes.isRequired,
-  onCancel: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
+  user: User.propTypes.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Edit;
