@@ -3,6 +3,7 @@ import user from './modules/user/reducer';
 import jobs from './modules/jobs/reducer';
 import headers from './lib/fetch/reducers';
 import { userMatchingJobs, jobMatchingUsers } from './lib/reducers/user-matching-jobs';
+import { jobInvitedUsers, userInvitedJobs } from './lib/reducers/user-invited-jobs';
 import { userJobs } from './lib/reducers/user-jobs';
 
 function app(state = {}) {
@@ -17,4 +18,6 @@ export default combineReducers({
   userJobs,
   userMatchingJobs,
   jobMatchingUsers,
+  jobInvitedUsers,
+  userInvitedJobs,
 });

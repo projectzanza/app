@@ -1,11 +1,11 @@
 import React from 'react';
-import Job from './job';
-import JobPropType from '../../propTypes';
+import JobComponent from './job';
+import Job from '../../model';
 
 class List extends React.Component {
 
   listItems() {
-    return this.props.jobs.map(job => <Job
+    return this.props.jobs.map(job => <JobComponent
       key={job.id}
       job={job}
       onClick={this.props.onClickJob}
@@ -23,7 +23,7 @@ class List extends React.Component {
 
 List.propTypes = {
   jobs: React.PropTypes.arrayOf(
-    JobPropType,
+    Job.propTypes,
   ).isRequired,
   onClickJob: React.PropTypes.func.isRequired,
 };

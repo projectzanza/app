@@ -14,9 +14,7 @@ export function overrideNull(initialState, state) {
 // data - array of entities
 export const createEntityEntries = (state, data) => {
   const newEntities = data.reduce(
-    (entities, entity) => (
-      Object.assign(entities, { [entity.id]: entity })
-    ),
+    (entities, entity) => Object.assign(entities, { [entity.id]: entity }),
     {},
   );
 

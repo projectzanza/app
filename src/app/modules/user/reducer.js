@@ -1,5 +1,6 @@
 import { Types as ActionTypes } from './actionTypes';
 import { createEntityEntries } from '../../lib/reducers/utils';
+import User from './model';
 
 export const initialState = {
   entities: {},
@@ -31,10 +32,13 @@ export default function userReducer(state = initialState, action) {
       );
 
     case ActionTypes.HTTP_RESP_USER:
-      return createEntityEntries(state, [action.data]);
+      return createEntityEntries(state, [new User(action.data)]);
 
     case ActionTypes.HTTP_RESP_USERS:
-      return createEntityEntries(state, action.data);
+      return createEntityEntries(
+        state,
+        action.data.map(userJson => new User(userJson)),
+      );
 
     default:
       return state;

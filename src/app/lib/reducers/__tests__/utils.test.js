@@ -1,9 +1,9 @@
 import { createEntityEntries, updateJoinTableState } from '../utils';
 
 describe('utils', () => {
-  let state = undefined;
+  let state;
   beforeEach(() => {
-    state = { entities: {} }
+    state = { entities: {} };
   });
 
   describe('createEntityEntries', () => {
@@ -18,8 +18,8 @@ describe('utils', () => {
 
   describe('updateJoinTableState', () => {
     it('should add the primary key as an attribute of entities, which holds an array of foreign keys', () => {
-      let pk = 1;
-      let fks = [1, 2, 3];
+      const pk = 1;
+      const fks = [1, 2, 3];
       state = updateJoinTableState(state, pk, fks);
 
       expect(state.entities[pk]).toEqual(fks);

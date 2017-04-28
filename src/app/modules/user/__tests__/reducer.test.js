@@ -50,7 +50,7 @@ describe('user reducer', () => {
 
   describe('HTTP_RESP_USERS', () => {
     it('should add the users to the items list', () => {
-      const action = actionTypes.httpRespUsers(responses.users, '123');
+      const action = actionTypes.httpRespUsers(responses.users);
       const state = reducer(undefined, action);
 
       expect(Object.keys(state.entities).length).toEqual(responses.users.data.length);

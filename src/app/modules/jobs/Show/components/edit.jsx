@@ -10,7 +10,7 @@ import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import DatePicker from 'react-bootstrap-date-picker';
 import TagInput from '../../../../components/TagInput/container';
-import JobPropTypes from '../../propTypes';
+import Job from '../../model';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -132,7 +132,7 @@ class Edit extends React.Component {
 }
 
 Edit.propTypes = {
-  job: JobPropTypes.isRequired,
+  job: Job.propTypes.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
   onCancel: React.PropTypes.func.isRequired,
 };

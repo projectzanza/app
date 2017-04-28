@@ -81,7 +81,7 @@ export function putUser(user) {
 
 export function getMatchingUsersForJob(props) {
   return (dispatch, getState) => {
-    dispatch(ActionTypes.httpGetUsers(props.resultsId));
+    dispatch(ActionTypes.httpGetUsers());
 
     return fetch(
       `/jobs/${props.jobId}/users/match`,
@@ -100,7 +100,7 @@ export function getMatchingUsersForJob(props) {
 
 export function getInvitedUsersForJob(props) {
   return (dispatch, getState) => {
-    dispatch(ActionTypes.httpGetUsers(props.resultsId));
+    dispatch(ActionTypes.httpGetUsers());
 
     return fetch(
       '/users/invited',
@@ -130,6 +130,7 @@ export function inviteToJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
+        dispatch(joinActionTypes.jobInvitedUsers(props.jobId, json));
       },
     );
 }

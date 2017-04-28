@@ -5,7 +5,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import TagInput from '../../../../components/TagInput/container';
-import JobPropTypes from '../../propTypes';
+import Job from '../../model';
 
 const View = props => (
   <div>
@@ -32,18 +32,18 @@ const View = props => (
     </dl>
     <FormGroup>
       { props.showEdit &&
-        <Button
-          bsStyle="primary"
-          onClick={() => props.onEdit(props.job)}
-        > Edit
-        </Button>
+      <Button
+        bsStyle="primary"
+        onClick={() => props.onEdit(props.job)}
+      > Edit
+      </Button>
       }
     </FormGroup>
   </div>
 );
 
 View.propTypes = {
-  job: JobPropTypes.isRequired,
+  job: Job.propTypes.isRequired,
   showEdit: React.PropTypes.bool,
   onEdit: React.PropTypes.func.isRequired,
 };

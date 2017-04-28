@@ -3,6 +3,7 @@ export const Types = {
   USER_MATCHING_JOBS: 'USER_MATCHING_JOBS',
   JOB_MATCHING_USERS: 'JOB_MATCHING_USERS',
   JOB_INVITED_USERS: 'JOB_INVITED_USERS',
+  USER_INVITED_JOBS: 'USER_INVITED_JOBS',
 };
 
 export const userMatchingJobs = (userId, jobJson) => ({

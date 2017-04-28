@@ -2,8 +2,7 @@ import React from 'react';
 import Edit from './components/edit';
 import View from './components/view';
 import { putJob } from '../actions';
-import JobPropTypes from '../propTypes';
-import { initialState } from '../reducer';
+import Job from '../model';
 
 class ShowJobContainer extends React.Component {
   constructor(props, context) {
@@ -61,7 +60,7 @@ class ShowJobContainer extends React.Component {
 }
 
 ShowJobContainer.propTypes = {
-  job: JobPropTypes,
+  job: Job.propTypes,
   mode: React.PropTypes.string,
   currentUser: React.PropTypes.shape({
     id: React.PropTypes.string,
@@ -71,7 +70,7 @@ ShowJobContainer.propTypes = {
 ShowJobContainer.defaultProps = {
   matchingUserListScene: undefined,
   mode: 'view',
-  job: initialState,
+  job: new Job(),
 };
 
 ShowJobContainer.contextTypes = {

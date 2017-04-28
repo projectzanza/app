@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import UserPropTypes from '../../propTypes';
+import User from '../../model';
 
-const User = props => (
+const View = props => (
   <div>
     <Button block onClick={e => props.onClick(e, props.user)} >
       <dl className="dl-horizontal">
@@ -18,14 +18,14 @@ const User = props => (
   </div>
 );
 
-User.propTypes = {
-  user: UserPropTypes.isRequired,
+View.propTypes = {
+  user: User.propTypes.isRequired,
   onClick: React.PropTypes.func.isRequired,
   onClickInvite: React.PropTypes.func,
 };
 
-User.defaultProps = {
+View.defaultProps = {
   onClickInvite: undefined,
 };
 
-export default User;
+export default View;

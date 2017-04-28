@@ -2,8 +2,8 @@ import React from 'react';
 import Edit from './components/edit';
 import View from './components/view';
 import { getUser, putUser } from '../actions';
-import { getEntity } from '../../../lib/store/utils';
 import UserController from '../controller';
+import User from '../model';
 
 class ProfileContainer extends React.Component {
   constructor(props, context) {
@@ -25,7 +25,7 @@ class ProfileContainer extends React.Component {
 
   componentDidMount() {
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: getEntity(this.store, 'user', this.props.id) });
+      this.setState({ user: User.find(this.store, this.props.id) });
     });
   }
 
@@ -57,7 +57,7 @@ class ProfileContainer extends React.Component {
   }
 
   setUser(id) {
-    const user = getEntity(this.store, 'user', id);
+    const user = User.find(this.store, id);
     if (user) {
       this.setState({ user });
     } else {
