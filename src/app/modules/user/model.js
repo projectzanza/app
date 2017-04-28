@@ -6,7 +6,7 @@ export default class User extends Model {
   jobs(store) {
     return getJoinEntities({
       store,
-      primaryKey: this.props.userId,
+      primaryKey: this.id,
       joinTable: 'userJobs',
       entityTable: 'jobs' });
   }
@@ -16,6 +16,15 @@ export default class User extends Model {
       store,
       primaryKey: this.id,
       joinTable: 'userMatchingJobs',
+      entityTable: 'jobs',
+    });
+  }
+
+  invitedToJobs(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userInvitedJobs',
       entityTable: 'jobs',
     });
   }

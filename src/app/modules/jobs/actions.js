@@ -87,3 +87,21 @@ export function getMatchingJobsForUser(props) {
       });
   };
 }
+
+export function getInvitedJobsForUser(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJobs());
+
+    return fetch(
+      `/users/${props.userId}/jobs/invited`,
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userInvitedJobs(props.userId, json));
+      });
+  };
+}

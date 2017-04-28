@@ -29,3 +29,9 @@ export const jobInvitedUsers = (jobId, userJson) => ({
   userIds: userJson.data.map(user => user.id),
   jobId,
 });
+
+export const userInvitedJobs = (userId, jobJson) => ({
+  type: Types.USER_INVITED_JOBS,
+  jobIds: jobJson.data.map(job => job.id),
+  userId,
+});

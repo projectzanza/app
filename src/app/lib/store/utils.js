@@ -16,7 +16,9 @@ export const getJoinEntities = (props) => {
 
   if (joinTableState && props.primaryKey in joinTableState.entities) {
     const entityIds = joinTableState.entities[props.primaryKey];
-    return entityIds.map(entityId => entityTableState.entities[entityId]);
+    if (entityIds) {
+      return entityIds.map(entityId => entityTableState.entities[entityId]);
+    }
   }
   return [];
 };
