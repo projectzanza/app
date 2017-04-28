@@ -178,4 +178,37 @@ describe('jobActions', () => {
         });
     });
   });
+
+  describe('getInvitedJobsForuser', () => {
+    it('should create HTTP_RESP_JOB and USER_MATCHING_JOBS on success', () => {
+      const userId = 1;
+
+      nock(Config.apiUrl)
+        .get(`/users/${userId}/jobs/invited`)
+        .reply(200, responses.jobs);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_GET_JOBS,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_JOBS,
+          data: responses.jobs.data,
+        },
+        {
+          type: joinActionTypes.Types.USER_INVITED_JOBS,
+          jobIds: responses.jobs.data.map(job => job.id),
+          userId,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getInvitedJobsForUser({ userId }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
 });

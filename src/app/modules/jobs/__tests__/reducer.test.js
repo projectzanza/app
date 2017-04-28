@@ -10,7 +10,7 @@ describe('job reducer', () => {
   });
 
   describe('HTTP_RESP_JOB', () => {
-    it.only('should add the job to the list of entities', () => {
+    it('should add the job to the list of entities', () => {
       const action = actionTypes.httpRespJob(responses.job);
 
       const state = reducer(undefined, action);
