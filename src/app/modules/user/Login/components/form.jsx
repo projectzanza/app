@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   ControlLabel,
@@ -51,7 +52,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Login;

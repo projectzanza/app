@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LoginForm from './components/form';
 import { loginUser } from '../actions';
 
@@ -23,11 +24,11 @@ class LoginContainer extends React.Component {
 }
 
 LoginContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 LoginContainer.propTypes = {
-  onLoginSuccess: React.PropTypes.func.isRequired,
+  onLoginSuccess: PropTypes.func.isRequired,
 };
 
 export default LoginContainer;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Grid,
   Row,
@@ -26,8 +27,8 @@ const Header = props =>
   </div>;
 
 Header.propTypes = {
-  authButtons: React.PropTypes.node.isRequired,
-  onClickTitle: React.PropTypes.func.isRequired,
+  authButtons: PropTypes.node.isRequired,
+  onClickTitle: PropTypes.func.isRequired,
 };
 
 export default Header;

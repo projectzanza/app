@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SignUp from './components/form';
 import { createUser } from '../actions';
 
@@ -23,11 +24,11 @@ class RegisterContainer extends React.Component {
 }
 
 RegisterContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 RegisterContainer.propTypes = {
-  onSignUpSuccess: React.PropTypes.func.isRequired,
+  onSignUpSuccess: PropTypes.func.isRequired,
 };
 
 export default RegisterContainer;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
 import routes from '../routes';
@@ -88,7 +89,7 @@ class DashboardScene extends React.Component {
 }
 
 DashboardScene.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default DashboardScene;

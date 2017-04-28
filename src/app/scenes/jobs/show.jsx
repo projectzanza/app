@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import { Panel } from 'react-bootstrap';
 import UserController from '../../modules/user/controller';
@@ -100,14 +101,14 @@ class JobShowScene extends React.Component {
 }
 
 JobShowScene.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    mode: React.PropTypes.string,
+  params: PropTypes.shape({
+    id: PropTypes.string,
+    mode: PropTypes.string,
   }).isRequired,
 };
 
 JobShowScene.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default JobShowScene;

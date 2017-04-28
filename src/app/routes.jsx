@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route, Router, browserHistory } from 'react-router';
 import App from './scenes/app';
 import UserSession from './scenes/users/session';
@@ -32,7 +33,7 @@ class Routes extends React.Component {
 }
 
 Routes.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default Routes;

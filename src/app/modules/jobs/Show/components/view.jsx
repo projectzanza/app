@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedDate } from 'react-intl';
 import {
   FormGroup,
@@ -44,8 +45,8 @@ const View = props => (
 
 View.propTypes = {
   job: Job.propTypes.isRequired,
-  showEdit: React.PropTypes.bool,
-  onEdit: React.PropTypes.func.isRequired,
+  showEdit: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
 };
 
 View.defaultProps = {

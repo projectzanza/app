@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Edit from './components/edit';
 import View from './components/view';
 import { putJob } from '../actions';
@@ -61,9 +62,9 @@ class ShowJobContainer extends React.Component {
 
 ShowJobContainer.propTypes = {
   job: Job.propTypes,
-  mode: React.PropTypes.string,
-  currentUser: React.PropTypes.shape({
-    id: React.PropTypes.string,
+  mode: PropTypes.string,
+  currentUser: PropTypes.shape({
+    id: PropTypes.string,
   }).isRequired,
 };
 
@@ -74,7 +75,7 @@ ShowJobContainer.defaultProps = {
 };
 
 ShowJobContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default ShowJobContainer;

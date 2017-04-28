@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import Model from '../../lib/store/model';
 import { getJoinEntities } from '../../lib/store/utils';
 
@@ -31,17 +31,17 @@ Job.defaults = {
   proposed_end_at: proposed_end_at => proposed_end_at || 0, // eslint-disable-line camelcase
 };
 
-Job.propTypes = React.PropTypes.shape({
-  title: React.PropTypes.string,
-  text: React.PropTypes.string,
-  tag_list: React.PropTypes.arrayOf(
-      React.PropTypes.string,
+Job.propTypes = PropTypes.shape({
+  title: PropTypes.string,
+  text: PropTypes.string,
+  tag_list: PropTypes.arrayOf(
+      PropTypes.string,
     ),
-  per_diem: React.PropTypes.shape({
-    min: React.PropTypes.int,
-    max: React.PropTypes.int,
+  per_diem: PropTypes.shape({
+    min: PropTypes.int,
+    max: PropTypes.int,
   }),
-  matchingUsers: React.PropTypes.func,
+  matchingUsers: PropTypes.func,
 });
 
 Job.table = 'jobs';

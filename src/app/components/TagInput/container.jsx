@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Edit from './components/edit';
 import View from './components/view';
 import TagListPropTypes from './propTypes';
@@ -17,8 +18,8 @@ const TagInput = (props) => {
 
 TagInput.propTypes = {
   value: TagListPropTypes.isRequired,
-  onChange: React.PropTypes.func,
-  mode: React.PropTypes.string,
+  onChange: PropTypes.func,
+  mode: PropTypes.string,
 };
 
 TagInput.defaultProps = {

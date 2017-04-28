@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ButtonToolbar,
   Button,
@@ -36,10 +37,10 @@ class AuthButtons extends React.Component {
 }
 
 AuthButtons.propTypes = {
-  onClickLogin: React.PropTypes.func.isRequired,
-  onClickSignOut: React.PropTypes.func.isRequired,
-  onClickSignUp: React.PropTypes.func.isRequired,
-  onClickProfile: React.PropTypes.func.isRequired,
+  onClickLogin: PropTypes.func.isRequired,
+  onClickSignOut: PropTypes.func.isRequired,
+  onClickSignUp: PropTypes.func.isRequired,
+  onClickProfile: PropTypes.func.isRequired,
   user: User.propTypes,
 };
 

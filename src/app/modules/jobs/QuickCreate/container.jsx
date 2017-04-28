@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import QuickCreateJob from './components/form';
 import { createJob } from '../actions';
 import Job from '../model';
@@ -27,11 +28,11 @@ class QuickCreateJobContainer extends React.Component {
 }
 
 QuickCreateJobContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 QuickCreateJobContainer.propTypes = {
-  onSubmitSuccess: React.PropTypes.func.isRequired,
+  onSubmitSuccess: PropTypes.func.isRequired,
 };
 
 export default QuickCreateJobContainer;

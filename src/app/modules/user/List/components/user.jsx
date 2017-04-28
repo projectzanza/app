@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { tr, td, Button } from 'react-bootstrap';
 import User from '../../model';
 
@@ -26,8 +27,8 @@ const View = props => (
 
 View.propTypes = {
   user: User.propTypes.isRequired,
-  onClick: React.PropTypes.func.isRequired,
-  onClickInvite: React.PropTypes.func,
+  onClick: PropTypes.func.isRequired,
+  onClickInvite: PropTypes.func,
 };
 
 View.defaultProps = {

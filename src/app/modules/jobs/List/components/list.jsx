@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import JobComponent from './job';
 import Job from '../../model';
@@ -25,10 +26,10 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  jobs: React.PropTypes.arrayOf(
+  jobs: PropTypes.arrayOf(
     Job.propTypes,
   ).isRequired,
-  onClickJob: React.PropTypes.func.isRequired,
+  onClickJob: PropTypes.func.isRequired,
 };
 
 export default List;

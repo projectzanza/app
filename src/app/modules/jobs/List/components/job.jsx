@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Job from '../../model';
 
@@ -19,7 +20,7 @@ const JobView = props => (
 
 JobView.propTypes = {
   job: Job.propTypes.isRequired,
-  onClick: React.PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default JobView;

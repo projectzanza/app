@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   Button,
@@ -36,8 +37,8 @@ const View = props => (
 
 View.propTypes = {
   user: User.propTypes.isRequired,
-  onEdit: React.PropTypes.func.isRequired,
-  showEdit: React.PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
+  showEdit: PropTypes.bool,
 };
 
 View.defaultProps = {

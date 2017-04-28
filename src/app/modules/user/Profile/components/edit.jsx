@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   ControlLabel,
@@ -91,8 +92,8 @@ class Edit extends React.Component {
 
 Edit.propTypes = {
   user: User.propTypes.isRequired,
-  onCancel: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Edit;

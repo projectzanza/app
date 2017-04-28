@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import { getJoinEntities } from '../../lib/store/utils';
 import Model from '../../lib/store/model';
 
@@ -36,15 +36,15 @@ User.defaults = {
 };
 
 User.propTypes =
-  React.PropTypes.shape({
-    name: React.PropTypes.string,
-    bio: React.PropTypes.string,
-    tag_list: React.PropTypes.arrayOf(
-      React.PropTypes.string,
+  PropTypes.shape({
+    name: PropTypes.string,
+    bio: PropTypes.string,
+    tag_list: PropTypes.arrayOf(
+      PropTypes.string,
     ),
-    per_diem: React.PropTypes.shape({
-      min: React.PropTypes.int,
-      max: React.PropTypes.int,
+    per_diem: PropTypes.shape({
+      min: PropTypes.int,
+      max: PropTypes.int,
     }),
   });
 

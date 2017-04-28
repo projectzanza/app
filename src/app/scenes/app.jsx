@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { IntlProvider } from 'react-intl';
 import { browserHistory } from 'react-router';
 import HeaderContainer from '../modules/header/container';
@@ -56,7 +57,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: React.PropTypes.node,
+  children: PropTypes.node,
 };
 App.getDefaultProps = {
   children: null,

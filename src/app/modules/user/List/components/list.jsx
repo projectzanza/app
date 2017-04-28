@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import UserView from './user';
 import User from '../../model';
@@ -26,11 +27,11 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  users: React.PropTypes.arrayOf(
+  users: PropTypes.arrayOf(
     User.propTypes,
   ).isRequired,
-  onClickInviteUser: React.PropTypes.func,
-  onClickUser: React.PropTypes.func.isRequired,
+  onClickInviteUser: PropTypes.func,
+  onClickUser: PropTypes.func.isRequired,
 };
 
 List.defaultProps = {

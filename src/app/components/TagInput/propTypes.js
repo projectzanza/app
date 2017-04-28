@@ -1,8 +1,8 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const TagListPropTypes =
-  React.PropTypes.arrayOf(
-    React.PropTypes.string,
+  PropTypes.arrayOf(
+    PropTypes.string,
   );
 
 export default TagListPropTypes;

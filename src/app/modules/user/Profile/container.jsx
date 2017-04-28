@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Edit from './components/edit';
 import View from './components/view';
 import { getUser, putUser } from '../actions';
@@ -86,8 +87,8 @@ class ProfileContainer extends React.Component {
 }
 
 ProfileContainer.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  mode: React.PropTypes.string,
+  id: PropTypes.string.isRequired,
+  mode: PropTypes.string,
 };
 
 ProfileContainer.defaultProps = {
@@ -95,7 +96,7 @@ ProfileContainer.defaultProps = {
 };
 
 ProfileContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 export default ProfileContainer;

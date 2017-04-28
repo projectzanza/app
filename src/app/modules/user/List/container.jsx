@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List from './components/list';
 import User from '../model';
 
@@ -27,15 +28,15 @@ class ListContainer extends React.Component {
 }
 
 ListContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 ListContainer.propTypes = {
-  users: React.PropTypes.arrayOf(
+  users: PropTypes.arrayOf(
     User.propTypes,
   ),
-  onClickUser: React.PropTypes.func.isRequired,
-  onClickInviteUser: React.PropTypes.func,
+  onClickUser: PropTypes.func.isRequired,
+  onClickInviteUser: PropTypes.func,
 };
 
 ListContainer.defaultProps = {

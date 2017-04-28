@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from './components/header';
 import './style.scss';
 
@@ -9,8 +10,8 @@ const HeaderContainer = props =>
   />;
 
 HeaderContainer.propTypes = {
-  authButtons: React.PropTypes.func.isRequired,
-  onClickTitle: React.PropTypes.func.isRequired,
+  authButtons: PropTypes.func.isRequired,
+  onClickTitle: PropTypes.func.isRequired,
 };
 
 export default HeaderContainer;

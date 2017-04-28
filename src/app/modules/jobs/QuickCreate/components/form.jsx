@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   FormControl,
@@ -42,7 +43,7 @@ class QuickCreateJob extends React.Component {
 }
 
 QuickCreateJob.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default QuickCreateJob;

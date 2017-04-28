@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List from './components/list';
 import Job from '../model';
 
@@ -24,12 +25,12 @@ class ShowJobListContainer extends React.Component {
 }
 
 ShowJobListContainer.contextTypes = {
-  store: React.PropTypes.object,
+  store: PropTypes.object,
 };
 
 ShowJobListContainer.propTypes = {
-  onClickJob: React.PropTypes.func.isRequired,
-  jobs: React.PropTypes.arrayOf(
+  onClickJob: PropTypes.func.isRequired,
+  jobs: PropTypes.arrayOf(
     Job.propTypes,
   ).isRequired,
 };
