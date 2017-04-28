@@ -1,21 +1,27 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { tr, td, Button } from 'react-bootstrap';
 import User from '../../model';
 
 const View = props => (
-  <div>
-    <Button block onClick={e => props.onClick(e, props.user)} >
-      <dl className="dl-horizontal">
-        <dt>{ props.user.name }</dt>
-        <dd>{ props.user.email }</dd>
-      </dl>
-    </Button>
-    { props.onClickInvite &&
-      <Button onClick={e => props.onClickInvite(e, props.user)}>
-        Invite
+  <tr>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
+        { props.user.name }
       </Button>
+    </td>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
+        { props.user.email }
+      </Button>
+    </td>
+    { props.onClickInvite &&
+      <td>
+        <Button onClick={e => props.onClickInvite(e, props.user)}>
+          Invite
+        </Button>
+      </td>
     }
-  </div>
+  </tr>
 );
 
 View.propTypes = {

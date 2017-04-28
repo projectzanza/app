@@ -1,16 +1,8 @@
 import React from 'react';
-import { getJoinEntities, getEntity } from '../../lib/store/utils';
+import { getJoinEntities } from '../../lib/store/utils';
 import Model from '../../lib/store/model';
 
 export default class User extends Model {
-  static find(store, id) {
-    const entity = getEntity(store, 'user', id);
-    if (entity) {
-      return new User(entity);
-    }
-    return new User({ id, isLocal: false });
-  }
-
   jobs(store) {
     return getJoinEntities({
       store,
@@ -29,6 +21,11 @@ export default class User extends Model {
   }
 }
 
+User.defaults = {
+  tag_list: tag_list => tag_list || [],         // eslint-disable-line camelcase
+  per_diem: per_diem => per_diem || { min: 0, max: 1000 },  // eslint-disable-line camelcase
+};
+
 User.propTypes =
   React.PropTypes.shape({
     name: React.PropTypes.string,
@@ -41,3 +38,5 @@ User.propTypes =
       max: React.PropTypes.int,
     }),
   });
+
+User.table = 'user';

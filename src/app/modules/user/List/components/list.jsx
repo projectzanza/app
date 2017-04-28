@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import UserView from './user';
 import User from '../../model';
 
@@ -15,9 +16,11 @@ class List extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.listItems()}
-      </div>
+      <Table striped bordered condensed hover>
+        <tbody>
+          {this.listItems()}
+        </tbody>
+      </Table>
     );
   }
 }

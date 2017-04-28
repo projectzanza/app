@@ -1,16 +1,8 @@
 import React from 'react';
 import Model from '../../lib/store/model';
-import { getEntity, getJoinEntities } from '../../lib/store/utils';
+import { getJoinEntities } from '../../lib/store/utils';
 
 export default class Job extends Model {
-  static find(store, id) {
-    const entity = getEntity(store, 'jobs', id);
-    if (entity) {
-      return new Job(entity);
-    }
-    return new Job({ id, isLocal: false });
-  }
-
   matchingUsers(store) {
     return getJoinEntities({
       store,

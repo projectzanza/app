@@ -1,0 +1,18 @@
+@import './scheme';
+
+button.clear {
+  background-color: inherit;
+  border-width: 0;
+}
+button.clear:hover {
+  background-color: inherit;
+  outline:0;
+}
+button.clear:active {
+  background-color: inherit;
+  outline:0;
+}
+button.clear:focus {
+  background-color: inherit;
+  outline:0;
+}

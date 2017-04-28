@@ -2,14 +2,18 @@ import { getEntity } from '../../lib/store/utils';
 
 export default class Model {
   static find(store, id) {
-    const entity = getEntity(store, this.constructor.table, id);
+    const entity = getEntity(store, this.table, id);
     if (entity) {
-      return new Model(entity);
+      return new this(entity);
     }
-    return new Model({ id, isLocal: false });
+    return undefined;
   }
 
   constructor(entity = {}) {
+    // get all the keys from defaults and the entity
+    // pass the keys from entity into the default function with the same key name
+    // to get the default value of the entity
+    // then add the rest of the entity keys in which don't have default values
     const keys = Object.keys(this.constructor.defaults).concat(Object.keys(entity));
     const uniqKeys = [...new Set(keys)];
 
@@ -27,4 +31,6 @@ export default class Model {
 }
 
 Model.defaults = {};
+
+Model.table = undefined;
 

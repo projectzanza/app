@@ -3,12 +3,18 @@ import { Button } from 'react-bootstrap';
 import Job from '../../model';
 
 const JobView = props => (
-  <Button block onClick={e => props.onClick(e, props.job)} >
-    <dl className="dl-horizontal">
-      <dt>{ props.job.title }</dt>
-      <dd>{ props.job.text }</dd>
-    </dl>
-  </Button>
+  <tr>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+        { props.job.title }
+      </Button>
+    </td>
+    <td>
+      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+        { props.job.text }
+      </Button>
+    </td>
+  </tr>
 );
 
 JobView.propTypes = {

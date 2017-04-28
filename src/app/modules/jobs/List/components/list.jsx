@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import JobComponent from './job';
 import Job from '../../model';
 
@@ -14,9 +15,11 @@ class List extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.listItems()}
-      </div>
+      <Table striped bordered condensed hover>
+        <tbody>
+          {this.listItems()}
+        </tbody>
+      </Table>
     );
   }
 }
