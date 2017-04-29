@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
-import JobComponent from './job';
+import JobView from './job';
 import Job from '../../model';
 
 class List extends React.Component {
 
   listItems() {
-    return this.props.jobs.map(job => <JobComponent
+    return this.props.jobs.map(job => <JobView
       key={job.id}
       job={job}
       onClick={this.props.onClickJob}
+      onClickRegisterInterest={this.props.onClickRegisterInterest}
     />);
   }
 
@@ -30,6 +31,11 @@ List.propTypes = {
     Job.propTypes,
   ).isRequired,
   onClickJob: PropTypes.func.isRequired,
+  onClickRegisterInterest: PropTypes.func,
+};
+
+List.defaultProps = {
+  onClickRegisterInterest: undefined,
 };
 
 export default List;

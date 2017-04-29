@@ -28,6 +28,7 @@ class DashboardScene extends React.Component {
       userJobs: [],
       invitedToJobs: [],
       matchingJobs: [],
+      interestedInJobs: [],
     };
   }
 
@@ -35,6 +36,7 @@ class DashboardScene extends React.Component {
     JobController.fetchUserJobs(this.store, this.user.id);
     JobController.fetchInvitedJobsForUser(this.store, this.user.id);
     JobController.fetchMatchingJobsForUser(this.store, this.user.id);
+    JobController.fetchInterestedInJobsForUser(this.store, this.user.id);
   }
 
   componentDidMount() {
@@ -43,6 +45,7 @@ class DashboardScene extends React.Component {
         userJobs: this.user.jobs(this.store),
         matchingJobs: this.user.matchingJobs(this.store),
         invitedToJobs: this.user.invitedToJobs(this.store),
+        interestedInJobs: this.user.interestedInJobs(this.store),
       });
     });
   }
@@ -76,11 +79,20 @@ class DashboardScene extends React.Component {
           />
         </Panel>
 
+        <Panel header={<h3>Your Interesting Jobs</h3>}>
+          <JobList
+            userId={UserController.currentUser(this.store).id}
+            onClickJob={DashboardScene.onClickJob}
+            jobs={this.state.interestedInJobs}
+          />
+        </Panel>
+
         <Panel header={<h3>Available Jobs</h3>}>
           <JobList
             userId={UserController.currentUser(this.store).id}
             onClickJob={DashboardScene.onClickJob}
             jobs={this.state.matchingJobs}
+            allowRegisterInterest
           />
         </Panel>
       </DashboardContainer>

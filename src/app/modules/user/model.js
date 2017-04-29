@@ -28,6 +28,15 @@ export default class User extends Model {
       entityTable: 'jobs',
     });
   }
+
+  interestedInJobs(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userInterestedJobs',
+      entityTable: 'jobs',
+    });
+  }
 }
 
 User.defaults = {

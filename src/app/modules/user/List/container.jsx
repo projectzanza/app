@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from './components/list';
 import User from '../model';
+import UserController from '../controller';
 
 class ListContainer extends React.Component {
   constructor(props, context) {
@@ -10,17 +11,24 @@ class ListContainer extends React.Component {
     this.state = {
       users: this.props.users,
     };
+
+    this.onClickInviteUser = this.onClickInviteUser.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ users: nextProps.users });
   }
 
+  onClickInviteUser(ev, user) {
+    ev.preventDefault();
+    UserController.inviteUser(this.store, this.props.jobId, user.id);
+  }
+
   render() {
     return (
       <List
         users={this.state.users}
-        onClickInviteUser={this.props.onClickInviteUser}
+        onClickInviteUser={this.props.allowInviteUser && this.onClickInviteUser}
         onClickUser={this.props.onClickUser}
       />
     );
@@ -36,14 +44,16 @@ ListContainer.propTypes = {
     User.propTypes,
   ),
   onClickUser: PropTypes.func.isRequired,
-  onClickInviteUser: PropTypes.func,
+  allowInviteUser: PropTypes.bool,
+  jobId: PropTypes.string,
 };
 
 ListContainer.defaultProps = {
-  onClickInviteUser: undefined,
+  allowInviteUser: undefined,
   match: undefined,
   invited: undefined,
   users: [],
+  jobId: undefined,
 };
 
 export default ListContainer;
