@@ -19,8 +19,16 @@ class JobController {
     return store.dispatch(actions.getMatchingJobsForUser({ userId }));
   }
 
+  static fetchInterestedInJobsForUser(store, userId) {
+    return store.dispatch(actions.getInterestedInJobsForUser({ userId }));
+  }
+
   static getJob(store, id) {
     return Job.find(store, id);
+  }
+
+  static registerInterest(store, jobId, userId) {
+    return store.dispatch(actions.postRegisterInterestInJob({ jobId, userId }));
   }
 
 

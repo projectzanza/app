@@ -1,4 +1,9 @@
-import { inviteToJob, getMatchingUsersForJob, getInvitedUsersForJob } from './actions';
+import {
+  postInviteToJob,
+  getMatchingUsersForJob,
+  getInvitedUsersForJob,
+  getInterestedUsersForJob,
+} from './actions';
 import User from './model';
 
 class UserController {
@@ -14,12 +19,11 @@ class UserController {
     return UserController.currentUser(store).id === user.id;
   }
 
-  static inviteUser(store, jobId, userId, resultsId) {
+  static inviteUser(store, jobId, userId) {
     return store.dispatch(
-      inviteToJob({
+      postInviteToJob({
         jobId,
         userId,
-        resultsId,
       }),
     );
   }
@@ -30,6 +34,10 @@ class UserController {
 
   static fetchInvitedUsersForJob(store, jobId) {
     return store.dispatch(getInvitedUsersForJob({ jobId }));
+  }
+
+  static fetchInterestedUsersForJob(store, jobId) {
+    return store.dispatch(getInterestedUsersForJob({ jobId }));
   }
 }
 

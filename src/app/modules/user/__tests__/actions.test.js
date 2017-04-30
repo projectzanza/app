@@ -205,7 +205,7 @@ describe('userActions', () => {
     });
   });
 
-  describe('inviteToJob', () => {
+  describe('postInviteToJob', () => {
     it('creates HTTP_RESP_USERS on success', () => {
       const userId = 1;
 
@@ -222,7 +222,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.inviteToJob({ jobId: 1, userId, resultsId: '123' }))
+      return store.dispatch(actions.postInviteToJob({ jobId: 1, userId, resultsId: '123' }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

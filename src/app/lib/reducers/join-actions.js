@@ -4,6 +4,8 @@ export const Types = {
   JOB_MATCHING_USERS: 'JOB_MATCHING_USERS',
   JOB_INVITED_USERS: 'JOB_INVITED_USERS',
   USER_INVITED_JOBS: 'USER_INVITED_JOBS',
+  USER_INTERESTED_IN_JOBS: 'USER_INTERESTED_IN_JOBS',
+  JOB_INTERESTED_USERS: 'JOB_INTERESTED_USERS',
 };
 
 export const userMatchingJobs = (userId, jobJson) => ({
@@ -34,4 +36,16 @@ export const userInvitedJobs = (userId, jobJson) => ({
   type: Types.USER_INVITED_JOBS,
   jobIds: jobJson.data.map(job => job.id),
   userId,
+});
+
+export const userInterestedInJobs = (userId, jobJson) => ({
+  type: Types.USER_INTERESTED_IN_JOBS,
+  jobIds: jobJson.data.map(job => job.id),
+  userId,
+});
+
+export const jobInterestedUsers = (jobId, userJson) => ({
+  type: Types.JOB_INTERESTED_USERS,
+  userIds: userJson.data.map(job => job.id),
+  jobId,
 });

@@ -20,15 +20,17 @@ class JobShowScene extends React.Component {
     this.state = {
       user: UserController.currentUser(this.store),
       job: JobController.getJob(this.store, props.params.id),
+      matchingUsers: [],
+      invitedUsers: [],
+      interestedUsers: [],
     };
-
-    this.onClickInviteUser = this.onClickInviteUser.bind(this);
   }
 
   componentWillMount() {
     JobController.fetchJob(this.store, this.props.params.id);
     UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
     UserController.fetchInvitedUsersForJob(this.store, this.props.params.id);
+    UserController.fetchInterestedUsersForJob(this.store, this.props.params.id);
   }
 
   componentDidMount() {
@@ -38,6 +40,7 @@ class JobShowScene extends React.Component {
         this.setState({
           matchingUsers: this.state.job.matchingUsers(this.store),
           invitedUsers: this.state.job.invitedUsers(this.store),
+          interestedUsers: this.state.job.interestedUsers(this.store),
         });
       }
     });
@@ -47,11 +50,6 @@ class JobShowScene extends React.Component {
     this.unsubscribe();
   }
 
-  onClickInviteUser(ev, user, resultsId) {
-    ev.preventDefault();
-    UserController.inviteUser(this.store, this.state.job.id, user.id, resultsId);
-  }
-
   matchingUserList() {
     if (this.state.job && this.state.job.user_id === this.state.user.id) {
       return (
@@ -59,9 +57,8 @@ class JobShowScene extends React.Component {
           <UserList
             jobId={this.state.job.id}
             users={this.state.matchingUsers}
-            onClickInviteUser={this.onClickInviteUser}
             onClickUser={JobShowScene.onClickUser}
-            match
+            allowInviteUser
           />
         </Panel>
       );
@@ -77,7 +74,21 @@ class JobShowScene extends React.Component {
             jobId={this.state.job.id}
             users={this.state.invitedUsers}
             onClickUser={JobShowScene.onClickUser}
-            invited
+          />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
+  interestedUserList() {
+    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+      return (
+        <Panel header={<h3> Interested Consultants</h3>}>
+          <UserList
+            jobId={this.state.jobId}
+            users={this.state.interestedUsers}
+            onClickUser={JobShowScene.onClickUser}
           />
         </Panel>
       );
@@ -94,6 +105,7 @@ class JobShowScene extends React.Component {
           currentUser={this.state.user}
         />
         {this.invitedUserList()}
+        {this.interestedUserList()}
         {this.matchingUserList()}
       </div>
     );

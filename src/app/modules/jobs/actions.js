@@ -105,3 +105,39 @@ export function getInvitedJobsForUser(props) {
       });
   };
 }
+
+export function getInterestedInJobsForUser(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJobs());
+
+    return fetch(
+      '/jobs/interested',
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userInterestedInJobs(props.userId, json));
+      });
+  };
+}
+
+export function postRegisterInterestInJob(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJobs());
+
+    return fetch(
+      `/jobs/${props.jobId}/register_interest`,
+      {
+        method: 'POST',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userInterestedInJobs(props.userId, json));
+      });
+  };
+}
