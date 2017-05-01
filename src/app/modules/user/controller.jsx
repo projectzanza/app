@@ -1,8 +1,10 @@
+import _ from 'lodash';
 import {
   postInviteToJob,
   getMatchingUsersForJob,
   getInvitedUsersForJob,
   getInterestedUsersForJob,
+  getUser,
 } from './actions';
 import User from './model';
 
@@ -38,6 +40,15 @@ class UserController {
 
   static fetchInterestedUsersForJob(store, jobId) {
     return store.dispatch(getInterestedUsersForJob({ jobId }));
+  }
+
+  static fetchUser(store, userId, jobId) {
+    return store.dispatch(getUser(userId, jobId));
+  }
+
+  static showInviteToJob(props) {
+    return (_.get(props.job, 'user_id') === UserController.currentUser(props.store).id) &&
+      (_.includes([undefined, 'interested'], _.get(props.user, 'meta.job.collaboration_state')));
   }
 }
 

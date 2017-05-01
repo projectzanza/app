@@ -52,10 +52,15 @@ export function logoutUser() {
 }
 
 
-export function getUser(userId) {
+export function getUser(userId, jobId) {
+  let url = `/users/${userId}`;
+  if (jobId) {
+    url = `/jobs/${jobId}${url}`;
+  }
+
   return (dispatch, getState) =>
     fetch(
-      `/users/${userId}`,
+      url,
       {
         method: 'GET',
         headers: getState().headers,

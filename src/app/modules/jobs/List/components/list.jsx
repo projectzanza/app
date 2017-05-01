@@ -11,6 +11,7 @@ class List extends React.Component {
       key={job.id}
       job={job}
       onClick={this.props.onClickJob}
+      allowRegisterInterest={this.props.allowRegisterInterest}
       onClickRegisterInterest={this.props.onClickRegisterInterest}
     />);
   }
@@ -31,10 +32,12 @@ List.propTypes = {
     Job.propTypes,
   ).isRequired,
   onClickJob: PropTypes.func.isRequired,
+  allowRegisterInterest: PropTypes.bool,
   onClickRegisterInterest: PropTypes.func,
 };
 
 List.defaultProps = {
+  allowRegisterInterest: false,
   onClickRegisterInterest: undefined,
 };
 

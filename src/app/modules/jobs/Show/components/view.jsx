@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate } from 'react-intl';
 import {
-  FormGroup,
+  ButtonToolbar,
   Button,
 } from 'react-bootstrap';
 import TagInput from '../../../../components/TagInput/container';
@@ -31,7 +31,8 @@ const View = props => (
       <dt>Contact Me</dt>
       <dd>{props.job.allow_contact ? 'True' : 'False'}</dd>
     </dl>
-    <FormGroup>
+    <ButtonToolbar>
+
       { props.showEdit &&
       <Button
         bsStyle="primary"
@@ -39,7 +40,15 @@ const View = props => (
       > Edit
       </Button>
       }
-    </FormGroup>
+
+      { props.showRegisterInterest &&
+      <Button
+        bsStyle="primary"
+        onClick={e => props.onClickRegisterInterest(e)}
+      > Register Interest
+      </Button>
+      }
+    </ButtonToolbar>
   </div>
 );
 
@@ -47,10 +56,13 @@ View.propTypes = {
   job: Job.propTypes.isRequired,
   showEdit: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
+  showRegisterInterest: PropTypes.bool,
+  onClickRegisterInterest: PropTypes.func.isRequired,
 };
 
 View.defaultProps = {
   showEdit: false,
+  showRegisterInterest: false,
 };
 
 export default View;

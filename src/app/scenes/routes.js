@@ -13,5 +13,6 @@ export default {
   job: {
     edit: jobId => `/job/${jobId}/edit`,
     show: jobId => `/job/${jobId}`,
+    user: (jobId, userId) => `/job/${jobId}/user/${userId}`,
   },
 };

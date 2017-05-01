@@ -15,7 +15,7 @@ const JobView = props => (
         { props.job.text }
       </Button>
     </td>
-    { props.onClickRegisterInterest &&
+    { props.allowRegisterInterest &&
       <td>
         <Button onClick={e => props.onClickRegisterInterest(e, props.job)}>
           Register Interest
@@ -29,9 +29,11 @@ JobView.propTypes = {
   job: Job.propTypes.isRequired,
   onClick: PropTypes.func.isRequired,
   onClickRegisterInterest: PropTypes.func,
+  allowRegisterInterest: PropTypes.bool,
 };
 
 JobView.defaultProps = {
+  allowRegisterInterest: false,
   onClickRegisterInterest: undefined,
 };
 

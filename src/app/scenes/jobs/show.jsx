@@ -9,11 +9,6 @@ import UserList from '../../modules/user/List/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
-  static onClickUser(ev, user) {
-    ev.preventDefault();
-    browserHistory.push(routes.user.profile(user.id));
-  }
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
@@ -24,10 +19,14 @@ class JobShowScene extends React.Component {
       invitedUsers: [],
       interestedUsers: [],
     };
+    this.onClickUser = this.onClickUser.bind(this);
   }
 
   componentWillMount() {
-    JobController.fetchJob(this.store, this.props.params.id);
+    JobController.fetchJob(this.store, this.props.params.id).then(() => {
+      console.log('fetching user');
+      UserController.fetchUser(this.store, this.state.user.id, this.props.params.id);
+    });
     UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
     UserController.fetchInvitedUsersForJob(this.store, this.props.params.id);
     UserController.fetchInterestedUsersForJob(this.store, this.props.params.id);
@@ -50,6 +49,11 @@ class JobShowScene extends React.Component {
     this.unsubscribe();
   }
 
+  onClickUser(ev, user) {
+    ev.preventDefault();
+    browserHistory.push(routes.job.user(this.state.job.id, user.id));
+  }
+
   matchingUserList() {
     if (this.state.job && this.state.job.user_id === this.state.user.id) {
       return (
@@ -57,7 +61,7 @@ class JobShowScene extends React.Component {
           <UserList
             jobId={this.state.job.id}
             users={this.state.matchingUsers}
-            onClickUser={JobShowScene.onClickUser}
+            onClickUser={this.onClickUser}
             allowInviteUser
           />
         </Panel>
@@ -73,7 +77,7 @@ class JobShowScene extends React.Component {
           <UserList
             jobId={this.state.job.id}
             users={this.state.invitedUsers}
-            onClickUser={JobShowScene.onClickUser}
+            onClickUser={this.onClickUser}
           />
         </Panel>
       );
@@ -88,7 +92,7 @@ class JobShowScene extends React.Component {
           <UserList
             jobId={this.state.jobId}
             users={this.state.interestedUsers}
-            onClickUser={JobShowScene.onClickUser}
+            onClickUser={this.onClickUser}
           />
         </Panel>
       );
