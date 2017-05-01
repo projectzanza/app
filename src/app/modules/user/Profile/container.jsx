@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Edit from './components/edit';
 import View from './components/view';
-import { getUser, putUser } from '../actions';
+import { putUser } from '../actions';
 import UserController from '../controller';
 import User from '../model';
 
@@ -11,13 +12,15 @@ class ProfileContainer extends React.Component {
     super(props, context);
     this.store = context.store;
     this.state = {
-      user: {},
+      user: undefined,
       mode: props.mode,
+      job: props.job,
     };
 
     this.onEdit = this.onEdit.bind(this);
     this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onClickInvite = this.onClickInvite.bind(this);
   }
 
   componentWillMount() {
@@ -31,7 +34,7 @@ class ProfileContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ mode: nextProps.mode });
+    this.setState({ mode: nextProps.mode, job: nextProps.job });
     if (this.props.id !== nextProps.id) {
       this.setUser(nextProps.id);
     }
@@ -57,13 +60,21 @@ class ProfileContainer extends React.Component {
     this.setState({ mode: 'edit' });
   }
 
+  onClickInvite(ev) {
+    ev.preventDefault();
+    UserController.inviteUser(this.store, this.state.job.id, this.state.user.id);
+  }
+
   setUser(id) {
-    const user = User.find(this.store, id);
-    if (user) {
-      this.setState({ user });
-    } else {
-      this.store.dispatch(getUser(this.props.id));
-    }
+    UserController.fetchUser(this.store, id, _.get(this.props, 'job.id'));
+  }
+
+  showInvite() {
+    return UserController.showInviteToJob({
+      store: this.store,
+      job: this.state.job,
+      user: this.state.user,
+    });
   }
 
   render() {
@@ -79,8 +90,10 @@ class ProfileContainer extends React.Component {
     return (
       <View
         user={this.state.user}
-        showEdit={UserController.currentUser(this.store).id === this.state.user.id}
+        showEdit={UserController.currentUser(this.store).id === _.get(this.state, 'user.id')}
         onEdit={this.onEdit}
+        showInvite={this.showInvite()}
+        onClickInvite={this.onClickInvite}
       />
     );
   }
@@ -89,10 +102,15 @@ class ProfileContainer extends React.Component {
 ProfileContainer.propTypes = {
   id: PropTypes.string.isRequired,
   mode: PropTypes.string,
+  job: PropTypes.shape({
+    id: PropTypes.string,
+    user_id: PropTypes.string,
+  }),
 };
 
 ProfileContainer.defaultProps = {
   mode: 'view',
+  job: undefined,
 };
 
 ProfileContainer.contextTypes = {

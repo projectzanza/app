@@ -25,6 +25,7 @@ class Routes extends React.Component {
             <Route path="/dashboard" component={DashboardScene} />
             <Route path="/job/:id(/:mode)" component={JobShowScene} />
             <Route path="/user/:id(/:mode)" component={UserShowScene} />
+            <Route path="/job/:jobId/user/:id" component={UserShowScene} />
           </Route>
         </Route>
       </Router>

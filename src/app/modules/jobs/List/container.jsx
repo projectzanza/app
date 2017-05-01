@@ -33,7 +33,8 @@ class ShowJobListContainer extends React.Component {
     return (<List
       jobs={this.state.jobs}
       onClickJob={this.props.onClickJob}
-      onClickRegisterInterest={this.props.allowRegisterInterest && this.onClickRegisterInterest}
+      allowRegisterInterest={this.props.allowRegisterInterest}
+      onClickRegisterInterest={this.onClickRegisterInterest}
     />);
   }
 }

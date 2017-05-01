@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Edit from './components/edit';
 import View from './components/view';
 import { putJob } from '../actions';
 import Job from '../model';
+import JobController from '../controller';
 
 class ShowJobContainer extends React.Component {
   constructor(props, context) {
@@ -17,6 +19,8 @@ class ShowJobContainer extends React.Component {
     this.onEdit = this.onEdit.bind(this);
     this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.showRegisterInterest = this.showRegisterInterest.bind(this);
+    this.onClickRegisterInterest = this.onClickRegisterInterest.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,6 +44,15 @@ class ShowJobContainer extends React.Component {
     this.setState({ mode: 'view' });
   }
 
+  onClickRegisterInterest() {
+    JobController.registerInterest(this.store, this.state.job.id, this.props.currentUser.id);
+  }
+
+  showRegisterInterest() {
+    return (this.props.currentUser.id !== this.state.job.user_id) &&
+      !_.get(this.state.job, 'meta.current_user.collaboration_state');
+  }
+
   render() {
     if (this.state.mode === 'edit') {
       return (
@@ -55,6 +68,8 @@ class ShowJobContainer extends React.Component {
         job={this.state.job}
         showEdit={this.props.currentUser.id === this.state.job.user_id}
         onEdit={this.onEdit}
+        showRegisterInterest={this.showRegisterInterest()}
+        onClickRegisterInterest={this.onClickRegisterInterest}
       />
     );
   }

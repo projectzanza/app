@@ -31,18 +31,29 @@ const View = props => (
           onClick={() => props.onEdit(props.user)}
         >Edit</Button>
       }
+      { props.showInvite &&
+      <Button
+        bsStyle="primary"
+        onClick={e => props.onClickInvite(e)}
+      >Invite
+      </Button>
+      }
     </FormGroup>
   </div>
 );
 
 View.propTypes = {
-  user: User.propTypes.isRequired,
+  user: User.propTypes,
   onEdit: PropTypes.func.isRequired,
   showEdit: PropTypes.bool,
+  showInvite: PropTypes.bool,
+  onClickInvite: PropTypes.func.isRequired,
 };
 
 View.defaultProps = {
   showEdit: false,
+  showInvite: false,
+  user: new User(),
 };
 
 export default View;
