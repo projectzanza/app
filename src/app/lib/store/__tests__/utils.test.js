@@ -111,12 +111,12 @@ describe('Utils', () => {
     });
 
     it('should throw an error if the linked entities is not an array', () => {
-      expect(utils.getJoinEntities({
+      expect(utils.getJoinEntities.bind({
         store: store,
         primaryKey: '5',
         joinTable: 'hasManyTable',
         entityTable: 'entityTable',
-      })).toThrow();
+      })).toThrowError(Error);
     });
   });
 });

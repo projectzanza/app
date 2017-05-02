@@ -6,6 +6,10 @@ export const user = {
   },
 };
 
+export const nullUser = {
+  data: null,
+};
+
 export const signOut = {
   data: {
     success: true,

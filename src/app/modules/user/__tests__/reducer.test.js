@@ -48,6 +48,20 @@ describe('user reducer', () => {
     });
   });
 
+  describe('HTTP_RESP_USER', () => {
+    it('should add a single user to the entities list', () => {
+      const action = actionTypes.httpRespUser(responses.user);
+      const state = reducer(undefined, action);
+      expect(Object.keys(state.entities).length).toEqual(1);
+    });
+
+    it('should not add a user if user data is null', () => {
+      const action = actionTypes.httpRespUser(responses.nullUser);
+      const state = reducer(undefined, action);
+      expect(Object.keys(state.entities).length).toEqual(0);
+    });
+  });
+
   describe('HTTP_RESP_USERS', () => {
     it('should add the users to the items list', () => {
       const action = actionTypes.httpRespUsers(responses.users);

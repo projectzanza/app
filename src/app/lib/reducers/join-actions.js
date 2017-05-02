@@ -1,4 +1,5 @@
 export const Types = {
+  SKIP: 'SKIP',
   USER_JOBS: 'USER_JOBS',
   USER_MATCHING_JOBS: 'USER_MATCHING_JOBS',
   JOB_MATCHING_USERS: 'JOB_MATCHING_USERS',
@@ -52,11 +53,16 @@ export const jobInterestedUsers = (jobId, userJson) => ({
   jobId,
 });
 
-export const jobAwardUser = (jobId, userJson) => ({
-  type: Types.JOB_AWARD_USER,
-  userId: userJson.data.id,
-  jobId,
-});
+export const jobAwardUser = (jobId, userJson) => {
+  if (userJson.data) {
+    return {
+      type: Types.JOB_AWARD_USER,
+      userId: userJson.data.id,
+      jobId,
+    };
+  }
+  return { type: Types.SKIP };
+};
 
 export const userAwardJobs = (userId, jobJson) => ({
   type: Types.USER_AWARD_JOBS,

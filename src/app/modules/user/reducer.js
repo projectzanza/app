@@ -32,7 +32,10 @@ export default function userReducer(state = initialState, action) {
       );
 
     case ActionTypes.HTTP_RESP_USER:
-      return createEntityEntries(state, [new User(action.data)]);
+      if (action.data) {
+        return createEntityEntries(state, [new User(action.data)]);
+      }
+      return state;
 
     case ActionTypes.HTTP_RESP_USERS:
       return createEntityEntries(

@@ -10,8 +10,8 @@ const hasManyEntities = (primaryKey, joinTableState, entityTableState) => {
   if (joinTableState && primaryKey in joinTableState.entities) {
     const entityIds = joinTableState.entities[primaryKey];
     if (entityIds) {
-      if(!(entityIds instanceof Array)){
-        throw 'this seems to be a hasOne association, trying to access hasMany';
+      if (!(entityIds instanceof Array)) {
+        throw new Error('this seems to be a hasOne association, trying to access hasMany');
       }
 
       return entityIds.map(entityId => entityTableState.entities[entityId]);
