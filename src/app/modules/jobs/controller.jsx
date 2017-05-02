@@ -23,6 +23,10 @@ class JobController {
     return store.dispatch(actions.getInterestedInJobsForUser({ userId }));
   }
 
+  static fetchAwardedJobsForUser(store, userId) {
+    return store.dispatch(actions.getAwardedJobsForUser({ userId }));
+  }
+
   static getJob(store, id) {
     return Job.find(store, id);
   }

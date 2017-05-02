@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { tr, td, Button } from 'react-bootstrap';
+import {
+  Button,
+  ButtonToolbar,
+} from 'react-bootstrap';
 import User from '../../model';
 
 const View = props => (
@@ -15,11 +18,20 @@ const View = props => (
         { props.user.email }
       </Button>
     </td>
-    { props.onClickInvite &&
+    { (props.onClickInvite || props.onClickAward) &&
       <td>
-        <Button onClick={e => props.onClickInvite(e, props.user)}>
-          Invite
-        </Button>
+        <ButtonToolbar>
+          { props.onClickInvite &&
+          <Button onClick={e => props.onClickInvite(e, props.user)}>
+            Invite
+          </Button>
+          }
+          { props.onClickAward &&
+          <Button onClick={e => props.onClickAward(e, props.user)}>
+            Award
+          </Button>
+          }
+        </ButtonToolbar>
       </td>
     }
   </tr>
@@ -29,10 +41,12 @@ View.propTypes = {
   user: User.propTypes.isRequired,
   onClick: PropTypes.func.isRequired,
   onClickInvite: PropTypes.func,
+  onClickAward: PropTypes.func,
 };
 
 View.defaultProps = {
   onClickInvite: undefined,
+  onClickAward: undefined,
 };
 
 export default View;

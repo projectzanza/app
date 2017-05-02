@@ -127,7 +127,7 @@ export function postInviteToJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
-    fetch(
+    return fetch(
       `/users/${props.userId}/invite`,
       {
         method: 'POST',
@@ -139,6 +139,27 @@ export function postInviteToJob(props) {
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActionTypes.jobInvitedUsers(props.jobId, json));
+      },
+      );
+  };
+}
+
+export function postAwardJob(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetUsers());
+
+    return fetch(
+      `/users/${props.userId}/award`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ job_id: props.jobId }),
+        headers: getState().headers,
+      },
+      dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespUser(json));
+        dispatch(joinActionTypes.jobAwardUser(props.jobId, json));
       },
       );
   };
@@ -160,5 +181,24 @@ export function getInterestedUsersForJob(props) {
         dispatch(joinActionTypes.jobInterestedUsers(props.jobId, json));
       },
     );
+  };
+}
+
+export function getAwardedUsersForJob(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetUsers());
+
+    fetch(
+      `/jobs/${props.jobId}/users/awarded`,
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespUser(json));
+        dispatch(joinActionTypes.jobAwardUser(props.jobId, json));
+      },
+      );
   };
 }

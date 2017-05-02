@@ -13,6 +13,7 @@ class ListContainer extends React.Component {
     };
 
     this.onClickInviteUser = this.onClickInviteUser.bind(this);
+    this.onClickAwardUser = this.onClickAwardUser.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,11 +25,17 @@ class ListContainer extends React.Component {
     UserController.inviteUser(this.store, this.props.jobId, user.id);
   }
 
+  onClickAwardUser(ev, user) {
+    ev.preventDefault();
+    UserController.awardJob(this.store, this.props.jobId, user.id);
+  }
+
   render() {
     return (
       <List
         users={this.state.users}
         onClickInviteUser={this.props.allowInviteUser && this.onClickInviteUser}
+        onClickAwardUser={this.props.allowAwardUser && this.onClickAwardUser}
         onClickUser={this.props.onClickUser}
       />
     );
@@ -45,11 +52,13 @@ ListContainer.propTypes = {
   ),
   onClickUser: PropTypes.func.isRequired,
   allowInviteUser: PropTypes.bool,
+  allowAwardUser: PropTypes.bool,
   jobId: PropTypes.string,
 };
 
 ListContainer.defaultProps = {
   allowInviteUser: undefined,
+  allowAwardUser: undefined,
   match: undefined,
   invited: undefined,
   users: [],
