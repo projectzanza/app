@@ -2,11 +2,7 @@ import { getEntity } from '../../lib/store/utils';
 
 export default class Model {
   static find(store, id) {
-    const entity = getEntity(store, this.table, id);
-    if (entity) {
-      return new this(entity);
-    }
-    return undefined;
+    return getEntity(store, this.table, id);
   }
 
   constructor(entity = {}) {

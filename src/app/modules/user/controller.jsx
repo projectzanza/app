@@ -1,11 +1,5 @@
 import _ from 'lodash';
-import {
-  postInviteToJob,
-  getMatchingUsersForJob,
-  getInvitedUsersForJob,
-  getInterestedUsersForJob,
-  getUser,
-} from './actions';
+import * as actions from './actions';
 import User from './model';
 
 class UserController {
@@ -23,7 +17,7 @@ class UserController {
 
   static inviteUser(store, jobId, userId) {
     return store.dispatch(
-      postInviteToJob({
+      actions.postInviteToJob({
         jobId,
         userId,
       }),
@@ -31,24 +25,32 @@ class UserController {
   }
 
   static fetchMatchingUsersForJob(store, jobId) {
-    return store.dispatch(getMatchingUsersForJob({ jobId }));
+    return store.dispatch(actions.getMatchingUsersForJob({ jobId }));
   }
 
   static fetchInvitedUsersForJob(store, jobId) {
-    return store.dispatch(getInvitedUsersForJob({ jobId }));
+    return store.dispatch(actions.getInvitedUsersForJob({ jobId }));
   }
 
   static fetchInterestedUsersForJob(store, jobId) {
-    return store.dispatch(getInterestedUsersForJob({ jobId }));
+    return store.dispatch(actions.getInterestedUsersForJob({ jobId }));
+  }
+
+  static fetchAwardedUsersForJob(store, jobId) {
+    return store.dispatch(actions.getAwardedUsersForJob({ jobId }));
   }
 
   static fetchUser(store, userId, jobId) {
-    return store.dispatch(getUser(userId, jobId));
+    return store.dispatch(actions.getUser(userId, jobId));
   }
 
   static showInviteToJob(props) {
     return (_.get(props.job, 'user_id') === UserController.currentUser(props.store).id) &&
       (_.includes([undefined, 'interested'], _.get(props.user, 'meta.job.collaboration_state')));
+  }
+
+  static awardJob(store, jobId, userId) {
+    return store.dispatch(actions.postAwardJob({ userId, jobId }));
   }
 }
 

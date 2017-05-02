@@ -124,6 +124,24 @@ export function getInterestedInJobsForUser(props) {
   };
 }
 
+export function getAwardedJobsForUser(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJobs());
+
+    return fetch(
+      '/jobs/awarded',
+      {
+        method: 'GET',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userAwardJobs(props.userId, json));
+      });
+  };
+}
+
 export function postRegisterInterestInJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetJobs());

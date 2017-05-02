@@ -37,6 +37,15 @@ export default class User extends Model {
       entityTable: 'jobs',
     });
   }
+
+  awardedJobs(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userAwardJobs',
+      entityTable: 'jobs',
+    });
+  }
 }
 
 User.defaults = {
