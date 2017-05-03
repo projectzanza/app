@@ -9,6 +9,7 @@ export const Types = {
   JOB_INTERESTED_USERS: 'JOB_INTERESTED_USERS',
   JOB_AWARD_USER: 'JOB_AWARD_USER',
   USER_AWARD_JOBS: 'USER_AWARD_JOBS',
+  JOB_SCOPES: 'JOB_SCOPES',
 };
 
 export const userMatchingJobs = (userId, jobJson) => ({
@@ -68,4 +69,10 @@ export const userAwardJobs = (userId, jobJson) => ({
   type: Types.USER_AWARD_JOBS,
   jobIds: jobJson.data.map(job => job.id),
   userId,
+});
+
+export const jobScopes = (jobId, scopeJson) => ({
+  type: Types.JOB_SCOPES,
+  scopeIds: scopeJson.data.map(job => job.id),
+  jobId,
 });
