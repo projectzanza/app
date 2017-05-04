@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import {
+  Button,
+  ButtonToolbar,
+} from 'react-bootstrap';
 import Job from '../../model';
 
 const JobView = props => (
@@ -15,13 +18,26 @@ const JobView = props => (
         { props.job.text }
       </Button>
     </td>
-    { props.allowRegisterInterest &&
+    { (props.allowRegisterInterest || props.onClickAccept) &&
       <td>
-        <Button onClick={e => props.onClickRegisterInterest(e, props.job)}>
-          Register Interest
-        </Button>
+        <ButtonToolbar>
+          {
+            props.allowRegisterInterest &&
+            <Button onClick={e => props.onClickRegisterInterest(e, props.job)}>
+              Register Interest
+            </Button>
+          }
+          {
+            props.onClickAccept &&
+            <Button onClick={e => props.onClickAccept(e, props.job)}>
+              Accept
+            </Button>
+          }
+
+        </ButtonToolbar>
       </td>
     }
+
   </tr>
 );
 
@@ -30,11 +46,13 @@ JobView.propTypes = {
   onClick: PropTypes.func.isRequired,
   onClickRegisterInterest: PropTypes.func,
   allowRegisterInterest: PropTypes.bool,
+  onClickAccept: PropTypes.func,
 };
 
 JobView.defaultProps = {
   allowRegisterInterest: false,
   onClickRegisterInterest: undefined,
+  onClickAccept: undefined,
 };
 
 export default JobView;

@@ -29,7 +29,7 @@ class JobShowScene extends React.Component {
     this.fetchData();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
+      this.setState({ job: JobController.getJob(this.store, this.props.params.id, this.state.user.id) });
       if (this.state && this.state.job) {
         const awardedUser = this.state.job.awardedUser(this.store);
         this.setState({

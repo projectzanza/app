@@ -48,6 +48,14 @@ const View = props => (
       > Register Interest
       </Button>
       }
+
+      { props.onClickAccept &&
+        <Button
+          bsStyle="primary"
+          onClick={e => props.onClickAccept(e)}
+        > Accept Job
+        </Button>
+      }
     </ButtonToolbar>
   </div>
 );
@@ -58,11 +66,13 @@ View.propTypes = {
   onEdit: PropTypes.func.isRequired,
   showRegisterInterest: PropTypes.bool,
   onClickRegisterInterest: PropTypes.func.isRequired,
+  onClickAccept: PropTypes.func,
 };
 
 View.defaultProps = {
   showEdit: false,
   showRegisterInterest: false,
+  onClickAccept: undefined,
 };
 
 export default View;
