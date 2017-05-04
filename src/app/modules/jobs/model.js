@@ -39,6 +39,15 @@ export default class Job extends Model {
       joinType: 'hasOne',
     });
   }
+
+  scopes(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'jobScopes',
+      entityTable: 'scopes',
+    });
+  }
 }
 
 Job.defaults = {

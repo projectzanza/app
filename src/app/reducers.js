@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import user from './modules/user/reducer';
 import jobs from './modules/jobs/reducer';
 import headers from './lib/fetch/reducers';
+import scopes from './modules/scopes/reducer';
 import { userMatchingJobs, jobMatchingUsers } from './lib/reducers/user-matching-jobs';
 import { jobInvitedUsers, userInvitedJobs } from './lib/reducers/user-invited-jobs';
 import { userInterestedJobs, jobInterestedUsers } from './lib/reducers/user-interested-jobs';
@@ -18,6 +19,7 @@ export default combineReducers({
   user,
   headers,
   jobs,
+  scopes,
   userJobs,
   userMatchingJobs,
   jobMatchingUsers,
