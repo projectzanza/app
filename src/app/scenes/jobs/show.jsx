@@ -7,6 +7,7 @@ import JobController from '../../modules/jobs/controller';
 import ShowJob from '../../modules/jobs/Show/container';
 import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
+import CreateScope from '../../modules/scopes/Create/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
@@ -132,6 +133,7 @@ class JobShowScene extends React.Component {
       return (
         <Panel header={<h3>Scope</h3>}>
           <ListScope job={this.state.job} />
+          <CreateScope job={this.state.job} />
         </Panel>
       );
     }
