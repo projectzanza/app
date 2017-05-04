@@ -6,6 +6,8 @@ import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
 import ShowJob from '../../modules/jobs/Show/container';
 import UserList from '../../modules/user/List/container';
+import ListScope from '../../modules/scopes/List/container';
+import CreateScope from '../../modules/scopes/Create/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
@@ -23,17 +25,9 @@ class JobShowScene extends React.Component {
     this.onClickUser = this.onClickUser.bind(this);
   }
 
-  componentWillMount() {
-    JobController.fetchJob(this.store, this.props.params.id).then(() => {
-      UserController.fetchUser(this.store, this.state.user.id, this.props.params.id);
-    });
-    UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
-    UserController.fetchInvitedUsersForJob(this.store, this.props.params.id);
-    UserController.fetchInterestedUsersForJob(this.store, this.props.params.id);
-    UserController.fetchAwardedUsersForJob(this.store, this.props.params.id);
-  }
-
   componentDidMount() {
+    this.fetchData();
+
     this.unsubscribe = this.store.subscribe(() => {
       this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
       if (this.state && this.state.job) {
@@ -57,8 +51,22 @@ class JobShowScene extends React.Component {
     browserHistory.push(routes.job.user(this.state.job.id, user.id));
   }
 
+  fetchData() {
+    JobController.fetchJob(this.store, this.props.params.id).then(() => {
+      UserController.fetchUser(this.store, this.state.user.id, this.props.params.id);
+    });
+    UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
+    UserController.fetchInvitedUsersForJob(this.store, this.props.params.id);
+    UserController.fetchInterestedUsersForJob(this.store, this.props.params.id);
+    UserController.fetchAwardedUsersForJob(this.store, this.props.params.id);
+  }
+
+  userOwnsJob() {
+    return this.state.job && this.state.job.user_id === this.state.user.id;
+  }
+
   matchingUserList() {
-    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+    if (this.userOwnsJob()) {
       return (
         <Panel header={<h3>Matching Consultants</h3>}>
           <UserList
@@ -74,7 +82,7 @@ class JobShowScene extends React.Component {
   }
 
   invitedUserList() {
-    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+    if (this.userOwnsJob()) {
       return (
         <Panel header={<h3>Invited Consultants</h3>}>
           <UserList
@@ -90,7 +98,7 @@ class JobShowScene extends React.Component {
   }
 
   awardedUserList() {
-    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+    if (this.userOwnsJob()) {
       return (
         <Panel header={<h3>Awarded Consultant</h3>}>
           <UserList
@@ -105,15 +113,27 @@ class JobShowScene extends React.Component {
   }
 
   interestedUserList() {
-    if (this.state.job && this.state.job.user_id === this.state.user.id) {
+    if (this.userOwnsJob()) {
       return (
-        <Panel header={<h3> Interested Consultants</h3>}>
+        <Panel header={<h3>Interested Consultants</h3>}>
           <UserList
             jobId={this.state.jobId}
             users={this.state.interestedUsers}
             onClickUser={this.onClickUser}
             allowAwardUser
           />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
+  scope() {
+    if (this.state.job) {
+      return (
+        <Panel header={<h3>Scope</h3>}>
+          <ListScope job={this.state.job} />
+          <CreateScope job={this.state.job} />
         </Panel>
       );
     }
@@ -128,6 +148,9 @@ class JobShowScene extends React.Component {
           mode={this.props.params.mode}
           currentUser={this.state.user}
         />
+
+        {this.scope()}
+
         {this.awardedUserList()}
         {this.invitedUserList()}
         {this.interestedUserList()}
