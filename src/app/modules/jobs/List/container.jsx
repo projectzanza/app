@@ -5,6 +5,10 @@ import Job from '../model';
 import JobController from '../controller';
 
 class ShowJobListContainer extends React.Component {
+  static canClickAccept(job) {
+    return JobController.canAcceptJob(job) || undefined;
+  }
+
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
@@ -13,6 +17,7 @@ class ShowJobListContainer extends React.Component {
     };
 
     this.onClickRegisterInterest = this.onClickRegisterInterest.bind(this);
+    this.onClickAccept = this.onClickAccept.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,12 +34,24 @@ class ShowJobListContainer extends React.Component {
     );
   }
 
+  onClickAccept(ev, job) {
+    ev.preventDefault();
+    return JobController.acceptJob(
+      this.store,
+      job.id,
+      this.props.userId,
+    );
+  }
+
+
   render() {
     return (<List
       jobs={this.state.jobs}
       onClickJob={this.props.onClickJob}
       allowRegisterInterest={this.props.allowRegisterInterest}
       onClickRegisterInterest={this.onClickRegisterInterest}
+      canClickAccept={ShowJobListContainer.canClickAccept}
+      onClickAccept={this.onClickAccept}
     />);
   }
 }

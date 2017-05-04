@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as actions from './actions';
 import Job from './model';
 
@@ -35,6 +36,13 @@ class JobController {
     return store.dispatch(actions.postRegisterInterestInJob({ jobId, userId }));
   }
 
+  static canAcceptJob(job) {
+    return _.get(job, 'meta.current_user.collaboration_state') === 'awarded';
+  }
+
+  static acceptJob(store, jobId, userId) {
+    return store.dispatch(actions.postAcceptJob({ jobId, userId }));
+  }
 
 }
 

@@ -21,12 +21,16 @@ export function createJob(job) {
   };
 }
 
-export function getJob(id) {
+export function getJob(jobId, userId) {
   return (dispatch, getState) => {
-    dispatch(ActionTypes.httpGetJob(id));
+    dispatch(ActionTypes.httpGetJob(jobId));
+    let url = `/jobs/${jobId}`;
+    if (userId) {
+      url = `/users/${userId}${url}`;
+    }
 
     return fetch(
-      `/jobs/${id}`,
+      url,
       {
         method: 'GET',
         headers: getState().headers,
@@ -156,6 +160,24 @@ export function postRegisterInterestInJob(props) {
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userInterestedInJobs(props.userId, json));
+      });
+  };
+}
+
+export function postAcceptJob(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJobs());
+
+    return fetch(
+      `/jobs/${props.jobId}/accept`,
+      {
+        method: 'POST',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJobs(json));
+        dispatch(joinActions.userAcceptedJobs(props.userId, json));
       });
   };
 }

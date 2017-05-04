@@ -21,6 +21,8 @@ class ShowJobContainer extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.showRegisterInterest = this.showRegisterInterest.bind(this);
     this.onClickRegisterInterest = this.onClickRegisterInterest.bind(this);
+    this.canClickAccept = this.canClickAccept.bind(this);
+    this.onClickAccept = this.onClickAccept.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,6 +50,14 @@ class ShowJobContainer extends React.Component {
     JobController.registerInterest(this.store, this.state.job.id, this.props.currentUser.id);
   }
 
+  onClickAccept() {
+    JobController.acceptJob(this.store, this.state.job.id, this.props.currentUser.id);
+  }
+
+  canClickAccept() {
+    return JobController.canAcceptJob(this.state.job, this.props.currentUser) || undefined;
+  }
+
   showRegisterInterest() {
     return (this.props.currentUser.id !== this.state.job.user_id) &&
       !_.get(this.state.job, 'meta.current_user.collaboration_state');
@@ -70,6 +80,7 @@ class ShowJobContainer extends React.Component {
         onEdit={this.onEdit}
         showRegisterInterest={this.showRegisterInterest()}
         onClickRegisterInterest={this.onClickRegisterInterest}
+        onClickAccept={this.canClickAccept() && this.onClickAccept}
       />
     );
   }
