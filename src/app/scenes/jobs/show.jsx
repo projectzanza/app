@@ -32,10 +32,10 @@ class JobShowScene extends React.Component {
       this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
       if (this.state.job) {
         const awardedUser = this.state.job.awardedUser(this.store);
-        console.log('interested users', this.state.job.interestedUsers(this.store));
         this.setState({
           matchingUsers: this.state.job.matchingUsers(this.store),
-          invitedUsers: this.state.job.invitedUsers(this.store).concat(this.state.job.prospectiveUsers(this.store)),
+          invitedUsers: this.state.job.invitedUsers(this.store)
+            .concat(this.state.job.prospectiveUsers(this.store)),
           interestedUsers: this.state.job.interestedUsers(this.store),
           awardedUsers: awardedUser ? [awardedUser] : [],
         });
