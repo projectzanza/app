@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export function overrideNull(initialState, state) {
   const nextState = Object.assign({}, state);
   Object.keys(nextState).forEach((key) => {
@@ -31,15 +33,27 @@ export const createEntityEntries = (state, data) => {
   );
 };
 
+const determineNewForeignKeySet = (state, primaryKey, foreignKeys, action) => {
+  switch (action) {
+    case 'merge':
+      return _.union(state.entities[primaryKey], foreignKeys);
+    case 'purge':
+      return _.difference(state.entities[primaryKey], foreignKeys);
+    case 'reset':
+    default:
+      return foreignKeys;
+  }
+};
+
 // sets a primaryKey as the property name for a list of foreignKeys
 // eg. {'1' => ['5', '6', '7']}
 // should be used by a reducer, so the state already references the correct bucket eg 'userJobs'
 // pk would be user id, foreignKeys would be job ids
-export const updateJoinTableState = (state, primaryKey, foreignKeys) => {
+export const updateJoinTableState = (state, primaryKey, foreignKeys, action) => {
   const entities = Object.assign(
     {},
     state.entities,
-    { [primaryKey]: foreignKeys },
+    { [primaryKey]: determineNewForeignKeySet(state, primaryKey, foreignKeys, action) },
   );
 
   return Object.assign(

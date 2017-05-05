@@ -160,6 +160,7 @@ describe('userActions', () => {
           type: joinActionTypes.Types.JOB_MATCHING_USERS,
           userIds: responses.users.data.map(user => user.id),
           jobId,
+          joinAction: 'reset',
         },
       ];
 
@@ -173,11 +174,11 @@ describe('userActions', () => {
     });
   });
 
-  describe('getInvitedUsersForJob', () => {
+  describe('getCollaboratingUsersForJob', () => {
     it('creates HTTP_RESP_USERS and on success', () => {
       const jobId = 1;
       nock(Config.apiUrl)
-        .get(`/users/invited?job_id=${jobId}`)
+        .get(`/jobs/${jobId}/users/collaborating`)
         .reply(200, responses.users);
 
       const expectedActions = [
@@ -189,15 +190,16 @@ describe('userActions', () => {
           data: responses.users.data,
         },
         {
-          type: joinActionTypes.Types.JOB_INVITED_USERS,
+          type: joinActionTypes.Types.JOB_COLLABORATING_USERS,
           userIds: responses.users.data.map(user => user.id),
           jobId,
+          joinAction: 'reset',
         },
       ];
 
       const store = mockStore();
 
-      return store.dispatch(actions.getInvitedUsersForJob({ jobId }))
+      return store.dispatch(actions.getCollaboratingUsersForJob({ jobId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
