@@ -28,16 +28,8 @@ class UserController {
     return store.dispatch(actions.getMatchingUsersForJob({ jobId }));
   }
 
-  static fetchInvitedUsersForJob(store, jobId) {
-    return store.dispatch(actions.getInvitedUsersForJob({ jobId }));
-  }
-
-  static fetchInterestedUsersForJob(store, jobId) {
-    return store.dispatch(actions.getInterestedUsersForJob({ jobId }));
-  }
-
-  static fetchAwardedUsersForJob(store, jobId) {
-    return store.dispatch(actions.getAwardedUsersForJob({ jobId }));
+  static fetchCollaboratingUsersForJob(store, jobId) {
+    return store.dispatch(actions.getCollaboratingUsersForJob({ jobId }));
   }
 
   static fetchUser(store, userId, jobId) {

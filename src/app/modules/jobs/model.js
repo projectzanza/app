@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Model from '../../lib/store/model';
 import { getJoinEntities } from '../../lib/store/utils';
 
@@ -12,32 +13,48 @@ export default class Job extends Model {
     });
   }
 
-  invitedUsers(store) {
+  collaboratingUsers(store) {
     return getJoinEntities({
       store,
       primaryKey: this.id,
-      joinTable: 'jobInvitedUsers',
+      joinTable: 'jobCollaboratingUsers',
       entityTable: 'user',
     });
+  }
+
+  invitedUsers(store) {
+    return _.filter(
+      this.collaboratingUsers(store),
+      ['meta.job.collaboration_state', 'invited'],
+    );
   }
 
   interestedUsers(store) {
-    return getJoinEntities({
-      store,
-      primaryKey: this.id,
-      joinTable: 'jobInterestedUsers',
-      entityTable: 'user',
-    });
+    return _.filter(
+      this.collaboratingUsers(store),
+      ['meta.job.collaboration_state', 'interested'],
+    );
+  }
+
+  prospectiveUsers(store) {
+    return _.filter(
+      this.collaboratingUsers(store),
+      ['meta.job.collaboration_state', 'prospective'],
+    );
   }
 
   awardedUser(store) {
-    return getJoinEntities({
-      store,
-      primaryKey: this.id,
-      joinTable: 'jobAwardUser',
-      entityTable: 'user',
-      joinType: 'hasOne',
-    });
+    return _.filter(
+      this.collaboratingUsers(store),
+      ['meta.job.collaboration_state', 'awarded'],
+    )[0];
+  }
+
+  participatingUsers(store) {
+    return _.filter(
+      this.collaboratingUsers(store),
+      ['meta.job.collaboration_state', 'participating'],
+    );
   }
 
   scopes(store) {

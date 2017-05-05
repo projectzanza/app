@@ -12,20 +12,12 @@ class JobController {
     return store.dispatch(actions.getUserJobs({ userId }));
   }
 
-  static fetchInvitedJobsForUser(store, userId) {
-    return store.dispatch(actions.getInvitedJobsForUser({ userId }));
+  static fetchCollaboratingJobs(store, userId) {
+    return store.dispatch(actions.getCollaboratingJobs({ userId }));
   }
 
   static fetchMatchingJobsForUser(store, userId) {
     return store.dispatch(actions.getMatchingJobsForUser({ userId }));
-  }
-
-  static fetchInterestedInJobsForUser(store, userId) {
-    return store.dispatch(actions.getInterestedInJobsForUser({ userId }));
-  }
-
-  static fetchAwardedJobsForUser(store, userId) {
-    return store.dispatch(actions.getAwardedJobsForUser({ userId }));
   }
 
   static getJob(store, id) {

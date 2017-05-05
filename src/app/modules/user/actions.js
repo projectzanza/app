@@ -98,27 +98,26 @@ export function getMatchingUsersForJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActionTypes.jobMatchingUsers(props.jobId, json));
+        dispatch(joinActionTypes.jobMatchingUsers(props.jobId, json, 'reset'));
       });
   };
 }
 
-export function getInvitedUsersForJob(props) {
+export function getCollaboratingUsersForJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
     return fetch(
-      '/users/invited',
+      `/jobs/${props.jobId}/users/collaborating`,
       {
         method: 'GET',
-        query: { job_id: props.jobId },
         headers: getState().headers,
       },
       dispatch)
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActionTypes.jobInvitedUsers(props.jobId, json));
+        dispatch(joinActionTypes.jobCollaboratingUsers(props.jobId, json, 'reset'));
       });
   };
 }
@@ -138,9 +137,8 @@ export function postInviteToJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActionTypes.jobInvitedUsers(props.jobId, json));
-      },
-      );
+        dispatch(joinActionTypes.jobCollaboratingUsers(props.jobId, json, 'merge'));
+      });
   };
 }
 
@@ -159,46 +157,7 @@ export function postAwardJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
-        dispatch(joinActionTypes.jobAwardUser(props.jobId, json));
-      },
-      );
-  };
-}
-
-export function getInterestedUsersForJob(props) {
-  return (dispatch, getState) => {
-    dispatch(ActionTypes.httpGetUsers());
-
-    fetch(
-      `/jobs/${props.jobId}/users/interested`,
-      {
-        method: 'GET',
-        headers: getState().headers,
-      }, dispatch)
-      .then(response => response.json())
-      .then((json) => {
-        dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActionTypes.jobInterestedUsers(props.jobId, json));
-      },
-    );
-  };
-}
-
-export function getAwardedUsersForJob(props) {
-  return (dispatch, getState) => {
-    dispatch(ActionTypes.httpGetUsers());
-
-    fetch(
-      `/jobs/${props.jobId}/users/awarded`,
-      {
-        method: 'GET',
-        headers: getState().headers,
-      }, dispatch)
-      .then(response => response.json())
-      .then((json) => {
-        dispatch(ActionTypes.httpRespUser(json));
-        dispatch(joinActionTypes.jobAwardUser(props.jobId, json));
-      },
-      );
+        dispatch(joinActionTypes.jobCollaboratingUsers(props.jobId, json, 'merge'));
+      });
   };
 }
