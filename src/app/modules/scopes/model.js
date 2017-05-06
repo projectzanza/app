@@ -5,6 +5,13 @@ export default class Scope extends Model {
 
 }
 
+Scope.states = {
+  open: 'open',
+  completed: 'completed',
+  verified: 'verified',
+  rejected: 'rejected',
+};
+
 Scope.propTypes = PropTypes.shape({
   title: PropTypes.string,
   description: PropTypes.string,

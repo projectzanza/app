@@ -47,7 +47,7 @@ export default class User extends Model {
   awardedJobs(store) {
     return _.filter(
       this.collaboratingJobs(store),
-      ['meta.current_user.collaboration_state', 'interested'],
+      ['meta.current_user.collaboration_state', 'awarded'],
     );
   }
 

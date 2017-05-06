@@ -40,3 +40,25 @@ export function getScopes(jobId) {
       });
   };
 }
+
+export function postStateScope(jobId, scopeId, state) {
+  if (['complete', 'verify', 'reject'].indexOf(state) < 0) {
+    throw new Error(`${state} is not a valid state for scopes`);
+  }
+
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetScopes(jobId));
+
+    return fetch(
+      `/scopes/${scopeId}/${state}`,
+      {
+        method: 'POST',
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespScopes(json));
+        dispatch(joinActions.jobScopes(jobId, json));
+      });
+  };
+}

@@ -43,17 +43,17 @@ export default class Job extends Model {
     );
   }
 
-  awardedUser(store) {
+  awardedUsers(store) {
     return _.filter(
       this.collaboratingUsers(store),
       ['meta.job.collaboration_state', 'awarded'],
-    )[0];
+    );
   }
 
   participatingUsers(store) {
     return _.filter(
       this.collaboratingUsers(store),
-      ['meta.job.collaboration_state', 'participating'],
+      ['meta.job.collaboration_state', 'participant'],
     );
   }
 

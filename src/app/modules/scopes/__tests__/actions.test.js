@@ -81,4 +81,48 @@ describe('scopeActions', () => {
         });
     });
   });
+
+  describe('postStateScopes', () => {
+    it('will throw an error if a valid state is not given', () => {
+      const store = mockStore();
+
+      const throwErrorfunc = () => {
+        store.dispatch(actions.postStateScope(1, 1, 'invalidState'))
+      };
+
+      expect(throwErrorfunc).toThrowError(Error);
+    });
+
+    it('creates HTTP_RESP_SCOPES and JOB_SCOPES on post success', () => {
+      const jobId = 1;
+      const scopeId = 100;
+
+      nock(Config.apiUrl)
+        .post(`/scopes/${scopeId}/complete`)
+        .reply(200, responses.scopes);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_GET_SCOPES,
+          jobId,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_SCOPES,
+          data: responses.scopes.data,
+        },
+        {
+          type: joinActionTypes.Types.JOB_SCOPES,
+          scopeIds: responses.scopes.data.map(scope => scope.id),
+          jobId,
+        },
+      ];
+
+      const store = mockStore();
+      return store.dispatch(actions.postStateScope(jobId, scopeId, 'complete'))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
 });
