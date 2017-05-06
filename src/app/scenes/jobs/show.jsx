@@ -89,6 +89,7 @@ class JobShowScene extends React.Component {
             users={this.state.invitedUsers}
             onClickUser={this.onClickUser}
             allowAwardUser
+            allowRejectUser
           />
         </Panel>
       );
@@ -104,6 +105,7 @@ class JobShowScene extends React.Component {
             jobId={this.state.job.id}
             users={this.state.awardedUsers}
             onClickUser={this.onClickUser}
+            allowRejectUser
           />
         </Panel>
       );

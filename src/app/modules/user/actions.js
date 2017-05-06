@@ -161,3 +161,18 @@ export function postAwardJob(props) {
       });
   };
 }
+
+export function postRejectUser(props) {
+  return (dispatch, getState) => fetch(
+      `/users/${props.userId}/reject`,
+    {
+      method: 'POST',
+      body: JSON.stringify({ job_id: props.jobId }),
+      headers: getState().headers,
+    },
+      dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespUser(json));
+      });
+}

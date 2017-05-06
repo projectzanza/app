@@ -18,18 +18,24 @@ const View = props => (
         { props.user.email }
       </Button>
     </td>
-    { (props.onClickInvite || props.onClickAward) &&
+    { (props.onClickInvite || props.onClickAward || props.onClickReject) &&
       <td>
         <ButtonToolbar>
           { props.onClickInvite &&
-          <Button onClick={e => props.onClickInvite(e, props.user)}>
+          <Button bsStyle="primary" onClick={e => props.onClickInvite(e, props.user)}>
             Invite
           </Button>
           }
           { props.onClickAward &&
-          <Button onClick={e => props.onClickAward(e, props.user)}>
+          <Button bsStyle="primary" onClick={e => props.onClickAward(e, props.user)}>
             Award
           </Button>
+          }
+          {
+            props.onClickReject &&
+            <Button bsStyle="danger" onClick={e => props.onClickReject(e, props.user)}>
+              Reject
+            </Button>
           }
         </ButtonToolbar>
       </td>
@@ -42,11 +48,13 @@ View.propTypes = {
   onClick: PropTypes.func.isRequired,
   onClickInvite: PropTypes.func,
   onClickAward: PropTypes.func,
+  onClickReject: PropTypes.func,
 };
 
 View.defaultProps = {
   onClickInvite: undefined,
   onClickAward: undefined,
+  onClickReject: undefined,
 };
 
 export default View;
