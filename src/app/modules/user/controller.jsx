@@ -44,6 +44,10 @@ class UserController {
   static awardJob(store, jobId, userId) {
     return store.dispatch(actions.postAwardJob({ userId, jobId }));
   }
+
+  static rejectUser(store, jobId, userId) {
+    return store.dispatch(actions.postRejectUser({ userId, jobId }));
+  }
 }
 
 

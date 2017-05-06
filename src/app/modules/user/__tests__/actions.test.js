@@ -224,7 +224,32 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.postInviteToJob({ jobId: 1, userId, resultsId: '123' }))
+      return store.dispatch(actions.postInviteToJob({ jobId: 1, userId }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('postRejectUser', () => {
+    it('creates HTTP_RESP_USER on success', () => {
+      const userId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/users/${userId}/reject`)
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_USER,
+          data: responses.user.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postRejectUser({ jobId: 1, userId }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
