@@ -31,13 +31,14 @@ class JobShowScene extends React.Component {
     this.unsubscribe = this.store.subscribe(() => {
       this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
       if (this.state.job) {
-        const awardedUser = this.state.job.awardedUser(this.store);
         this.setState({
           matchingUsers: this.state.job.matchingUsers(this.store),
           invitedUsers: this.state.job.invitedUsers(this.store)
             .concat(this.state.job.prospectiveUsers(this.store)),
           interestedUsers: this.state.job.interestedUsers(this.store),
-          awardedUsers: awardedUser ? [awardedUser] : [],
+          awardedUsers: this.state.job.awardedUsers(this.store)
+            .concat(this.state.job.participatingUsers(this.store)),
+          participatingUser: this.state.job.participatingUsers(this.store)[0],
         });
       }
     });
@@ -133,7 +134,11 @@ class JobShowScene extends React.Component {
     if (this.state.job) {
       return (
         <Panel header={<h3>Scope</h3>}>
-          <ListScope job={this.state.job} />
+          <ListScope
+            job={this.state.job}
+            currentUser={this.state.user}
+            participatingUser={this.state.participatingUser}
+          />
           <CreateScope job={this.state.job} />
         </Panel>
       );
