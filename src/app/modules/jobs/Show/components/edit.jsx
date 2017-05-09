@@ -6,6 +6,7 @@ import {
   FormControl,
   Button,
   Checkbox,
+  ButtonToolbar,
 } from 'react-bootstrap';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
@@ -123,10 +124,10 @@ class Edit extends React.Component {
             onChange={this.onChange}
           > Contact Me </Checkbox>
         </FormGroup>
-        <FormGroup>
+        <ButtonToolbar>
           <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>
           <Button type="submit" bsStyle="primary">Submit</Button>
-        </FormGroup>
+        </ButtonToolbar>
       </form>
     );
   }

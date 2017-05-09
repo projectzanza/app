@@ -1,6 +1,7 @@
 import fetch from '../../lib/fetch/fetch';
 import * as joinActions from '../../lib/reducers/join-actions';
 import * as ActionTypes from './actionTypes';
+import { httpRespEstimateFromJobs } from '../estimates/actionTypes';
 
 export function createJob(job) {
   return (dispatch, getState) => {
@@ -88,6 +89,9 @@ export function getCollaboratingJobs(props) {
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'reset'));
+        dispatch(httpRespJobsContainingEstimates(json));
+        dispatch(joinActions.jobEstimates(json));
+        dispatch(joinActions.userEstimates(json));
       });
   };
 }

@@ -65,6 +65,15 @@ export default class Job extends Model {
       entityTable: 'scopes',
     });
   }
+
+  estimate(store, userId){
+    const jobEstimateIds = getEntity(store, 'jobEstimates', this.id);
+    const userEstimateIds = getJoinEntities(store, 'userEstimates', userId);
+    const estimateId = _.intersection(jobEstimateIds, userEstimateIds)[0];
+    if(estimateId){
+      return getEntity(store, 'estimates', estimateId);
+    }
+  }
 }
 
 Job.defaults = {

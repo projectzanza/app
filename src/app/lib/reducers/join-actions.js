@@ -5,6 +5,8 @@ export const Types = {
   USER_MATCHING_JOBS: 'USER_MATCHING_JOBS',
   JOB_MATCHING_USERS: 'JOB_MATCHING_USERS',
   JOB_SCOPES: 'JOB_SCOPES',
+  JOB_ESTIMATES: 'JOB_ESTIMATES',
+  USER_ESTIMATES: 'USER_ESTIMATES'
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -50,3 +52,25 @@ export const jobScopes = (jobId, scopeJson) => ({
   scopeIds: scopeJson.data.map(job => job.id),
   jobId,
 });
+
+export const jobEstimates = (estimateJson) => {
+  const estimateData = [].concat(estimateJson.data);
+
+  return {
+    type: Types.JOB_ESTIMATES,
+    estimateIds: estimateData.map(estimate => estimate.id),
+    jobId: estimateJson.job_id,
+    joinAction: 'merge',
+  }
+};
+
+export const userEstimates = (estimateJson) => {
+  const estimateData = [].concat(estimateJson.data);
+
+  return {
+    type: Types.USER_ESTIMATES,
+    estimateIds: estimateData.map(estimate => estimate.id),
+    jobId: estimateJson.user_id,
+    joinAction: 'merge',
+  }
+};
