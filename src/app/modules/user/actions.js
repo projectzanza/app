@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
+import * as estimateActionTypes from '../estimates/actionTypes';
 
 export function createUser(user) {
   return (dispatch, getState) => {
@@ -67,7 +69,14 @@ export function getUser(userId, jobId) {
       },
       dispatch)
       .then(response => response.json())
-      .then(json => dispatch(ActionTypes.httpRespUser(json)));
+      .then((json) => {
+        const estimatesJson = { data: [_.get(json, 'data.meta.job.estimate')] };
+
+        dispatch(ActionTypes.httpRespUser(json));
+        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
+        dispatch(joinActions.jobEstimates(estimatesJson));
+        dispatch(joinActions.userEstimates(estimatesJson));
+      });
 }
 
 export function putUser(user) {
@@ -116,10 +125,13 @@ export function getCollaboratingUsersForJob(props) {
       dispatch)
       .then(response => response.json())
       .then((json) => {
+        const estimatesJson = { data: json.data.map(job => _.get(job, 'meta.job.estimate')) };
+
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'reset'));
-        dispatch(joinActions.jobEstimates(json));
-        dispatch(joinActions.userEstimates(json));
+        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
+        dispatch(joinActions.jobEstimates(estimatesJson));
+        dispatch(joinActions.userEstimates(estimatesJson));
       });
   };
 }

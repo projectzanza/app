@@ -8,23 +8,30 @@ export function submitEstimate(jobId, userId, estimate) {
 
     const body = Object.assign(
       estimate,
-      { job_id: jobId, user_id: userId }
+      { job_id: jobId, user_id: userId },
     );
-    const method = estimate.id ? 'PUT' : 'POST';
+    let method = 'POST';
+    let url = '/estimates';
+    if (estimate.id) {
+      method = 'PUT';
+      url = `${url}/${estimate.id}`;
+    }
 
     return fetch(
-      `/estimates`,
+      url,
       {
-        method: method,
+        method,
         body: JSON.stringify(body),
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then((json) -> {
-        dispatch(actionTypes.httpRespEstimate(json));
+      .then((json) => {
+        dispatch(actionTypes.httpRespEstimates(json));
         dispatch(joinActions.jobEstimates(json));
         dispatch(joinActions.userEstimates(json));
-      }
-    )
-  }
+      },
+    );
+  };
 }
+
+export function anotherFunction() {}

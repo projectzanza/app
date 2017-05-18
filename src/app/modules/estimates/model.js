@@ -20,3 +20,11 @@ Estimate.propTypes = PropTypes.shape({
 });
 
 Estimate.table = 'estimates';
+
+Estimate.defaults = {
+  days: v => v || '',
+  start_at: v => v || '',
+  end_at: v => v || '',
+  per_diem: v => v || '',
+  total: v => v || '',
+};

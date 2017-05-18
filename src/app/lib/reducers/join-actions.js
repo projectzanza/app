@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const Types = {
   USER_JOBS: 'USER_JOBS',
   USER_COLLABORATING_JOBS: 'USER_COLLABORATING_JOBS',
@@ -6,7 +8,7 @@ export const Types = {
   JOB_MATCHING_USERS: 'JOB_MATCHING_USERS',
   JOB_SCOPES: 'JOB_SCOPES',
   JOB_ESTIMATES: 'JOB_ESTIMATES',
-  USER_ESTIMATES: 'USER_ESTIMATES'
+  USER_ESTIMATES: 'USER_ESTIMATES',
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -54,23 +56,23 @@ export const jobScopes = (jobId, scopeJson) => ({
 });
 
 export const jobEstimates = (estimateJson) => {
-  const estimateData = [].concat(estimateJson.data);
+  const estimateData = estimateJson ? _.compact([].concat(estimateJson.data)) : [];
 
   return {
     type: Types.JOB_ESTIMATES,
     estimateIds: estimateData.map(estimate => estimate.id),
-    jobId: estimateJson.job_id,
+    jobIds: estimateData.map(estimate => estimate.job_id),
     joinAction: 'merge',
-  }
+  };
 };
 
 export const userEstimates = (estimateJson) => {
-  const estimateData = [].concat(estimateJson.data);
+  const estimateData = estimateJson ? _.compact([].concat(estimateJson.data)) : [];
 
   return {
     type: Types.USER_ESTIMATES,
     estimateIds: estimateData.map(estimate => estimate.id),
-    jobId: estimateJson.user_id,
+    userIds: estimateData.map(estimate => estimate.user_id),
     joinAction: 'merge',
-  }
+  };
 };

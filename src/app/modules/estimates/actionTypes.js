@@ -1,6 +1,6 @@
 export const Types = {
   HTTP_POST_ESTIMATE: 'HTTP_POST_ESTIMATE',
-  HTTP_RESP_ESTIMATE: 'HTTP_RESP_ESTIMATE',
+  HTTP_RESP_ESTIMATES: 'HTTP_RESP_ESTIMATES',
 };
 
 export function httpPostEstimate(jobId, userId, estimate) {
@@ -9,21 +9,12 @@ export function httpPostEstimate(jobId, userId, estimate) {
     jobId,
     userId,
     estimate,
-  }
+  };
 }
 
-export function httpRespEstimate(json) {
+export function httpRespEstimates(json) {
   return {
-    type: Types.HTTP_RESP_ESTIMATE,
-    data: json.data,
-  }
-}
-
-export function httpRespJobsContainingEstimates(json) {
-  const data = [].concat(json.data);
-  estimates = data.map(job => _.get(job, 'meta.current_user.estimate'))
-  return {
-    type: Types.HTTP_RESP_ESTIMATE,
-
-  }
+    type: Types.HTTP_RESP_ESTIMATES,
+    data: [].concat(json.data),
+  };
 }
