@@ -116,11 +116,11 @@ class JobShowScene extends React.Component {
   }
 
   interestedUserList() {
-    if (this.userOwnsJob()) {
+    if (this.userOwnsJob() && this.state.job) {
       return (
         <Panel header={<h3>Interested Consultants</h3>}>
           <UserList
-            jobId={this.state.jobId}
+            jobId={this.state.job.id}
             users={this.state.interestedUsers}
             onClickUser={this.onClickUser}
             allowAwardUser

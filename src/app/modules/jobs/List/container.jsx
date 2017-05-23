@@ -45,14 +45,17 @@ class ShowJobListContainer extends React.Component {
 
 
   render() {
-    return (<List
-      jobs={this.state.jobs}
-      onClickJob={this.props.onClickJob}
-      allowRegisterInterest={this.props.allowRegisterInterest}
-      onClickRegisterInterest={this.onClickRegisterInterest}
-      canClickAccept={ShowJobListContainer.canClickAccept}
-      onClickAccept={this.onClickAccept}
-    />);
+    return (
+      <List
+        jobs={this.state.jobs}
+        userId={this.props.userId}
+        onClickJob={this.props.onClickJob}
+        allowRegisterInterest={this.props.allowRegisterInterest}
+        onClickRegisterInterest={this.onClickRegisterInterest}
+        canClickAccept={ShowJobListContainer.canClickAccept}
+        onClickAccept={this.onClickAccept}
+      />
+    );
   }
 }
 

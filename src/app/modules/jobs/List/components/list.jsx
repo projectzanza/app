@@ -17,6 +17,7 @@ class List extends React.Component {
     return this.props.jobs.map(job => <JobView
       key={job.id}
       job={job}
+      userId={this.props.userId}
       onClick={this.props.onClickJob}
       allowRegisterInterest={this.props.allowRegisterInterest}
       onClickRegisterInterest={this.props.onClickRegisterInterest}
@@ -39,6 +40,7 @@ List.propTypes = {
   jobs: PropTypes.arrayOf(
     Job.propTypes,
   ).isRequired,
+  userId: PropTypes.string,
   onClickJob: PropTypes.func.isRequired,
   allowRegisterInterest: PropTypes.bool,
   onClickRegisterInterest: PropTypes.func,
@@ -47,6 +49,7 @@ List.propTypes = {
 };
 
 List.defaultProps = {
+  userId: undefined,
   allowRegisterInterest: false,
   onClickRegisterInterest: undefined,
   canClickAccept: undefined,

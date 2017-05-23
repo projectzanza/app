@@ -40,6 +40,7 @@ class ListContainer extends React.Component {
     return (
       <List
         users={this.state.users}
+        jobId={this.props.jobId}
         onClickInviteUser={this.props.allowInviteUser && this.onClickInviteUser}
         onClickAwardUser={this.props.allowAwardUser && this.onClickAwardUser}
         onClickRejectUser={this.props.allowRejectUser && this.onClickRejectUser}

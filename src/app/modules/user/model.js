@@ -57,6 +57,24 @@ export default class User extends Model {
       ['meta.current_user.collaboration_state', 'participating'],
     );
   }
+
+  estimate(store, jobId) {
+    const jobEstimateIds = getJoinEntities({
+      store,
+      primaryKey: jobId,
+      joinTable: 'jobEstimates',
+      entityTable: 'estimates',
+    });
+
+    const userEstimateIds = getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userEstimates',
+      entityTable: 'estimates',
+    });
+    const estimate = _.intersection(jobEstimateIds, userEstimateIds)[0];
+    return estimate;
+  }
 }
 
 User.defaults = {
