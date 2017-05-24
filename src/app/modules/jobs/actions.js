@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import fetch from '../../lib/fetch/fetch';
 import * as joinActions from '../../lib/reducers/join-actions';
 import * as ActionTypes from './actionTypes';
+import * as estimateActionTypes from '../estimates/actionTypes';
 
 export function createJob(job) {
   return (dispatch, getState) => {
@@ -86,8 +88,13 @@ export function getCollaboratingJobs(props) {
       }, dispatch)
       .then(response => response.json())
       .then((json) => {
+        const estimatesJson = { data: json.data.map(job => _.get(job, 'meta.current_user.estimate')) };
+
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'reset'));
+        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
+        dispatch(joinActions.jobEstimates(estimatesJson));
+        dispatch(joinActions.userEstimates(estimatesJson));
       });
   };
 }

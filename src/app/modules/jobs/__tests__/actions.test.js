@@ -4,6 +4,7 @@ import nock from 'nock';
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
 import * as joinActionTypes from '../../../lib/reducers/join-actions';
+import { Types as estimateTypes } from '../../estimates/actionTypes';
 import * as responses from '../__mocks__/job_responses';
 import * as forms from '../__mocks__/job_forms';
 import Config from '../../../config/app';
@@ -183,10 +184,17 @@ describe('jobActions', () => {
   describe('getCollaboratingJobs', () => {
     it('should create HTTP_RESP_JOB and USER_COLLABORATING_JOBS on success', () => {
       const userId = 1;
+      const response = responses.jobsWithEstimates;
 
       nock(Config.apiUrl)
         .get('/jobs/collaborating')
-        .reply(200, responses.jobs);
+        .reply(200, response);
+
+
+      const jobIds = response.data.map(job => job.id);
+      const estimatesJson = response.data.map(job => job.meta.current_user.estimate);
+      const estimateIds = estimatesJson.map(estimate => estimate.id);
+      const estimateUserIds = estimatesJson.map(estimate => estimate.user_id);
 
       const expectedActions = [
         {
@@ -194,14 +202,30 @@ describe('jobActions', () => {
         },
         {
           type: actionTypes.Types.HTTP_RESP_JOBS,
-          data: responses.jobs.data,
+          data: response.data,
         },
         {
           type: joinActionTypes.Types.USER_COLLABORATING_JOBS,
-          jobIds: responses.jobs.data.map(job => job.id),
+          jobIds,
           userId,
           joinAction: 'reset',
         },
+        {
+          type: estimateTypes.HTTP_RESP_ESTIMATES,
+          data: estimatesJson
+        },
+        {
+          type: joinActionTypes.Types.JOB_ESTIMATES,
+          estimateIds,
+          jobIds,
+          joinAction: 'merge',
+        },
+        {
+          type: joinActionTypes.Types.USER_ESTIMATES,
+          estimateIds,
+          userIds: estimateUserIds,
+          joinAction: 'merge',
+        }
       ];
 
       const store = mockStore();

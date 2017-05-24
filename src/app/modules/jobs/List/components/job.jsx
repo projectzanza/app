@@ -6,19 +6,26 @@ import {
 } from 'react-bootstrap';
 import Job from '../../model';
 
-const JobView = props => (
-  <tr>
-    <td>
-      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
-        { props.job.title }
-      </Button>
-    </td>
-    <td>
-      <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
-        { props.job.text }
-      </Button>
-    </td>
-    { (props.allowRegisterInterest || props.onClickAccept) &&
+const View = (props, context) => {
+  const { store } = context;
+  const estimate = props.job.estimate(store, props.userId);
+
+  return (
+    <tr>
+      <td>
+        <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+          { props.job.title }
+        </Button>
+      </td>
+      <td>
+        <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+          { props.job.text }
+        </Button>
+      </td>
+      <td>
+        { estimate && estimate.total }
+      </td>
+      { (props.allowRegisterInterest || props.onClickAccept) &&
       <td>
         <ButtonToolbar>
           {
@@ -33,26 +40,31 @@ const JobView = props => (
               Accept
             </Button>
           }
-
         </ButtonToolbar>
       </td>
-    }
+      }
+    </tr>
+  );
+};
 
-  </tr>
-);
-
-JobView.propTypes = {
+View.propTypes = {
   job: Job.propTypes.isRequired,
+  userId: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   onClickRegisterInterest: PropTypes.func,
   allowRegisterInterest: PropTypes.bool,
   onClickAccept: PropTypes.func,
 };
 
-JobView.defaultProps = {
+View.defaultProps = {
+  userId: undefined,
   allowRegisterInterest: false,
   onClickRegisterInterest: undefined,
   onClickAccept: undefined,
 };
 
-export default JobView;
+View.contextTypes = {
+  store: PropTypes.object,
+};
+
+export default View;

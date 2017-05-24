@@ -23,8 +23,8 @@ class DashboardScene extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
-    this.user = UserController.currentUser(this.store);
     this.state = {
+      user: UserController.currentUser(this.store),
       userJobs: [],
       invitedToJobs: [],
       matchingJobs: [],
@@ -37,12 +37,13 @@ class DashboardScene extends React.Component {
     this.fetchJobs();
 
     this.unsubscribe = this.store.subscribe(() => {
+      this.setState({ user: UserController.currentUser(this.store) });
       this.setState({
-        userJobs: this.user.jobs(this.store),
-        matchingJobs: this.user.matchingJobs(this.store),
-        invitedToJobs: this.user.invitedToJobs(this.store),
-        interestedInJobs: this.user.interestedInJobs(this.store),
-        awardedJobs: this.user.awardedJobs(this.store),
+        userJobs: this.state.user.jobs(this.store),
+        matchingJobs: this.state.user.matchingJobs(this.store),
+        invitedToJobs: this.state.user.invitedToJobs(this.store),
+        interestedInJobs: this.state.user.interestedInJobs(this.store),
+        awardedJobs: this.state.user.awardedJobs(this.store),
       });
     });
   }
@@ -52,9 +53,9 @@ class DashboardScene extends React.Component {
   }
 
   fetchJobs() {
-    JobController.fetchUserJobs(this.store, this.user.id);
-    JobController.fetchCollaboratingJobs(this.store, this.user.id);
-    JobController.fetchMatchingJobsForUser(this.store, this.user.id);
+    JobController.fetchUserJobs(this.store, this.state.user.id);
+    JobController.fetchCollaboratingJobs(this.store, this.state.user.id);
+    JobController.fetchMatchingJobsForUser(this.store, this.state.user.id);
   }
 
   render() {

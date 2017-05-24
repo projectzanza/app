@@ -8,6 +8,7 @@ import ShowJob from '../../modules/jobs/Show/container';
 import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
 import CreateScope from '../../modules/scopes/Create/container';
+import EstimateContainer from '../../modules/estimates/Show/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
@@ -115,11 +116,11 @@ class JobShowScene extends React.Component {
   }
 
   interestedUserList() {
-    if (this.userOwnsJob()) {
+    if (this.userOwnsJob() && this.state.job) {
       return (
         <Panel header={<h3>Interested Consultants</h3>}>
           <UserList
-            jobId={this.state.jobId}
+            jobId={this.state.job.id}
             users={this.state.interestedUsers}
             onClickUser={this.onClickUser}
             allowAwardUser
@@ -146,6 +147,21 @@ class JobShowScene extends React.Component {
     return null;
   }
 
+  estimate() {
+    if (this.state.job && !this.userOwnsJob()) {
+      return (
+        <Panel header={<h3>Estimate</h3>}>
+          <EstimateContainer
+            userId={this.state.user.id}
+            jobId={this.state.job.id}
+            estimate={this.state.job.estimate(this.store, this.state.user.id)}
+          />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
@@ -156,6 +172,7 @@ class JobShowScene extends React.Component {
         />
 
         {this.scope()}
+        {this.estimate()}
 
         {this.awardedUserList()}
         {this.invitedUserList()}

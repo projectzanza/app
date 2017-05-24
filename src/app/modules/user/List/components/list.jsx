@@ -5,11 +5,11 @@ import UserView from './user';
 import User from '../../model';
 
 class List extends React.Component {
-
   listItems() {
     return this.props.users.map(user => <UserView
       key={user.id}
       user={user}
+      jobId={this.props.jobId}
       onClick={this.props.onClickUser}
       onClickInvite={this.props.onClickInviteUser}
       onClickAward={this.props.onClickAwardUser}
@@ -32,6 +32,7 @@ List.propTypes = {
   users: PropTypes.arrayOf(
     User.propTypes,
   ).isRequired,
+  jobId: PropTypes.string,
   onClickInviteUser: PropTypes.func,
   onClickAwardUser: PropTypes.func,
   onClickRejectUser: PropTypes.func,
@@ -39,9 +40,14 @@ List.propTypes = {
 };
 
 List.defaultProps = {
+  jobId: undefined,
   onClickInviteUser: undefined,
   onClickAwardUser: undefined,
   onClickRejectUser: undefined,
+};
+
+List.contextTypes = {
+  store: PropTypes.object,
 };
 
 export default List;

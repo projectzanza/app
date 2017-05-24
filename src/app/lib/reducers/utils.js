@@ -1,15 +1,5 @@
 import _ from 'lodash';
 
-export function overrideNull(initialState, state) {
-  const nextState = Object.assign({}, state);
-  Object.keys(nextState).forEach((key) => {
-    if (nextState[key] === null) {
-      nextState[key] = initialState[key];
-    }
-  });
-  return nextState;
-}
-
 // places an entity, such as a job, user etc, into the entities property
 // entity should have an id
 // state - redux state
