@@ -87,7 +87,7 @@ describe('scopeActions', () => {
       const store = mockStore();
 
       const throwErrorfunc = () => {
-        store.dispatch(actions.postStateScope(1, 1, 'invalidState'))
+        store.dispatch(actions.postStateScope(1, 1, 'invalidState'));
       };
 
       expect(throwErrorfunc).toThrowError(Error);

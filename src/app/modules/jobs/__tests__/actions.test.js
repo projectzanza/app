@@ -212,7 +212,7 @@ describe('jobActions', () => {
         },
         {
           type: estimateTypes.HTTP_RESP_ESTIMATES,
-          data: estimatesJson
+          data: estimatesJson,
         },
         {
           type: joinActionTypes.Types.JOB_ESTIMATES,
@@ -225,7 +225,7 @@ describe('jobActions', () => {
           estimateIds,
           userIds: estimateUserIds,
           joinAction: 'merge',
-        }
+        },
       ];
 
       const store = mockStore();
@@ -234,6 +234,71 @@ describe('jobActions', () => {
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('postAcceptJob', () => {
+    it('should create HTTP_RESP_JOBS on success', () => {
+      const jobId = 1;
+      const userId = 1000;
+
+      nock(Config.apiUrl)
+        .post(`/jobs/${jobId}/accept`)
+        .reply(200, responses.jobs);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_GET_JOBS,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_JOBS,
+          data: responses.jobs.data,
+        },
+        {
+          type: joinActionTypes.Types.USER_COLLABORATING_JOBS,
+          jobIds: responses.jobs.data.map(job => job.id),
+          joinAction: 'merge',
+          userId,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postAcceptJob({ jobId, userId }))
+        .then(() => {
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining(expectedActions),
+          );
+        });
+    });
+  });
+
+  describe('postVerifyJob', () => {
+    it('should create HTTP_RESP_JOB on success', () => {
+      const jobId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/jobs/${jobId}/verify`)
+        .reply(200, responses.verifiedJob);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_GET_JOB,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_JOB,
+          data: responses.verifiedJob.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postVerifyJob({ jobId }))
+        .then(() => {
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining(expectedActions),
+          );
         });
     });
   });

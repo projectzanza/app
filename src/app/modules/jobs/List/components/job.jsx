@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button,
   ButtonToolbar,
+  Label,
 } from 'react-bootstrap';
 import Job from '../../model';
 
@@ -14,6 +15,8 @@ const View = (props, context) => {
     <tr>
       <td>
         <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
+          <Label bsStyle="default">{ props.job.state }</Label>
+          &nbsp;
           { props.job.title }
         </Button>
       </td>

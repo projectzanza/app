@@ -8,6 +8,33 @@ export const job = {
   },
 };
 
+export const verifiedJob = {
+  data: {
+    id: 1,
+    title: 'job title',
+    tag_list: ['tag1', 'tag2', 'tag3'],
+    created_at: '01-01-2017',
+    updated_at: '01-01-2017',
+    verified_at: '01-02-2017',
+  },
+};
+
+export const acceptedJob = {
+  data: {
+    id: 1,
+    title: 'job title',
+    tag_list: ['tag1', 'tag2', 'tag3'],
+    created_at: '01-01-2017',
+    updated_at: '01-01-2017',
+    verified_at: '01-02-2017',
+    meta: {
+      current_user: {
+        collaboration_state: 'participant',
+      },
+    },
+  },
+};
+
 export const jobNullValues = {
   data: {
     id: 1,
@@ -54,10 +81,10 @@ export const jobsWithEstimates = {
             user_id: 1100,
             per_diem: '$100',
             days: 1,
-            total: '$100'
-          }
-        }
-      }
+            total: '$100',
+          },
+        },
+      },
     },
     {
       id: 2,
@@ -73,10 +100,10 @@ export const jobsWithEstimates = {
             user_id: 2200,
             per_diem: '$200',
             days: 1,
-            total: '$200'
-          }
-        }
-      }
+            total: '$200',
+          },
+        },
+      },
     },
   ],
-}
+};

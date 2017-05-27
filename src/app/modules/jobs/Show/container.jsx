@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Edit from './components/edit';
@@ -6,6 +7,8 @@ import View from './components/view';
 import { putJob } from '../actions';
 import Job from '../model';
 import JobController from '../controller';
+
+import ModalConfirmVerify from '../ModalConfirmVerify/modal';
 
 class ShowJobContainer extends React.Component {
   constructor(props, context) {
@@ -23,6 +26,8 @@ class ShowJobContainer extends React.Component {
     this.onClickRegisterInterest = this.onClickRegisterInterest.bind(this);
     this.canClickAccept = this.canClickAccept.bind(this);
     this.onClickAccept = this.onClickAccept.bind(this);
+    this.onClickVerify = this.onClickVerify.bind(this);
+    this.verifyJob = this.verifyJob.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,6 +59,21 @@ class ShowJobContainer extends React.Component {
     JobController.acceptJob(this.store, this.state.job.id, this.props.currentUser.id);
   }
 
+  onClickVerify() {
+    if (JobController.canVerifyJobComplete(this.state.job, this.props.currentUser.id)) {
+      return () => {
+        ReactDOM.render(
+          <ModalConfirmVerify
+            onConfirm={this.verifyJob}
+            show
+          />,
+          document.getElementById('modal'),
+        );
+      };
+    }
+    return undefined;
+  }
+
   canClickAccept() {
     return JobController.canAcceptJob(this.state.job, this.props.currentUser) || undefined;
   }
@@ -61,6 +81,11 @@ class ShowJobContainer extends React.Component {
   showRegisterInterest() {
     return (this.props.currentUser.id !== this.state.job.user_id) &&
       !_.get(this.state.job, 'meta.current_user.collaboration_state');
+  }
+
+  verifyJob() {
+    JobController.verifyJobComplete(this.store, this.state.job.id)
+      .then(() => JobController.fetchScopes(this.store, this.state.job.id));
   }
 
   render() {
@@ -81,6 +106,7 @@ class ShowJobContainer extends React.Component {
         showRegisterInterest={this.showRegisterInterest()}
         onClickRegisterInterest={this.onClickRegisterInterest}
         onClickAccept={this.canClickAccept() && this.onClickAccept}
+        onClickVerify={this.onClickVerify()}
       />
     );
   }

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import * as actions from './actions';
 import Job from './model';
+import ScopeController from '../scopes/controller';
 
 class JobController {
 
@@ -34,6 +35,18 @@ class JobController {
 
   static acceptJob(store, jobId, userId) {
     return store.dispatch(actions.postAcceptJob({ jobId, userId }));
+  }
+
+  static canVerifyJobComplete(job, userId) {
+    return !job.verified_at && job.user_id === userId;
+  }
+
+  static verifyJobComplete(store, jobId) {
+    return store.dispatch(actions.postVerifyJob({ jobId }));
+  }
+
+  static fetchScopes(store, jobId) {
+    return ScopeController.fetchScopes(store, jobId);
   }
 
 }
