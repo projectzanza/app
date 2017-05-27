@@ -12,13 +12,14 @@ import Estimate from '../../../estimates/model';
 const View = (props, context) => {
   const { store } = context;
   const estimate = props.user.estimate(store, props.jobId);
+  const collaborationState = _.get(props.user, 'meta.job.collaboration_state');
 
   return (
     <tr>
       <td>
         <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
-          { _.get(props.user, 'meta.job.collaboration_state') &&
-          <Label bsStyle="default">{ props.user.meta.job.collaboration_state }</Label>
+          { collaborationState &&
+          <Label bsStyle="success">{ collaborationState }</Label>
           }
           &nbsp;
           { props.user.name }
@@ -32,7 +33,6 @@ const View = (props, context) => {
       <td>
         { estimate && estimate.total }
       </td>
-      { (props.onClickInvite || props.onClickAward || props.onClickReject) &&
       <td>
         <ButtonToolbar>
           { props.onClickInvite &&
@@ -53,7 +53,6 @@ const View = (props, context) => {
           }
         </ButtonToolbar>
       </td>
-      }
     </tr>
   );
 };

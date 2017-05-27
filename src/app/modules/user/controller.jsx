@@ -5,8 +5,14 @@ import User from './model';
 class UserController {
   static currentUser(store) {
     const { user } = store.getState();
-    if (user.currentUser) {
-      return User.find(store, user.currentUser);
+    const foundUser = User.find(store, user.currentUser);
+
+    // since user is serialised, the class is not persisted in the localStorage, only the attributes
+    // so we have to generate a class out of it again if we want it
+    if (foundUser && foundUser instanceof User) {
+      return foundUser;
+    } else if (foundUser) {
+      return new User(foundUser);
     }
     return undefined;
   }
@@ -47,6 +53,15 @@ class UserController {
 
   static rejectUser(store, jobId, userId) {
     return store.dispatch(actions.postRejectUser({ userId, jobId }));
+  }
+
+  static sortByCollaborationState(...args) {
+    const items = [].reduce.call(args, (list, item) => list.concat(item), []);
+    return _.uniq(_.sortBy(
+      items,
+      item => ['participating', 'awarded', 'invited', 'interested', undefined]
+        .indexOf(_.get(item, 'meta.job.collaboration_state')),
+    ));
   }
 }
 

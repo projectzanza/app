@@ -19,11 +19,9 @@ class JobShowScene extends React.Component {
       user: UserController.currentUser(this.store),
       job: JobController.getJob(this.store, props.params.id),
       matchingUsers: [],
-      invitedUsers: [],
-      interestedUsers: [],
-      awardedUsers: [],
     };
     this.onClickUser = this.onClickUser.bind(this);
+    this.onSubmitSuccess = this.onSubmitSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -33,13 +31,10 @@ class JobShowScene extends React.Component {
       this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
       if (this.state.job) {
         this.setState({
-          matchingUsers: this.state.job.matchingUsers(this.store),
-          invitedUsers: this.state.job.invitedUsers(this.store)
-            .concat(this.state.job.prospectiveUsers(this.store)),
-          interestedUsers: this.state.job.interestedUsers(this.store),
-          awardedUsers: this.state.job.awardedUsers(this.store)
-            .concat(this.state.job.participatingUsers(this.store)),
-          participatingUser: this.state.job.participatingUsers(this.store)[0],
+          matchingUsers: UserController.sortByCollaborationState(
+            this.state.job.matchingUsers(this.store),
+            this.state.job.collaboratingUsers(this.store),
+          ),
         });
       }
     });
@@ -52,6 +47,10 @@ class JobShowScene extends React.Component {
   onClickUser(ev, user) {
     ev.preventDefault();
     browserHistory.push(routes.job.user(this.state.job.id, user.id));
+  }
+
+  onSubmitSuccess() {
+    browserHistory.replace(routes.job.show(this.state.job.id));
   }
 
   fetchData() {
@@ -74,56 +73,7 @@ class JobShowScene extends React.Component {
             jobId={this.state.job.id}
             users={this.state.matchingUsers}
             onClickUser={this.onClickUser}
-            allowInviteUser
-          />
-        </Panel>
-      );
-    }
-    return null;
-  }
-
-  invitedUserList() {
-    if (this.userOwnsJob()) {
-      return (
-        <Panel header={<h3>Invited Consultants</h3>}>
-          <UserList
-            jobId={this.state.job.id}
-            users={this.state.invitedUsers}
-            onClickUser={this.onClickUser}
-            allowAwardUser
-            allowRejectUser
-          />
-        </Panel>
-      );
-    }
-    return null;
-  }
-
-  awardedUserList() {
-    if (this.userOwnsJob()) {
-      return (
-        <Panel header={<h3>Awarded Consultant</h3>}>
-          <UserList
-            jobId={this.state.job.id}
-            users={this.state.awardedUsers}
-            onClickUser={this.onClickUser}
-            allowRejectUser
-          />
-        </Panel>
-      );
-    }
-    return null;
-  }
-
-  interestedUserList() {
-    if (this.userOwnsJob() && this.state.job) {
-      return (
-        <Panel header={<h3>Interested Consultants</h3>}>
-          <UserList
-            jobId={this.state.job.id}
-            users={this.state.interestedUsers}
-            onClickUser={this.onClickUser}
-            allowAwardUser
+            allowChangeCollaborationState
           />
         </Panel>
       );
@@ -169,14 +119,12 @@ class JobShowScene extends React.Component {
           job={this.state.job}
           mode={this.props.params.mode}
           currentUser={this.state.user}
+          onSubmitSuccess={this.onSubmitSuccess}
         />
 
         {this.scope()}
         {this.estimate()}
 
-        {this.awardedUserList()}
-        {this.invitedUserList()}
-        {this.interestedUserList()}
         {this.matchingUserList()}
       </div>
     );

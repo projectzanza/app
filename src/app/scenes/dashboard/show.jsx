@@ -37,13 +37,13 @@ class DashboardScene extends React.Component {
     this.fetchJobs();
 
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: UserController.currentUser(this.store) });
+      const user = this.state.user;
       this.setState({
-        userJobs: this.state.user.jobs(this.store),
-        matchingJobs: this.state.user.matchingJobs(this.store),
-        invitedToJobs: this.state.user.invitedToJobs(this.store),
-        interestedInJobs: this.state.user.interestedInJobs(this.store),
-        awardedJobs: this.state.user.awardedJobs(this.store),
+        userJobs: user.jobs(this.store),
+        matchingJobs: JobController.sortByCollaborationState(
+          user.collaboratingJobs(this.store),
+          user.matchingJobs(this.store),
+        ),
       });
     });
   }
@@ -75,36 +75,11 @@ class DashboardScene extends React.Component {
           />
         </Panel>
 
-        <Panel header={<h3>Your Awarded Jobs</h3>}>
-          <JobList
-            userId={UserController.currentUser(this.store).id}
-            onClickJob={DashboardScene.onClickJob}
-            jobs={this.state.awardedJobs}
-          />
-        </Panel>
-
-        <Panel header={<h3>Your Invites</h3>}>
-          <JobList
-            userId={UserController.currentUser(this.store).id}
-            onClickJob={DashboardScene.onClickJob}
-            jobs={this.state.invitedToJobs}
-          />
-        </Panel>
-
-        <Panel header={<h3>Your Interesting Jobs</h3>}>
-          <JobList
-            userId={UserController.currentUser(this.store).id}
-            onClickJob={DashboardScene.onClickJob}
-            jobs={this.state.interestedInJobs}
-          />
-        </Panel>
-
-        <Panel header={<h3>Available Jobs</h3>}>
+        <Panel header={<h3>Matching Jobs</h3>}>
           <JobList
             userId={UserController.currentUser(this.store).id}
             onClickJob={DashboardScene.onClickJob}
             jobs={this.state.matchingJobs}
-            allowRegisterInterest
           />
         </Panel>
       </DashboardContainer>

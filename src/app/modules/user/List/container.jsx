@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import List from './components/list';
 import User from '../model';
 import UserController from '../controller';
@@ -12,28 +13,43 @@ class ListContainer extends React.Component {
       users: this.props.users,
     };
 
-    this.onClickInviteUser = this.onClickInviteUser.bind(this);
-    this.onClickAwardUser = this.onClickAwardUser.bind(this);
-    this.onClickRejectUser = this.onClickRejectUser.bind(this);
+    this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
+    this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
+    this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ users: nextProps.users });
   }
 
-  onClickInviteUser(ev, user) {
-    ev.preventDefault();
-    UserController.inviteUser(this.store, this.props.jobId, user.id);
+  onClickInviteUserFunc(user) {
+    if ([undefined, 'interested'].indexOf(_.get(user, 'meta.job.collaboration_state')) >= 0) {
+      return (ev, clickedUser) => {
+        ev.preventDefault();
+        UserController.inviteUser(this.store, this.props.jobId, clickedUser.id);
+      };
+    }
+    return undefined;
   }
 
-  onClickAwardUser(ev, user) {
-    ev.preventDefault();
-    UserController.awardJob(this.store, this.props.jobId, user.id);
+  onClickAwardUserFunc(user) {
+    if (['awarded', 'participant'].indexOf(_.get(user, 'meta.job.collaboration_state')) < 0) {
+      return (ev, clickedUser) => {
+        ev.preventDefault();
+        UserController.awardJob(this.store, this.props.jobId, clickedUser.id);
+      };
+    }
+    return undefined;
   }
 
-  onClickRejectUser(ev, user) {
-    ev.preventDefault();
-    UserController.rejectUser(this.store, this.props.jobId, user.id);
+  onClickRejectUserFunc(user) {
+    if (_.get(user, 'meta.job.collaboration_state')) {
+      return (ev, clickedUser) => {
+        ev.preventDefault();
+        UserController.rejectUser(this.store, this.props.jobId, clickedUser.id);
+      };
+    }
+    return undefined;
   }
 
   render() {
@@ -41,9 +57,15 @@ class ListContainer extends React.Component {
       <List
         users={this.state.users}
         jobId={this.props.jobId}
-        onClickInviteUser={this.props.allowInviteUser && this.onClickInviteUser}
-        onClickAwardUser={this.props.allowAwardUser && this.onClickAwardUser}
-        onClickRejectUser={this.props.allowRejectUser && this.onClickRejectUser}
+        onClickInviteUserFunc={
+          this.props.allowChangeCollaborationState && this.onClickInviteUserFunc
+        }
+        onClickAwardUserFunc={
+          this.props.allowChangeCollaborationState && this.onClickAwardUserFunc
+        }
+        onClickRejectUserFunc={
+          this.props.allowChangeCollaborationState && this.onClickRejectUserFunc
+        }
         onClickUser={this.props.onClickUser}
       />
     );
@@ -59,16 +81,12 @@ ListContainer.propTypes = {
     User.propTypes,
   ),
   onClickUser: PropTypes.func.isRequired,
-  allowInviteUser: PropTypes.bool,
-  allowAwardUser: PropTypes.bool,
-  allowRejectUser: PropTypes.bool,
+  allowChangeCollaborationState: PropTypes.bool,
   jobId: PropTypes.string,
 };
 
 ListContainer.defaultProps = {
-  allowInviteUser: undefined,
-  allowAwardUser: undefined,
-  allowRejectUser: undefined,
+  allowChangeCollaborationState: undefined,
   match: undefined,
   invited: undefined,
   users: [],

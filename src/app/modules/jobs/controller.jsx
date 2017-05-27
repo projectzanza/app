@@ -49,6 +49,15 @@ class JobController {
     return ScopeController.fetchScopes(store, jobId);
   }
 
+  static sortByCollaborationState(...args) {
+    const items = [].reduce.call(args, (list, item) => list.concat(item), []);
+    return _.uniq(_.sortBy(
+      items,
+      item => ['participating', 'awarded', 'invited', 'interested', undefined]
+        .indexOf(_.get(item, 'meta.current_user.collaboration_state')),
+    ));
+  }
+
 }
 
 export default JobController;
