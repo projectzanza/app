@@ -1,4 +1,4 @@
-export const no_estimate = {
+export const noEstimate = {
   data: null,
 };
 

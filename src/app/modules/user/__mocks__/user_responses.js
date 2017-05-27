@@ -38,9 +38,9 @@ export const collaboratingUsers = {
       username: 'user1',
       meta: {
         job: {
-          collaboration_state: 'invited'
-        }
-      }
+          collaboration_state: 'invited',
+        },
+      },
     },
     {
       id: 2,
@@ -48,9 +48,9 @@ export const collaboratingUsers = {
       username: 'user2',
       meta: {
         job: {
-          collaboration_state: 'invited'
-        }
-      }
+          collaboration_state: 'invited',
+        },
+      },
     },
     {
       id: 3,
@@ -58,9 +58,9 @@ export const collaboratingUsers = {
       username: 'user3',
       meta: {
         job: {
-          collaboration_state: 'interested'
-        }
-      }
+          collaboration_state: 'interested',
+        },
+      },
     },
     {
       id: 4,
@@ -68,9 +68,9 @@ export const collaboratingUsers = {
       username: 'user4',
       meta: {
         job: {
-          collaboration_state: 'interested'
-        }
-      }
+          collaboration_state: 'interested',
+        },
+      },
     },
     {
       id: 5,
@@ -78,9 +78,9 @@ export const collaboratingUsers = {
       username: 'user5',
       meta: {
         job: {
-          collaboration_state: 'prospective'
-        }
-      }
+          collaboration_state: 'prospective',
+        },
+      },
     },
     {
       id: 5,
@@ -88,9 +88,9 @@ export const collaboratingUsers = {
       username: 'user5',
       meta: {
         job: {
-          collaboration_state: 'prospective'
-        }
-      }
+          collaboration_state: 'prospective',
+        },
+      },
     },
     {
       id: 6,
@@ -98,9 +98,9 @@ export const collaboratingUsers = {
       username: 'user6',
       meta: {
         job: {
-          collaboration_state: 'awarded'
-        }
-      }
+          collaboration_state: 'awarded',
+        },
+      },
     },
     {
       id: 7,
@@ -108,9 +108,9 @@ export const collaboratingUsers = {
       username: 'user7',
       meta: {
         job: {
-          collaboration_state: 'participant'
-        }
-      }
+          collaboration_state: 'participant',
+        },
+      },
     },
   ],
 };

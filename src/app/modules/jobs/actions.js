@@ -152,3 +152,22 @@ export function postAcceptJob(props) {
       });
   };
 }
+
+export function postVerifyJob(props) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJob());
+
+    return fetch(
+      `/jobs/${props.jobId}/verify`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ scopes: true }),
+        headers: getState().headers,
+      }, dispatch)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJob(json));
+      });
+  };
+}
+

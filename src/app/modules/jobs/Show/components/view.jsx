@@ -30,6 +30,8 @@ const View = props => (
       </dd>
       <dt>Contact Me</dt>
       <dd>{props.job.allow_contact ? 'True' : 'False'}</dd>
+      <dt>State</dt>
+      <dd>{props.job.state}</dd>
     </dl>
     <ButtonToolbar>
 
@@ -56,6 +58,14 @@ const View = props => (
         > Accept Job
         </Button>
       }
+
+      { props.onClickVerify &&
+        <Button
+          bsStyle="danger"
+          onClick={e => props.onClickVerify(e)}
+        > Verify Complete
+        </Button>
+      }
     </ButtonToolbar>
   </div>
 );
@@ -67,12 +77,14 @@ View.propTypes = {
   showRegisterInterest: PropTypes.bool,
   onClickRegisterInterest: PropTypes.func.isRequired,
   onClickAccept: PropTypes.func,
+  onClickVerify: PropTypes.func,
 };
 
 View.defaultProps = {
   showEdit: false,
   showRegisterInterest: false,
   onClickAccept: undefined,
+  onClickVerify: undefined,
 };
 
 export default View;

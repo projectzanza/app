@@ -10,7 +10,7 @@ describe('estimate reducer', () => {
 
   describe('HTTP_RESP_ESTIMATES', () => {
     it('should return original state is undefined is specified', () => {
-      const action = actionTypes.httpRespEstimates(responses.no_estimate);
+      const action = actionTypes.httpRespEstimates(responses.noEstimate);
       const state = reducer(undefined, action);
       expect(state).toEqual(initialState);
     });
@@ -19,6 +19,6 @@ describe('estimate reducer', () => {
       const action = actionTypes.httpRespEstimates(responses.estimate);
       const state = reducer(undefined, action);
       expect(Object.keys(state.entities).length).toEqual(1);
-    })
+    });
   });
 });
