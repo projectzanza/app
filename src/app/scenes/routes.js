@@ -8,7 +8,7 @@ export default {
     show: '/dashboard',
   },
   user: {
-    profile: userId => `/user/${userId}`,
+    show: userId => `/user/${userId}`,
   },
   job: {
     edit: jobId => `/job/${jobId}/edit`,

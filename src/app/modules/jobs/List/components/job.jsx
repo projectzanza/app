@@ -5,17 +5,23 @@ import {
   ButtonToolbar,
   Label,
 } from 'react-bootstrap';
+import _ from 'lodash';
 import Job from '../../model';
 
 const View = (props, context) => {
   const { store } = context;
   const estimate = props.job.estimate(store, props.userId);
+  const collaborationState = _.get(props.job, 'meta.current_user.collaboration_state');
 
   return (
     <tr>
       <td>
         <Button block className="clear" onClick={e => props.onClick(e, props.job)} >
-          <Label bsStyle="default">{ props.job.state }</Label>
+          <Label bsStyle="primary">{ props.job.state }</Label>
+          {
+            collaborationState &&
+            <Label bsStyle="success"> { collaborationState } </Label>
+          }
           &nbsp;
           { props.job.title }
         </Button>

@@ -11,9 +11,9 @@ class List extends React.Component {
       user={user}
       jobId={this.props.jobId}
       onClick={this.props.onClickUser}
-      onClickInvite={this.props.onClickInviteUser}
-      onClickAward={this.props.onClickAwardUser}
-      onClickReject={this.props.onClickRejectUser}
+      onClickInvite={this.props.onClickInviteUserFunc(user)}
+      onClickAward={this.props.onClickAwardUserFunc(user)}
+      onClickReject={this.props.onClickRejectUserFunc(user)}
     />);
   }
 
@@ -33,17 +33,17 @@ List.propTypes = {
     User.propTypes,
   ).isRequired,
   jobId: PropTypes.string,
-  onClickInviteUser: PropTypes.func,
-  onClickAwardUser: PropTypes.func,
-  onClickRejectUser: PropTypes.func,
+  onClickInviteUserFunc: PropTypes.func,
+  onClickAwardUserFunc: PropTypes.func,
+  onClickRejectUserFunc: PropTypes.func,
   onClickUser: PropTypes.func.isRequired,
 };
 
 List.defaultProps = {
   jobId: undefined,
-  onClickInviteUser: undefined,
-  onClickAwardUser: undefined,
-  onClickRejectUser: undefined,
+  onClickInviteUserFunc: undefined,
+  onClickAwardUserFunc: undefined,
+  onClickRejectUserFunc: undefined,
 };
 
 List.contextTypes = {

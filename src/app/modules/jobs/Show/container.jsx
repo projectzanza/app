@@ -40,7 +40,10 @@ class ShowJobContainer extends React.Component {
   onSubmit(e, form) {
     e.preventDefault();
     this.store.dispatch(putJob(form))
-      .then(() => { this.setState({ mode: 'view' }); });
+      .then(() => {
+        this.setState({ mode: 'view' });
+        this.props.onSubmitSuccess();
+      });
   }
 
   onEdit() {
@@ -118,6 +121,7 @@ ShowJobContainer.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.string,
   }).isRequired,
+  onSubmitSuccess: PropTypes.func.isRequired,
 };
 
 ShowJobContainer.defaultProps = {
