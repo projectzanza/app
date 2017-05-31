@@ -9,6 +9,7 @@ import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
 import CreateScope from '../../modules/scopes/Create/container';
 import EstimateContainer from '../../modules/estimates/Show/container';
+import RocketChat from '../../modules/rocketchat/chat/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
@@ -126,6 +127,8 @@ class JobShowScene extends React.Component {
         {this.estimate()}
 
         {this.matchingUserList()}
+
+        <RocketChat />
       </div>
     );
   }
