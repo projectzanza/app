@@ -1,29 +1,16 @@
 version: '2'
 services:
-  db:
-    image: postgres
-
-  mail_server:
-    extends:
-      file: ../api/docker-compose/common.yml
-      service: mail_server
-
-  api:
-    extends:
-      file: ../docker-compose/common.yml
-      service: api
-    depends_on:
-      - db
-      - mail_server
-
   app:
     build: .
     volumes:
       - ./:/app
     ports:
       - "8080:8080"
-    depends_on:
-      - api
+
+networks:
+  default:
+    external:
+      name: zanza
 
 
 
