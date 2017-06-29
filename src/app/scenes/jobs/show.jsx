@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
-import { Panel } from 'react-bootstrap';
+import Panel from '../../components/Panel/container';
 import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
 import ShowJob from '../../modules/jobs/Show/container';
@@ -23,6 +23,8 @@ class JobShowScene extends React.Component {
     };
     this.onClickUser = this.onClickUser.bind(this);
     this.onSubmitSuccess = this.onSubmitSuccess.bind(this);
+    this.filterMatchingUser = this.filterMatchingUser.bind(this);
+    this.filterCollaboratingUser = this.filterCollaboratingUser.bind(this);
   }
 
   componentDidMount() {
@@ -34,8 +36,8 @@ class JobShowScene extends React.Component {
         this.setState({
           matchingUsers: UserController.sortByCollaborationState(
             this.state.job.matchingUsers(this.store),
-            this.state.job.collaboratingUsers(this.store),
           ),
+          collaboratingUsers: this.state.job.collaboratingUsers(this.store),
         });
       }
     });
@@ -58,18 +60,55 @@ class JobShowScene extends React.Component {
     JobController.fetchJob(this.store, this.props.params.id).then(() => {
       UserController.fetchUser(this.store, this.state.user.id, this.props.params.id);
     });
-    UserController.fetchCollaboratingUsersForJob(this.store, this.props.params.id);
-    UserController.fetchMatchingUsersForJob(this.store, this.props.params.id);
+    this.filterCollaboratingUser();
+    this.filterMatchingUser();
   }
 
   userOwnsJob() {
     return this.state.job && this.state.job.user_id === this.state.user.id;
   }
 
+  filterMatchingUser(filterText) {
+    UserController.fetchMatchingUsersForJob(
+      this.store,
+      {
+        jobId: this.props.params.id,
+        filter: filterText,
+      },
+    );
+  }
+
+  filterCollaboratingUser(filterText) {
+    UserController.fetchCollaboratingUsersForJob(
+      this.store,
+      {
+        jobId: this.props.params.id,
+        filter: filterText,
+      },
+    );
+  }
+
+  collaboratingUserList() {
+    if (this.userOwnsJob()) {
+      return (
+        <Panel title="Collaborating Users" filter={this.filterCollaboratingUser}>
+          <UserList
+            jobId={this.state.job.id}
+            users={this.state.collaboratingUsers}
+            onClickUser={this.onClickUser}
+            allowChangeCollaborationState
+          />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
+
   matchingUserList() {
     if (this.userOwnsJob()) {
       return (
-        <Panel header={<h3>Matching Consultants</h3>}>
+        <Panel title="Matching Consultants" filter={this.filterMatchingUser}>
           <UserList
             jobId={this.state.job.id}
             users={this.state.matchingUsers}
@@ -85,7 +124,7 @@ class JobShowScene extends React.Component {
   scope() {
     if (this.state.job) {
       return (
-        <Panel header={<h3>Scope</h3>}>
+        <Panel title="Scope">
           <ListScope
             job={this.state.job}
             currentUser={this.state.user}
@@ -101,7 +140,7 @@ class JobShowScene extends React.Component {
   estimate() {
     if (this.state.job && !this.userOwnsJob()) {
       return (
-        <Panel header={<h3>Estimate</h3>}>
+        <Panel title="Estimate">
           <EstimateContainer
             userId={this.state.user.id}
             jobId={this.state.job.id}
@@ -126,6 +165,7 @@ class JobShowScene extends React.Component {
         {this.scope()}
         {this.estimate()}
 
+        {this.collaboratingUserList()}
         {this.matchingUserList()}
 
         <RocketChat />

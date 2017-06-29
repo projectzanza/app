@@ -172,6 +172,28 @@ describe('userActions', () => {
             .toEqual(expect.arrayContaining(expectedActions));
         });
     });
+
+    it('adds filter parameters onto the url', () => {
+      const jobId = 1;
+      nock(Config.apiUrl)
+        .get(`/jobs/${jobId}/users/match?filter=barry`)
+        .reply(200, responses.users);
+
+      const expectedActions = [{
+        type: actionTypes.Types.HTTP_GET_USERS,
+      }];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getMatchingUsersForJob({
+        jobId,
+        filter: 'barry'
+      }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
   });
 
   describe('getCollaboratingUsersForJob', () => {
@@ -200,6 +222,28 @@ describe('userActions', () => {
       const store = mockStore();
 
       return store.dispatch(actions.getCollaboratingUsersForJob({ jobId }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+
+    it('adds filter parameters onto the url', () => {
+      const jobId = 1;
+      nock(Config.apiUrl)
+        .get(`/jobs/${jobId}/users/collaborating?filter=barry`)
+        .reply(200, responses.users);
+
+      const expectedActions = [{
+        type: actionTypes.Types.HTTP_GET_USERS,
+      }];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getCollaboratingUsersForJob({
+        jobId,
+        filter: 'barry'
+      }))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
