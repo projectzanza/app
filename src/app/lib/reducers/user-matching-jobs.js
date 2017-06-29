@@ -8,7 +8,7 @@ export const initialState = {
 export const userMatchingJobs = (state = initialState, action) => {
   switch (action.type) {
     case Types.USER_MATCHING_JOBS:
-      return updateJoinTableState(state, action.userId, action.jobIds);
+      return updateJoinTableState(state, action.userId, action.jobIds, action.joinAction);
     default:
       return state;
   }
@@ -17,7 +17,7 @@ export const userMatchingJobs = (state = initialState, action) => {
 export const jobMatchingUsers = (state = initialState, action) => {
   switch (action.type) {
     case Types.JOB_MATCHING_USERS:
-      return updateJoinTableState(state, action.jobId, action.userIds);
+      return updateJoinTableState(state, action.jobId, action.userIds, action.joinAction);
     default:
       return state;
   }

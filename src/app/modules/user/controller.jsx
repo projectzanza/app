@@ -30,12 +30,12 @@ class UserController {
     );
   }
 
-  static fetchMatchingUsersForJob(store, jobId) {
-    return store.dispatch(actions.getMatchingUsersForJob({ jobId }));
+  static fetchMatchingUsersForJob(store, props) {
+    return store.dispatch(actions.getMatchingUsersForJob(props));
   }
 
-  static fetchCollaboratingUsersForJob(store, jobId) {
-    return store.dispatch(actions.getCollaboratingUsersForJob({ jobId }));
+  static fetchCollaboratingUsersForJob(store, props) {
+    return store.dispatch(actions.getCollaboratingUsersForJob(props));
   }
 
   static fetchUser(store, userId, jobId) {

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import URL from 'url';
 import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
@@ -97,8 +98,13 @@ export function getMatchingUsersForJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
+    const url = URL.format({
+      pathname: `/jobs/${props.jobId}/users/match`,
+      query: _.omit(props, ['jobId']),
+    });
+
     return fetch(
-      `/jobs/${props.jobId}/users/match`,
+      url,
       {
         method: 'GET',
         headers: getState().headers,
@@ -116,8 +122,13 @@ export function getCollaboratingUsersForJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
+    const url = URL.format({
+      pathname: `/jobs/${props.jobId}/users/collaborating`,
+      query: _.omit(props, ['jobId']),
+    });
+
     return fetch(
-      `/jobs/${props.jobId}/users/collaborating`,
+      url,
       {
         method: 'GET',
         headers: getState().headers,
