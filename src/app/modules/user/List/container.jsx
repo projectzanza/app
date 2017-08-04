@@ -14,8 +14,8 @@ class ListContainer extends React.Component {
     };
 
     this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
-    this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
-    this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
+    this.onClickAwardUserFunc = this.onClickAwardUserFunc.bind(this);
+    this.onClickRejectUserFunc = this.onClickRejectUserFunc.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
