@@ -4,7 +4,7 @@ import jobs from './modules/jobs/reducer';
 import headers from './lib/fetch/reducers';
 import scopes from './modules/scopes/reducer';
 import estimates from './modules/estimates/reducer';
-import cards from './modules/payments/reducer';
+import cards from './modules/cards/reducer';
 import { userCollaboratingJobs, jobCollaboratingUsers } from './lib/reducers/user-collaborating-jobs';
 import { userMatchingJobs, jobMatchingUsers } from './lib/reducers/user-matching-jobs';
 import { jobScopes } from './lib/reducers/job-scopes';

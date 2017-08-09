@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PaymentsController from '../controller';
+import CardsController from '../controller';
 import CardList from './components/list';
 import Card from '../model';
 
@@ -12,7 +12,7 @@ class CardsContainer extends React.Component {
   }
 
   componentDidMount() {
-    PaymentsController.fetchCards(this.store);
+    CardsController.fetchCards(this.store);
 
     this.unsubscribe = this.store.subscribe(() => {
       this.setState({ cards: Card.all(this.store) });

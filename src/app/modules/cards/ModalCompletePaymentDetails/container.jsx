@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Elements } from 'react-stripe-elements';
 import { Modal } from 'react-bootstrap';
-import PaymentsController from '../controller';
+import CardsController from '../controller';
 import PaymentForm from './form';
-import CardsView from '../Cards/container';
+import CardsView from '../List/container';
 
 class ModalCompletePaymentDetails extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class ModalCompletePaymentDetails extends React.Component {
       if (response.error) {
         // TODO: show error statement
       } else if (response.token) {
-        PaymentsController.storeToken(
+        CardsController.storeToken(
           this.props.store,
           response.token,
           this.props.jobId,
@@ -43,7 +43,7 @@ class ModalCompletePaymentDetails extends React.Component {
   }
 
   onCardSelect(cardId) {
-    PaymentsController.useCard(this.props.store, cardId, this.props.jobId)
+    CardsController.useCard(this.props.store, cardId, this.props.jobId)
       .then(() => {
         this.onHide();
         this.props.onComplete();

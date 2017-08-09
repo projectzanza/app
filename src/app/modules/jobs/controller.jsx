@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as actions from './actions';
 import Job from './model';
 import ScopeController from '../scopes/controller';
-import PaymentsController from '../payments/controller';
+import CardsController from '../cards/controller';
 
 class JobController {
 
@@ -44,7 +44,7 @@ class JobController {
 
   static verifyJobComplete(store, jobId) {
     return new Promise((resolve) => {
-      PaymentsController.completePaymentDetails({
+      CardsController.completePaymentDetails({
         store,
         jobId,
         onComplete: () => {
