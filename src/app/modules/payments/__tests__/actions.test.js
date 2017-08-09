@@ -17,7 +17,7 @@ describe('paymentActions', () => {
     it('creates HTTP_POST_PAYMENTS_TOKEN', () => {
       const jobId = 1;
       nock(Config.apiUrl)
-        .post('/payments/token')
+        .post(`/jobs/${jobId}/payments/token`)
         .reply(200, responses.tokenCreated);
 
       const expectedActions = [
@@ -31,9 +31,32 @@ describe('paymentActions', () => {
       const store = mockStore();
 
       return store.dispatch(actions.postToken(responses.stripeToken, jobId))
-        .then(()=> {
+        .then(() => {
           expect(store.getActions())
-            .toEqual(expect.arrayContaining(expectedActions))
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('getCards', () => {
+    it('creates HTTP_RESP_CARDS', () => {
+      nock(Config.apiUrl)
+        .get('/payments/cards')
+        .reply(200, responses.cards);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_CARDS,
+          data: responses.cards.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getCards())
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
         });
     });
   });

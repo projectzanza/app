@@ -8,19 +8,20 @@ export function postToken(token, jobId) {
       `/jobs/${jobId}/payments/token`,
       {
         method: 'POST',
-        body: JSON.stringify({ token }),
+        body: JSON.stringify(token),
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json());
   };
 }
 
-export function postCompletePayment(jobId) {
+export function getCards() {
   return (dispatch, getState) => fetch(
-      `/jobs/${jobId}/payments/complete`,
+    '/payments/cards',
     {
-      method: 'POST',
+      method: 'GET',
       headers: getState().headers,
     }, dispatch)
-    .then(response => response.json());
+    .then(response => response.json())
+    .then(json => dispatch(ActionTypes.httpRespCards(json)));
 }

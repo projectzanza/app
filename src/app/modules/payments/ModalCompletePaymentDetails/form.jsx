@@ -6,8 +6,8 @@ import { injectStripe, CardElement } from 'react-stripe-elements';
 const Form = props => (
   <form onSubmit={ev => props.onSubmit(ev, props.stripe)}>
     Card details <CardElement style={{ base: { fontSize: '18px' } }} />
-    <Button onClick={props.onHide}>Close</Button>
-    <Button type="submit">Complete</Button>
+    <Button onClick={props.onHide}>Cancel</Button>
+    <Button type="submit">Add New Card</Button>
   </form>
 );
 

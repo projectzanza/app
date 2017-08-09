@@ -1,8 +1,15 @@
-import { getEntity } from '../../lib/store/utils';
+import {
+  getEntity,
+  getEntities,
+} from '../../lib/store/utils';
 
 export default class Model {
   static find(store, id) {
     return getEntity(store, this.table, id);
+  }
+
+  static all(store) {
+    return getEntities(store, this.table);
   }
 
   constructor(entity = {}) {

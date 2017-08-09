@@ -7,10 +7,6 @@ import * as actions from './actions';
 
 class PaymentController {
 
-  static requirePaymentDetails() {
-    return true;
-  }
-
   static completePaymentDetails(props) {
     ReactDOM.render(
       <StripeProvider apiKey={Config.stripe.token}>
@@ -24,12 +20,22 @@ class PaymentController {
     );
   }
 
-  static storeToken(store, token, estimateId) {
-    return store.dispatch(actions.postToken(token, estimateId));
+  static storeToken(store, tokenId, jobId) {
+    return store.dispatch(actions.postToken(
+      { token: tokenId },
+      jobId,
+    ));
   }
 
-  static completePayment(store, jobId) {
-    return store.dispatch(actions.postCompletePayment(jobId));
+  static useCard(store, cardId, jobId) {
+    return store.dispatch(actions.postToken(
+      { card: cardId },
+      jobId,
+    ));
+  }
+
+  static fetchCards(store) {
+    store.dispatch(actions.getCards());
   }
 }
 

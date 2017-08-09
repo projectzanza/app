@@ -29,7 +29,7 @@ describe('job model integration', () => {
         nock(Config.apiUrl)
           .get(`/jobs/${jobId}/users/match`)
           .reply(200, userResponses.users);
-        UserController.fetchMatchingUsersForJob(store, jobId).then(() => {
+        UserController.fetchMatchingUsersForJob(store, { jobId }).then(() => {
           expect(Job.find(store, jobId).matchingUsers(store).length)
             .toEqual(2);
         });

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Provider as ReduxProvider } from 'react-redux';
 import { Elements } from 'react-stripe-elements';
 import { Modal } from 'react-bootstrap';
 import PaymentsController from '../controller';
 import PaymentForm from './form';
+import CardsView from '../Cards/container';
 
 class ModalCompletePaymentDetails extends React.Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class ModalCompletePaymentDetails extends React.Component {
     };
     this.onHide = this.onHide.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCardSelect = this.onCardSelect.bind(this);
   }
 
   onHide() {
@@ -24,6 +27,7 @@ class ModalCompletePaymentDetails extends React.Component {
     ev.preventDefault();
     stripe.createToken(ev.data).then((response) => {
       if (response.error) {
+        // TODO: show error statement
       } else if (response.token) {
         PaymentsController.storeToken(
           this.props.store,
@@ -38,24 +42,37 @@ class ModalCompletePaymentDetails extends React.Component {
     });
   }
 
+  onCardSelect(cardId) {
+    PaymentsController.useCard(this.props.store, cardId, this.props.jobId)
+      .then(() => {
+        this.onHide();
+        this.props.onComplete();
+      });
+  }
+
   render() {
     return (
-      <Modal
-        show={this.state.show}
-        onHide={this.onHide}
-      >
-        <Modal.Header>
-          <Modal.Title>Add Payment Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Elements>
-            <PaymentForm
-              onHide={this.onHide}
-              onSubmit={this.onSubmit}
+      <ReduxProvider store={this.props.store}>
+        <Modal
+          show={this.state.show}
+          onHide={this.onHide}
+        >
+          <Modal.Header>
+            <Modal.Title>Add Payment Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <CardsView
+              onCardSelect={this.onCardSelect}
             />
-          </Elements>
-        </Modal.Body>
-      </Modal>
+            <Elements>
+              <PaymentForm
+                onHide={this.onHide}
+                onSubmit={this.onSubmit}
+              />
+            </Elements>
+          </Modal.Body>
+        </Modal>
+      </ReduxProvider>
     );
   }
 }
@@ -64,6 +81,10 @@ ModalCompletePaymentDetails.propTypes = {
   store: PropTypes.object.isRequired,    // eslint-disable-line react/forbid-prop-types
   jobId: PropTypes.string.isRequired,
   onComplete: PropTypes.func.isRequired,
+};
+
+ModalCompletePaymentDetails.contextTypes = {
+  store: PropTypes.object,
 };
 
 export default ModalCompletePaymentDetails;
