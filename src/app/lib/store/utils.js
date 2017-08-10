@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const getEntity = (store, bucketName, entityId) => {
   const bucket = store.getState()[bucketName];
   if (entityId in bucket.entities) {
@@ -5,6 +7,8 @@ export const getEntity = (store, bucketName, entityId) => {
   }
   return undefined;
 };
+
+export const getEntities = (store, bucketName) => _.values(store.getState()[bucketName].entities);
 
 const hasManyEntities = (primaryKey, joinTableState, entityTableState) => {
   if (joinTableState && primaryKey in joinTableState.entities) {

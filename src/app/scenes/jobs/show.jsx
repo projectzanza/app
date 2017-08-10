@@ -93,7 +93,7 @@ class JobShowScene extends React.Component {
       return (
         <Panel title="Collaborating Users" filter={this.filterCollaboratingUser}>
           <UserList
-            jobId={this.state.job.id}
+            jobId={this.props.params.id}
             users={this.state.collaboratingUsers}
             onClickUser={this.onClickUser}
             allowChangeCollaborationState
@@ -110,7 +110,7 @@ class JobShowScene extends React.Component {
       return (
         <Panel title="Matching Consultants" filter={this.filterMatchingUser}>
           <UserList
-            jobId={this.state.job.id}
+            jobId={this.props.params.id}
             users={this.state.matchingUsers}
             onClickUser={this.onClickUser}
             allowChangeCollaborationState

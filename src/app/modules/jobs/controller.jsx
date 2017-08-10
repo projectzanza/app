@@ -2,6 +2,7 @@ import _ from 'lodash';
 import * as actions from './actions';
 import Job from './model';
 import ScopeController from '../scopes/controller';
+import CardsController from '../cards/controller';
 
 class JobController {
 
@@ -42,7 +43,16 @@ class JobController {
   }
 
   static verifyJobComplete(store, jobId) {
-    return store.dispatch(actions.postVerifyJob({ jobId }));
+    return new Promise((resolve) => {
+      CardsController.completePaymentDetails({
+        store,
+        jobId,
+        onComplete: () => {
+          store.dispatch(actions.postVerifyJob({ jobId }))
+            .then(() => resolve());
+        },
+      });
+    });
   }
 
   static fetchScopes(store, jobId) {

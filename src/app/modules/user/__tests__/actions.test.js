@@ -187,7 +187,7 @@ describe('userActions', () => {
 
       return store.dispatch(actions.getMatchingUsersForJob({
         jobId,
-        filter: 'barry'
+        filter: 'barry',
       }))
         .then(() => {
           expect(store.getActions())
@@ -242,7 +242,7 @@ describe('userActions', () => {
 
       return store.dispatch(actions.getCollaboratingUsersForJob({
         jobId,
-        filter: 'barry'
+        filter: 'barry',
       }))
         .then(() => {
           expect(store.getActions())
