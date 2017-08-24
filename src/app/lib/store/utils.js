@@ -18,7 +18,7 @@ const hasManyEntities = (primaryKey, joinTableState, entityTableState) => {
         throw new Error('this seems to be a hasOne association, trying to access hasMany');
       }
 
-      return entityIds.map(entityId => entityTableState.entities[entityId]);
+      return _.compact(entityIds.map(entityId => entityTableState.entities[entityId]));
     }
   }
   return [];

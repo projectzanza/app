@@ -4,6 +4,23 @@ import * as joinActions from '../../lib/reducers/join-actions';
 import * as ActionTypes from './actionTypes';
 import * as estimateActionTypes from '../estimates/actionTypes';
 
+function dispatchEstimateActions(dispatch, json) {
+  let estimates;
+  if (json.data instanceof Array) {
+    estimates = json.data.map(job => _.get(job, 'meta.current_user.estimates'));
+    estimates = _.compact(_.flatten(estimates));
+  } else {
+    estimates = _.get(json.data, 'meta.current_user.estimates');
+  }
+  const estimatesJson = { data: estimates };
+
+  if (estimatesJson.data) {
+    dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
+    dispatch(joinActions.jobEstimates(estimatesJson));
+    dispatch(joinActions.userEstimates(estimatesJson));
+  }
+}
+
 export function createJob(job) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpPostJob(job));
@@ -38,7 +55,10 @@ export function getJob(jobId, userId) {
         headers: getState().headers,
       }, dispatch)
       .then(response => response.json())
-      .then(json => dispatch(ActionTypes.httpRespJob(json)));
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJob(json));
+        dispatchEstimateActions(dispatch, json);
+      });
   };
 }
 
@@ -88,13 +108,9 @@ export function getCollaboratingJobs(props) {
       }, dispatch)
       .then(response => response.json())
       .then((json) => {
-        const estimatesJson = { data: json.data.map(job => _.get(job, 'meta.current_user.estimate')) };
-
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'reset'));
-        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
-        dispatch(joinActions.jobEstimates(estimatesJson));
-        dispatch(joinActions.userEstimates(estimatesJson));
+        dispatchEstimateActions(dispatch, json);
       });
   };
 }

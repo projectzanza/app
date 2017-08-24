@@ -5,6 +5,23 @@ import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
 import * as estimateActionTypes from '../estimates/actionTypes';
 
+function dispatchEstimateActions(dispatch, json) {
+  let estimates;
+  if (json.data instanceof Array) {
+    estimates = json.data.map(job => _.get(job, 'meta.job.estimates'));
+    estimates = _.compact(_.flatten(estimates));
+  } else {
+    estimates = _.get(json, 'data.meta.job.estimates');
+  }
+  const estimatesJson = { data: estimates };
+
+  if (estimatesJson.data) {
+    dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
+    dispatch(joinActions.jobEstimates(estimatesJson));
+    dispatch(joinActions.userEstimates(estimatesJson));
+  }
+}
+
 export function createUser(user) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpPostAuth(user));
@@ -71,12 +88,8 @@ export function getUser(userId, jobId) {
       dispatch)
       .then(response => response.json())
       .then((json) => {
-        const estimatesJson = { data: [_.get(json, 'data.meta.job.estimate')] };
-
         dispatch(ActionTypes.httpRespUser(json));
-        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
-        dispatch(joinActions.jobEstimates(estimatesJson));
-        dispatch(joinActions.userEstimates(estimatesJson));
+        dispatchEstimateActions(dispatch, json);
       });
 }
 
@@ -136,13 +149,9 @@ export function getCollaboratingUsersForJob(props) {
       dispatch)
       .then(response => response.json())
       .then((json) => {
-        const estimatesJson = { data: json.data.map(job => _.get(job, 'meta.job.estimate')) };
-
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'reset'));
-        dispatch(estimateActionTypes.httpRespEstimates(estimatesJson));
-        dispatch(joinActions.jobEstimates(estimatesJson));
-        dispatch(joinActions.userEstimates(estimatesJson));
+        dispatchEstimateActions(dispatch, json);
       });
   };
 }

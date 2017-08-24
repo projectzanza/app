@@ -58,7 +58,7 @@ export default class User extends Model {
     );
   }
 
-  estimate(store, jobId) {
+  estimates(store, jobId) {
     const jobEstimateIds = getJoinEntities({
       store,
       primaryKey: jobId,
@@ -72,8 +72,7 @@ export default class User extends Model {
       joinTable: 'userEstimates',
       entityTable: 'estimates',
     });
-    const estimate = _.intersection(jobEstimateIds, userEstimateIds)[0];
-    return estimate;
+    return _.intersection(jobEstimateIds, userEstimateIds);
   }
 }
 

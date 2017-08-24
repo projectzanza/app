@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import _ from 'lodash';
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
 import * as joinActionTypes from '../../../lib/reducers/join-actions';
@@ -192,9 +193,7 @@ describe('jobActions', () => {
 
 
       const jobIds = response.data.map(job => job.id);
-      const estimatesJson = response.data.map(job => job.meta.current_user.estimate);
-      const estimateIds = estimatesJson.map(estimate => estimate.id);
-      const estimateUserIds = estimatesJson.map(estimate => estimate.user_id);
+      const estimatesJson = _.flatten(response.data.map(job => job.meta.current_user.estimates ));
 
       const expectedActions = [
         {
@@ -216,14 +215,12 @@ describe('jobActions', () => {
         },
         {
           type: joinActionTypes.Types.JOB_ESTIMATES,
-          estimateIds,
-          jobIds,
+          data: estimatesJson,
           joinAction: 'merge',
         },
         {
           type: joinActionTypes.Types.USER_ESTIMATES,
-          estimateIds,
-          userIds: estimateUserIds,
+          data: estimatesJson,
           joinAction: 'merge',
         },
       ];

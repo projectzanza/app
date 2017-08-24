@@ -7,11 +7,12 @@ import {
 } from 'react-bootstrap';
 import _ from 'lodash';
 import User from '../../model';
-import Estimate from '../../../estimates/model';
 
 const View = (props, context) => {
   const { store } = context;
-  const estimate = props.user.estimate(store, props.jobId);
+  // TODO: estimates need to be sorted by updated_at date to
+  // display the latest estimate
+  const estimates = props.user.estimates(store, props.jobId);
   const collaborationState = _.get(props.user, 'meta.job.collaboration_state');
 
   return (
@@ -31,7 +32,7 @@ const View = (props, context) => {
         </Button>
       </td>
       <td>
-        { estimate && estimate.total }
+        { estimates[0] && estimates[0].total }
       </td>
       <td>
         <ButtonToolbar>
@@ -60,7 +61,6 @@ const View = (props, context) => {
 View.propTypes = {
   user: User.propTypes.isRequired,
   jobId: PropTypes.string,
-  estimate: Estimate.propTypes,
   onClick: PropTypes.func.isRequired,
   onClickInvite: PropTypes.func,
   onClickAward: PropTypes.func,
@@ -72,7 +72,6 @@ View.defaultProps = {
   onClickInvite: undefined,
   onClickAward: undefined,
   onClickReject: undefined,
-  estimate: {},
 };
 
 View.contextTypes = {

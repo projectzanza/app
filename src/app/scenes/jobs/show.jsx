@@ -8,7 +8,8 @@ import ShowJob from '../../modules/jobs/Show/container';
 import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
 import CreateScope from '../../modules/scopes/Create/container';
-import EstimateContainer from '../../modules/estimates/Show/container';
+import EstimateList from '../../modules/estimates/List/container';
+import CreateEstimate from '../../modules/estimates/Create/container';
 import RocketChat from '../../modules/rocketchat/chat/container';
 import routes from '../routes';
 
@@ -137,15 +138,17 @@ class JobShowScene extends React.Component {
     return null;
   }
 
-  estimate() {
+  estimates() {
     if (this.state.job && !this.userOwnsJob()) {
       return (
-        <Panel title="Estimate">
-          <EstimateContainer
+        <Panel title="Estimates">
+          <EstimateList
             userId={this.state.user.id}
             jobId={this.state.job.id}
-            estimate={this.state.job.estimate(this.store, this.state.user.id)}
+            estimates={this.state.job.estimates(this.store, this.state.user.id)}
           />
+
+          <CreateEstimate jobId={this.state.job.id} />
         </Panel>
       );
     }
@@ -163,7 +166,7 @@ class JobShowScene extends React.Component {
         />
 
         {this.scope()}
-        {this.estimate()}
+        {this.estimates()}
 
         {this.collaboratingUserList()}
         {this.matchingUserList()}
