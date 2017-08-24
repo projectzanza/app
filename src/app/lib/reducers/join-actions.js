@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export const Types = {
   USER_JOBS: 'USER_JOBS',
   USER_COLLABORATING_JOBS: 'USER_COLLABORATING_JOBS',
@@ -9,6 +7,8 @@ export const Types = {
   JOB_SCOPES: 'JOB_SCOPES',
   JOB_ESTIMATES: 'JOB_ESTIMATES',
   USER_ESTIMATES: 'USER_ESTIMATES',
+  JOB_ESTIMATES_DELETE: 'JOB_ESTIMATES_DELETE',
+  USER_ESTIMATES_DELETE: 'USER_ESTIMATES_DELETE',
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -55,24 +55,26 @@ export const jobScopes = (jobId, scopeJson) => ({
   jobId,
 });
 
-export const jobEstimates = (estimateJson) => {
-  const estimateData = estimateJson ? _.compact([].concat(estimateJson.data)) : [];
+export const jobEstimates = estimateJson => ({
+  type: Types.JOB_ESTIMATES,
+  data: estimateJson.data,
+  joinAction: 'merge',
+});
 
-  return {
-    type: Types.JOB_ESTIMATES,
-    estimateIds: estimateData.map(estimate => estimate.id),
-    jobIds: estimateData.map(estimate => estimate.job_id),
-    joinAction: 'merge',
-  };
-};
+export const userEstimates = estimateJson => ({
+  type: Types.USER_ESTIMATES,
+  data: estimateJson.data,
+  joinAction: 'merge',
+});
 
-export const userEstimates = (estimateJson) => {
-  const estimateData = estimateJson ? _.compact([].concat(estimateJson.data)) : [];
+export const jobEstimateDelete = estimateJson => ({
+  type: Types.JOB_ESTIMATES_DELETE,
+  data: estimateJson,
+  joinAction: 'purge',
+});
 
-  return {
-    type: Types.USER_ESTIMATES,
-    estimateIds: estimateData.map(estimate => estimate.id),
-    userIds: estimateData.map(estimate => estimate.user_id),
-    joinAction: 'merge',
-  };
-};
+export const userEstimateDelete = estimateJson => ({
+  type: Types.USER_ESTIMATES_DELETE,
+  data: estimateJson,
+  joinAction: 'purge',
+});

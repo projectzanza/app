@@ -29,13 +29,13 @@ describe('jobActions', () => {
 
   it('PUTS to /estimates/:id when submitting an estimate with an id', () => {
     const estimate = Object.assign({ id: 1 }, forms.estimate);
-
+    const jobId = 1000;
     nock(Config.apiUrl)
       .put(`/estimates/${estimate.id}`)
       .reply(200, responses.estimate);
 
     const store = mockStore();
-    return store.dispatch(actions.submitEstimate(1, 1, estimate));
+    return store.dispatch(actions.submitEstimate(jobId, estimate));
   });
 
   it('dispatches the correct events on success', () => {
@@ -52,14 +52,12 @@ describe('jobActions', () => {
       },
       {
         type: joinActionTypes.Types.JOB_ESTIMATES,
-        estimateIds: [responses.estimate.data.id],
-        jobIds: [responses.estimate.data.job_id],
+        data: responses.estimate.data,
         joinAction: 'merge',
       },
       {
         type: joinActionTypes.Types.USER_ESTIMATES,
-        estimateIds: [responses.estimate.data.id],
-        userIds: [responses.estimate.data.user_id],
+        data: responses.estimate.data,
         joinAction: 'merge',
       },
     ];
@@ -68,11 +66,38 @@ describe('jobActions', () => {
 
     return store.dispatch(actions.submitEstimate(jobId, userId, forms.estimate))
     .then(() => {
-      expect(
-        store.getActions(),
-      ).toEqual(
-        expect.arrayContaining(expectedActions),
-      );
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
+    });
+  });
+
+  describe('deleteEstimate', () => {
+    it('dispatches the correct events on success', () => {
+      const estimate = { id: 1 };
+      nock(Config.apiUrl)
+        .delete(`/estimates/${estimate.id}`)
+        .reply(200, responses.deleteEstimate);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_DELETE_ESTIMATE,
+          data: estimate,
+        },
+        {
+          type: joinActionTypes.Types.JOB_ESTIMATES_DELETE,
+          data: estimate,
+          joinAction: 'purge',
+        },
+        {
+          type: joinActionTypes.Types.USER_ESTIMATES_DELETE,
+          data: estimate,
+          joinAction: 'purge',
+        },
+      ];
+      const store = mockStore();
+      return store.dispatch(actions.deleteEstimate(estimate))
+        .then(() => {
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
+        })
     });
   });
 });

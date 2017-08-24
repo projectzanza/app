@@ -10,7 +10,9 @@ import Job from '../../model';
 
 const View = (props, context) => {
   const { store } = context;
-  const estimate = props.job.estimate(store, props.userId);
+  // TODO: estimates need to be sorted by updated_at date to
+  // display the latest estimate
+  const estimates = props.job.estimates(store, props.userId);
   const collaborationState = _.get(props.job, 'meta.current_user.collaboration_state');
 
   return (
@@ -32,7 +34,7 @@ const View = (props, context) => {
         </Button>
       </td>
       <td>
-        { estimate && estimate.total }
+        { estimates[0] && estimates[0].total }
       </td>
       { (props.allowRegisterInterest || props.onClickAccept) &&
       <td>

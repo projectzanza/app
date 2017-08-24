@@ -10,3 +10,7 @@ export const estimate = {
     days: 2,
   },
 };
+
+export const deleteEstimate = {
+  success: 'true'
+};

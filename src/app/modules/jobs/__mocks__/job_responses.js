@@ -75,14 +75,24 @@ export const jobsWithEstimates = {
       updated_at: '01-01-2017',
       meta: {
         current_user: {
-          estimate: {
-            id: 1000,
-            job_id: 1,
-            user_id: 1100,
-            per_diem: '$100',
-            days: 1,
-            total: '$100',
-          },
+          estimates: [
+            {
+              id: 1000,
+              job_id: 1,
+              user_id: 1100,
+              per_diem: '$100',
+              days: 1,
+              total: '$100',
+            },
+            {
+              id: 1010,
+              job_id: 1,
+              user_id: 1100,
+              per_diem: '$110',
+              days: 4,
+              total: '$440',
+            }
+          ],
         },
       },
     },
@@ -94,14 +104,24 @@ export const jobsWithEstimates = {
       updated_at: '01-01-2017',
       meta: {
         current_user: {
-          estimate: {
-            id: 2000,
-            job_id: 2,
-            user_id: 2200,
-            per_diem: '$200',
-            days: 1,
-            total: '$200',
-          },
+          estimates: [
+            {
+              id: 2000,
+              job_id: 2,
+              user_id: 2200,
+              per_diem: '$200',
+              days: 1,
+              total: '$200',
+            },
+            {
+              id: 2020,
+              job_id: 2,
+              user_id: 2200,
+              per_diem: '$220',
+              days: 4,
+              total: '$880',
+            }
+          ],
         },
       },
     },

@@ -1,4 +1,8 @@
-import { createEntityEntries, updateJoinTableState } from '../utils';
+import {
+  createEntityEntries,
+  updateJoinTableState,
+  deleteEntityEntries
+} from '../utils';
 
 describe('utils', () => {
   let state;
@@ -67,4 +71,17 @@ describe('utils', () => {
       expect(state.entities[pk]).toEqual([1, 2]);
     });
   });
+
+  describe('deleteEntityEntries', () => {
+    it('should remove an entity from the entity hash', () => {
+      const entities = [{ id: 1, title: 'asdf' }, { id: 2, title: 'iop' }];
+      state = createEntityEntries(state, entities);
+      expect(state.entities['1']).toEqual(entities[0]);
+
+      state = deleteEntityEntries(state, 1);
+      expect(state.entities['1']).toEqual(undefined);
+      expect(Object.keys(state.entities).length).toEqual(entities.length - 1);
+
+    })
+  })
 });
