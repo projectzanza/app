@@ -144,7 +144,7 @@ class JobShowScene extends React.Component {
         <Panel title="Estimates">
           <EstimateList
             userId={this.state.user.id}
-            jobId={this.state.job.id}
+            job={this.state.job}
             estimates={this.state.job.estimates(this.store, this.state.user.id)}
           />
 

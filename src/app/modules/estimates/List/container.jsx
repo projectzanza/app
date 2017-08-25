@@ -4,6 +4,7 @@ import List from './components/list';
 import Estimate from '../model';
 import EstimateController from '../controller';
 import UserController from '../../user/controller';
+import Job from '../../jobs/model';
 
 class EstimateListContainer extends React.Component {
   constructor(props, context) {
@@ -11,6 +12,7 @@ class EstimateListContainer extends React.Component {
     this.store = context.store;
     this.state = {
       estimates: this.props.estimates,
+      job: this.props.job,
       user: UserController.currentUser(this.store),
     };
 
@@ -25,7 +27,7 @@ class EstimateListContainer extends React.Component {
   }
 
   onClickAccept(estimate) {
-    if (estimate.state !== 'accepted') {
+    if (estimate.state !== 'accepted' && this.state.user.id === this.state.job.user_id) {
       return () => {
         EstimateController.acceptEstimate(this.store, estimate);
       };
@@ -34,7 +36,7 @@ class EstimateListContainer extends React.Component {
   }
 
   onClickReject(estimate) {
-    if (estimate.state !== 'rejected') {
+    if (estimate.state !== 'rejected' && this.state.user.id === this.state.job.user_id) {
       return () => {
         EstimateController.rejectEstimate(this.store, estimate);
       };
@@ -81,6 +83,7 @@ EstimateListContainer.propTypes = {
   estimates: PropTypes.arrayOf(
     Estimate.propTypes,
   ).isRequired,
+  job: Job.propTypes.isRequired,
 };
 
 export default EstimateListContainer;
