@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonToolbar, Button } from 'react-bootstrap';
 import Estimate from '../../model';
+import '../../style.scss';
 
 const EstimateView = props => (
-  <tr>
+  <tr className={props.estimate.state}>
     <td> Days {props.estimate.days}</td>
     <td> Start Date {props.estimate.start_at}</td>
     <td> End Date {props.estimate.end_at}</td>
