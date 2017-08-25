@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Types } from './join-actions';
 import { updateJoinTableState } from './utils';
 

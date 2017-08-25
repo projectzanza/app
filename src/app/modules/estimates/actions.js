@@ -51,3 +51,25 @@ export function deleteEstimate(estimate) {
       });
   };
 }
+
+export function acceptEstimate(estimate) {
+  return (dispatch, getState) => fetch(
+      `/estimates/${estimate.id}/accept`,
+    {
+      method: 'POST',
+      headers: getState().headers,
+    }, dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(actionTypes.httpRespEstimates(json)));
+}
+
+export function rejectEstimate(estimate) {
+  return (dispatch, getState) => fetch(
+      `/estimates/${estimate.id}/reject`,
+    {
+      method: 'POST',
+      headers: getState().headers,
+    }, dispatch)
+      .then(response => response.json())
+      .then(json => dispatch(actionTypes.httpRespEstimates(json)));
+}

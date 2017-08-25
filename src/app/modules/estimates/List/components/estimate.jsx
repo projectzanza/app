@@ -12,11 +12,27 @@ const EstimateView = props => (
     <td> Total {props.estimate.total}</td>
     <td>
       <ButtonToolbar>
-        <Button onClick={() => props.onClickEdit(props.estimate)}> Edit </Button>
-        <Button
-          bsStyle="danger"
-          onClick={() => props.onClickDelete(props.estimate)}
-        > Delete </Button>
+        { props.onClickEdit(props.estimate) &&
+          <Button onClick={() => props.onClickEdit(props.estimate)}> Edit </Button>
+        }
+        { props.onClickDelete(props.estimate) &&
+          <Button
+            bsStyle="danger"
+            onClick={() => props.onClickDelete(props.estimate)}
+          > Delete </Button>
+        }
+        { props.onClickAccept(props.estimate) &&
+          <Button
+            bsStyle="primary"
+            onClick={() => props.onClickAccept(props.estimate)()}
+          > Accept </Button>
+        }
+        { props.onClickReject(props.estimate) &&
+          <Button
+            bsStyle="danger"
+            onClick={() => props.onClickReject(props.estimate)()}
+          > Reject </Button>
+        }
       </ButtonToolbar>
     </td>
   </tr>
@@ -26,5 +42,7 @@ EstimateView.propTypes = {
   estimate: Estimate.propTypes.isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
+  onClickAccept: PropTypes.func.isRequired,
+  onClickReject: PropTypes.func.isRequired,
 };
 export default EstimateView;

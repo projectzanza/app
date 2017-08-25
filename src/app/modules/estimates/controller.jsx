@@ -10,6 +10,14 @@ class EstimateController {
     return store.dispatch(actions.submitEstimate(jobId, estimate));
   }
 
+  static acceptEstimate(store, estimate) {
+    return store.dispatch(actions.acceptEstimate(estimate));
+  }
+
+  static rejectEstimate(store, estimate) {
+    return store.dispatch(actions.rejectEstimate(estimate));
+  }
+
   static editEstimate(store, estimate) {
     ReactDOM.render(
       <ReduxProvider store={store}>

@@ -40,7 +40,6 @@ describe('jobActions', () => {
 
   it('dispatches the correct events on success', () => {
     const jobId = 1;
-    const userId = 1;
     nock(Config.apiUrl)
       .post('/estimates')
       .reply(200, responses.estimate);
@@ -64,7 +63,7 @@ describe('jobActions', () => {
 
     const store = mockStore();
 
-    return store.dispatch(actions.submitEstimate(jobId, userId, forms.estimate))
+    return store.dispatch(actions.submitEstimate(jobId, forms.estimate))
     .then(() => {
       expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
     });
@@ -97,7 +96,49 @@ describe('jobActions', () => {
       return store.dispatch(actions.deleteEstimate(estimate))
         .then(() => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
-        })
+        });
+    });
+  });
+
+  describe('acceptEstimate', () => {
+    it('dispatches the correct events on success', () => {
+      const estimate = Object.assign({id: 1}, forms.estimate);
+      nock(Config.apiUrl)
+        .post(`/estimates/${estimate.id}/accept`)
+        .reply(200, responses.acceptedEstimate);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_ESTIMATES,
+          data: [responses.acceptedEstimate.data],
+        },
+      ];
+      const store = mockStore();
+      return store.dispatch(actions.acceptEstimate(estimate))
+        .then(() => {
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('rejectEstimate', () => {
+    it('dispatches the correct events on success', () => {
+      const estimate = Object.assign({id: 1}, forms.estimate);
+      nock(Config.apiUrl)
+        .post(`/estimates/${estimate.id}/reject`)
+        .reply(200, responses.rejectedEstimate);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_ESTIMATES,
+          data: [responses.rejectedEstimate.data],
+        },
+      ];
+      const store = mockStore();
+      return store.dispatch(actions.rejectEstimate(estimate))
+        .then(() => {
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
+        });
     });
   });
 });
