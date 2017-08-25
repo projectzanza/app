@@ -12,6 +12,8 @@ class List extends React.Component {
       estimate={estimate}
       onClickEdit={this.props.onClickEdit}
       onClickDelete={this.props.onClickDelete}
+      onClickAccept={this.props.onClickAccept}
+      onClickReject={this.props.onClickReject}
     />);
   }
 
@@ -32,6 +34,8 @@ List.propTypes = {
   ).isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
+  onClickAccept: PropTypes.func.isRequired,
+  onClickReject: PropTypes.func.isRequired,
 };
 
 export default List;

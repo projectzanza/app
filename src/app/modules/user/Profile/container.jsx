@@ -12,7 +12,7 @@ class ProfileContainer extends React.Component {
     super(props, context);
     this.store = context.store;
     this.state = {
-      user: undefined,
+      user: props.user,
       mode: props.mode,
       job: props.job,
     };
@@ -23,25 +23,12 @@ class ProfileContainer extends React.Component {
     this.onClickInvite = this.onClickInvite.bind(this);
   }
 
-  componentWillMount() {
-    this.setUser(this.props.id);
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ user: User.find(this.store, this.props.id) });
-    });
-  }
-
   componentWillReceiveProps(nextProps) {
-    this.setState({ mode: nextProps.mode, job: nextProps.job });
-    if (this.props.id !== nextProps.id) {
-      this.setUser(nextProps.id);
-    }
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+    this.setState({
+      mode: nextProps.mode,
+      job: nextProps.job,
+      user: nextProps.user,
+    });
   }
 
   onSubmit(ev, form) {
@@ -63,10 +50,6 @@ class ProfileContainer extends React.Component {
   onClickInvite(ev) {
     ev.preventDefault();
     UserController.inviteUser(this.store, this.state.job.id, this.state.user.id);
-  }
-
-  setUser(id) {
-    UserController.fetchUser(this.store, id, _.get(this.props, 'job.id'));
   }
 
   showInvite() {
@@ -100,7 +83,7 @@ class ProfileContainer extends React.Component {
 }
 
 ProfileContainer.propTypes = {
-  id: PropTypes.string.isRequired,
+  user: User.propTypes.isRequired,
   mode: PropTypes.string,
   job: PropTypes.shape({
     id: PropTypes.string,

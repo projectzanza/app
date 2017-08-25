@@ -1,0 +1,9 @@
+@import '../../css/scheme';
+
+.accepted {
+  background-color: $alt-primary !important;
+}
+
+.rejected {
+  background-color: $alt-tertiary !important;
+}
