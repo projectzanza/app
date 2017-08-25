@@ -8,7 +8,7 @@ export const initialState = {
 export const jobScopes = (state = initialState, action) => {
   switch (action.type) {
     case Types.JOB_SCOPES:
-      return updateJoinTableState(state, action.jobId, action.scopeIds);
+      return updateJoinTableState(state, action.jobId, action.scopeIds, 'merge');
     default:
       return state;
   }

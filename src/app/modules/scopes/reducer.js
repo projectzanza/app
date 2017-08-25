@@ -7,11 +7,12 @@ export const initialState = {
 };
 
 export default function scopeReducer(state = initialState, action) {
+  const data = [].concat(action.data);
   switch (action.type) {
     case ActionTypes.HTTP_RESP_SCOPES:
       return createEntityEntries(
         state,
-        action.data.map(scopeJson => new Scope(scopeJson)),
+        data.map(scopeJson => new Scope(scopeJson)),
       );
 
     default:

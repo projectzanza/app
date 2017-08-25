@@ -18,6 +18,14 @@ export const scopes = {
   ],
 };
 
+export const scope = {
+  data: {
+    id: 100,
+    title: 'scope title 0',
+    description: 'scope description',
+  },
+};
+
 export const noScopes = {
   data: null,
 };

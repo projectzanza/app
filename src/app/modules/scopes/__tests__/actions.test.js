@@ -15,7 +15,7 @@ describe('scopeActions', () => {
     nock.cleanAll();
   });
 
-  describe('createScope', () => {
+  describe('submitScope', () => {
     it('creates HTTP_RESP_SCOPE and JOB_SCOPES on create success', () => {
       const jobId = 1;
 
@@ -41,11 +41,35 @@ describe('scopeActions', () => {
       ];
 
       const store = mockStore();
-      return store.dispatch(actions.createScope(jobId, forms.scope))
+      return store.dispatch(actions.submitScope(jobId, forms.scope))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
         });
+    });
+
+    it('makes a POST request on a new scope', () => {
+      const jobId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/jobs/${jobId}/scopes`)
+        .reply(200, responses.scopes);
+
+      const store = mockStore();
+      return store.dispatch(actions.submitScope(jobId, forms.scope));
+    });
+
+    it('should make a PUT request on an existing scope', () => {
+      const jobId = 1;
+      const scopeId = 1000;
+
+      nock(Config.apiUrl)
+        .put(`/scopes/${scopeId}`)
+        .reply(200, responses.scope);
+
+      const scope = Object.assign({id: scopeId}, forms.scope);
+      const store = mockStore();
+      return store.dispatch(actions.submitScope(jobId, scope));
     });
   });
 

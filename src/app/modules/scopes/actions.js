@@ -2,14 +2,22 @@ import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
 
-export function createScope(jobId, scope) {
+export function submitScope(jobId, scope) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpPostScope(jobId, scope));
 
+    let method = 'POST';
+    let url = `/jobs/${jobId}/scopes`;
+
+    if (scope.id) {
+      method = 'PUT';
+      url = `/scopes/${scope.id}`;
+    }
+
     return fetch(
-      `/jobs/${jobId}/scopes`,
+      url,
       {
-        method: 'POST',
+        method,
         body: JSON.stringify(scope),
         headers: getState().headers,
       }, dispatch)
