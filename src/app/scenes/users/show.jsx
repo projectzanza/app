@@ -42,7 +42,10 @@ class UserShowScene extends React.Component {
   estimateList() {
     if (this.state.job) {
       return (
-        <EstimateList estimates={this.state.job.estimates(this.store, this.state.user.id)} />
+        <EstimateList
+          estimates={this.state.job.estimates(this.store, this.state.user.id)}
+          job={this.state.job}
+        />
       );
     }
     return null;
