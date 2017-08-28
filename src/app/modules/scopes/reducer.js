@@ -1,5 +1,8 @@
 import { Types as ActionTypes } from './actionTypes';
-import { createEntityEntries } from '../../lib/reducers/utils';
+import {
+  createEntityEntries,
+  deleteEntityEntries,
+} from '../../lib/reducers/utils';
 import Scope from './model';
 
 export const initialState = {
@@ -7,12 +10,21 @@ export const initialState = {
 };
 
 export default function scopeReducer(state = initialState, action) {
-  const data = [].concat(action.data);
+  let data = [];
+
   switch (action.type) {
     case ActionTypes.HTTP_RESP_SCOPES:
+      data = [].concat(action.data);
+
       return createEntityEntries(
         state,
         data.map(scopeJson => new Scope(scopeJson)),
+      );
+
+    case ActionTypes.HTTP_RESP_DELETE_SCOPE:
+      return deleteEntityEntries(
+        state,
+        action.scopeId,
       );
 
     default:

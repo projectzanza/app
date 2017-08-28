@@ -70,3 +70,17 @@ export function postStateScope(jobId, scopeId, state) {
       });
   };
 }
+
+
+export function deleteScope(jobId, scopeId) {
+  return (dispatch, getState) => fetch(
+      `/scopes/${scopeId}`,
+    {
+      method: 'DELETE',
+      headers: getState().headers,
+    }, dispatch)
+      .then(() => {
+        dispatch(ActionTypes.httpRespDeleteScope(scopeId));
+        dispatch(joinActions.jobScopesDelete(jobId, scopeId));
+      });
+}

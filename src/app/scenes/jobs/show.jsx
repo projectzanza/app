@@ -39,6 +39,7 @@ class JobShowScene extends React.Component {
             this.state.job.matchingUsers(this.store),
           ),
           collaboratingUsers: this.state.job.collaboratingUsers(this.store),
+          participatingUser: this.state.job.participatingUsers(this.store)[0],
         });
       }
     });
@@ -122,7 +123,7 @@ class JobShowScene extends React.Component {
     return null;
   }
 
-  scope() {
+  scopes() {
     if (this.state.job) {
       return (
         <Panel title="Scope">
@@ -165,7 +166,7 @@ class JobShowScene extends React.Component {
           onSubmitSuccess={this.onSubmitSuccess}
         />
 
-        {this.scope()}
+        {this.scopes()}
         {this.estimates()}
 
         {this.collaboratingUserList()}

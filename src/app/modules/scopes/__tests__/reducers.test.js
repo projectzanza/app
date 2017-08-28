@@ -25,4 +25,17 @@ describe('scope reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
+  describe('HTTP_RESP_DELETE_SCOPE', () => {
+    it('should remove the scope from the entites list', () => {
+      let action = actionTypes.httpRespScopes(responses.scopes);
+      const deletedScope = responses.scopes.data[0];
+      let state = reducer(undefined, action);
+
+      action = actionTypes.httpRespDeleteScope(deletedScope.id);
+      state = reducer(state, action);
+      const scopeIds = Object.keys(state.entities);
+      expect(scopeIds.includes(deletedScope.id)).toEqual(false);
+    });
+  })
 });

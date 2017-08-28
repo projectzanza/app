@@ -29,3 +29,7 @@ export const scope = {
 export const noScopes = {
   data: null,
 };
+
+export const deletedScope = {
+  success: true
+};
