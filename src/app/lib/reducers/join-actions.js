@@ -9,6 +9,7 @@ export const Types = {
   USER_ESTIMATES: 'USER_ESTIMATES',
   JOB_ESTIMATES_DELETE: 'JOB_ESTIMATES_DELETE',
   USER_ESTIMATES_DELETE: 'USER_ESTIMATES_DELETE',
+  JOB_SCOPES_DELETE: 'JOB_SCOPES_DELETE',
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -57,6 +58,12 @@ export const jobScopes = (jobId, scopeJson) => {
     jobId,
   };
 };
+
+export const jobScopesDelete = (jobId, scopeId) => ({
+  type: Types.JOB_SCOPES_DELETE,
+  scopeId,
+  jobId,
+});
 
 export const jobEstimates = estimateJson => ({
   type: Types.JOB_ESTIMATES,

@@ -26,6 +26,10 @@ class ScopeController {
     return store.dispatch(actions.postStateScope(jobId, scopeId, 'reject'));
   }
 
+  static deleteScope(store, jobId, scopeId) {
+    return store.dispatch(actions.deleteScope(jobId, scopeId));
+  }
+
   static createScope(store, jobId) {
     ReactDOM.render(
       <ReduxProvider store={store}>

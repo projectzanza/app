@@ -18,6 +18,7 @@ class ListContainer extends React.Component {
     this.onClickVerify = this.onClickVerify.bind(this);
     this.onClickReject = this.onClickReject.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +76,15 @@ class ListContainer extends React.Component {
     return undefined;
   }
 
+  onClickDelete(scope) {
+    if (this.props.currentUser.id === this.props.job.user_id) {
+      return () => {
+        ScopeController.deleteScope(this.store, this.props.job.id, scope.id);
+      };
+    }
+    return undefined;
+  }
+
   render() {
     return (<List
       scopes={this.state.scopes}
@@ -83,6 +93,7 @@ class ListContainer extends React.Component {
       onClickVerify={this.onClickVerify}
       onClickReject={this.onClickReject}
       onClickEdit={this.onClickEdit}
+      onClickDelete={this.onClickDelete}
     />);
   }
 }

@@ -39,6 +39,13 @@ const ScopeView = props => (
             onClick={() => props.onClickReject(props.scope)()}
           > Reject </Button>
         }
+        {
+          props.onClickDelete(props.scope) &&
+          <Button
+            bsStyle="danger"
+            onClick={() => props.onClickDelete(props.scope)()}
+          > Delete </Button>
+        }
       </ButtonToolbar>
     </td>
   </tr>
@@ -51,6 +58,7 @@ ScopeView.propTypes = {
   onClickVerify: PropTypes.func.isRequired,
   onClickReject: PropTypes.func.isRequired,
   onClickEdit: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
 };
 
 export default ScopeView;

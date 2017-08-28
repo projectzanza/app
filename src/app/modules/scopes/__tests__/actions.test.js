@@ -149,4 +149,34 @@ describe('scopeActions', () => {
         });
     });
   });
+
+  describe('deleteScope', () => {
+    it('will create the correct action types on success', () => {
+      const jobId = 1;
+      const scopeId = 100;
+
+      nock(Config.apiUrl)
+        .delete(`/scopes/${scopeId}`)
+        .reply(200, responses.deletedScope);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_DELETE_SCOPE,
+          scopeId,
+        },
+        {
+          type: joinActionTypes.Types.JOB_SCOPES_DELETE,
+          jobId,
+          scopeId,
+        },
+      ];
+
+      const store = mockStore();
+      return store.dispatch(actions.deleteScope(jobId, scopeId))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        })
+    });
+  });
 });

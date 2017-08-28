@@ -2,6 +2,7 @@ export const Types = {
   HTTP_POST_SCOPE: 'HTTP_POST_SCOPE',
   HTTP_RESP_SCOPES: 'HTTP_RESP_SCOPES',
   HTTP_GET_SCOPES: 'HTTP_GET_SCOPES',
+  HTTP_RESP_DELETE_SCOPE: 'HTTP_RESP_DELETE_SCOPE',
 };
 
 export function httpPostScope(jobId, scope) {
@@ -26,5 +27,12 @@ export function httpGetScopes(jobId) {
   return {
     type: Types.HTTP_GET_SCOPES,
     jobId,
+  };
+}
+
+export function httpRespDeleteScope(scopeId) {
+  return {
+    type: Types.HTTP_RESP_DELETE_SCOPE,
+    scopeId,
   };
 }
