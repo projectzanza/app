@@ -49,11 +49,14 @@ export const jobCollaboratingUsers = (jobId, userJson, joinAction) => {
   };
 };
 
-export const jobScopes = (jobId, scopeJson) => ({
-  type: Types.JOB_SCOPES,
-  scopeIds: scopeJson.data.map(job => job.id),
-  jobId,
-});
+export const jobScopes = (jobId, scopeJson) => {
+  const data = [].concat(scopeJson.data);
+  return {
+    type: Types.JOB_SCOPES,
+    scopeIds: data.map(job => job.id),
+    jobId,
+  };
+};
 
 export const jobEstimates = estimateJson => ({
   type: Types.JOB_ESTIMATES,

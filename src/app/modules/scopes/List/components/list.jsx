@@ -10,12 +10,10 @@ class List extends React.Component {
     return this.props.scopes.map(scope => <ScopeView
       key={scope.id}
       scope={scope}
-      canClickComplete={this.props.canClickComplete}
       onClickComplete={this.props.onClickComplete}
-      canClickVerify={this.props.canClickVerify}
       onClickVerify={this.props.onClickVerify}
-      canClickReject={this.props.canClickReject}
       onClickReject={this.props.onClickReject}
+      onClickEdit={this.props.onClickEdit}
     />);
   }
 
@@ -34,12 +32,10 @@ List.propTypes = {
   scopes: PropTypes.arrayOf(
     Scope.propTypes,
   ).isRequired,
-  canClickComplete: PropTypes.func.isRequired,
   onClickComplete: PropTypes.func.isRequired,
-  canClickVerify: PropTypes.func.isRequired,
   onClickVerify: PropTypes.func.isRequired,
-  canClickReject: PropTypes.func.isRequired,
   onClickReject: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
 };
 
 export default List;

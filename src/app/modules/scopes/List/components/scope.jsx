@@ -16,22 +16,27 @@ const ScopeView = props => (
     </td>
     <td>
       <ButtonToolbar>
-        { props.canClickComplete(props.scope) &&
+        { props.onClickEdit(props.scope) &&
+        <Button
+          onClick={() => props.onClickEdit(props.scope)()}
+        > Edit </Button>
+        }
+        { props.onClickComplete(props.scope) &&
           <Button
             bsStyle="primary"
-            onClick={e => props.onClickComplete(e, props.scope)}
+            onClick={() => props.onClickComplete(props.scope)()}
           > Complete </Button>
         }
-        { props.canClickVerify(props.scope) &&
+        { props.onClickVerify(props.scope) &&
           <Button
             bsStyle="primary"
-            onClick={e => props.onClickVerify(e, props.scope)}
+            onClick={() => props.onClickVerify(props.scope)()}
           > Verify </Button>
         }
-        { props.canClickReject(props.scope) &&
+        { props.onClickReject(props.scope) &&
           <Button
             bsStyle="danger"
-            onClick={e => props.onClickReject(e, props.scope)}
+            onClick={() => props.onClickReject(props.scope)()}
           > Reject </Button>
         }
       </ButtonToolbar>
@@ -42,12 +47,10 @@ const ScopeView = props => (
 
 ScopeView.propTypes = {
   scope: Scope.propTypes.isRequired,
-  canClickComplete: PropTypes.func.isRequired,
   onClickComplete: PropTypes.func.isRequired,
-  canClickVerify: PropTypes.func.isRequired,
   onClickVerify: PropTypes.func.isRequired,
-  canClickReject: PropTypes.func.isRequired,
   onClickReject: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
 };
 
 export default ScopeView;

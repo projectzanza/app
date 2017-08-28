@@ -17,9 +17,7 @@ class ListContainer extends React.Component {
     this.onClickComplete = this.onClickComplete.bind(this);
     this.onClickVerify = this.onClickVerify.bind(this);
     this.onClickReject = this.onClickReject.bind(this);
-    this.canClickComplete = this.canClickComplete.bind(this);
-    this.canClickVerify = this.canClickVerify.bind(this);
-    this.canClickReject = this.canClickReject.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
   }
 
   componentDidMount() {
@@ -38,52 +36,53 @@ class ListContainer extends React.Component {
     this.unsubscribe();
   }
 
-  onClickComplete(ev, scope) {
-    ev.preventDefault();
-    ScopeController.completeScope(this.store, this.props.job.id, scope.id);
+  onClickComplete(scope) {
+    if ((this.props.currentUser.id === _.get(this.props.participatingUser, 'id')) &&
+      (scope.state === Scope.states.open || scope.state === Scope.states.rejected)) {
+      return () => {
+        ScopeController.completeScope(this.store, this.props.job.id, scope.id);
+      };
+    }
+    return undefined;
   }
 
-  onClickVerify(ev, scope) {
-    ev.preventDefault();
-    ScopeController.verifyScope(this.store, this.props.job.id, scope.id);
+  onClickVerify(scope) {
+    if (this.props.currentUser.id === this.props.job.user_id &&
+      scope.state !== Scope.states.verified) {
+      return () => {
+        ScopeController.verifyScope(this.store, this.props.job.id, scope.id);
+      };
+    }
+    return undefined;
   }
 
-  onClickReject(ev, scope) {
-    ev.preventDefault();
-    ScopeController.rejectScope(this.store, this.props.job.id, scope.id);
+  onClickReject(scope) {
+    if (this.props.currentUser.id === this.props.job.user_id &&
+      (scope.state === Scope.states.completed || scope.state === Scope.states.verified)) {
+      return () => {
+        ScopeController.rejectScope(this.store, this.props.job.id, scope.id);
+      };
+    }
+    return undefined;
   }
 
-  canClickComplete(scope) {
-    return (
-        this.props.currentUser.id === _.get(this.props.participatingUser, 'id')
-      ) && (
-        scope.state === Scope.states.open || scope.state === Scope.states.rejected
-      );
-  }
-
-  canClickVerify(scope) {
-    return this.props.currentUser.id === this.props.job.user_id &&
-      scope.state !== Scope.states.verified;
-  }
-
-  canClickReject(scope) {
-    return (
-      this.props.currentUser.id === this.props.job.user_id
-      && (scope.state === Scope.states.completed ||
-        scope.state === Scope.states.verified)
-    );
+  onClickEdit(scope) {
+    if (this.props.currentUser.id === this.props.job.user_id) {
+      return () => {
+        ScopeController.editScope(this.store, scope);
+      };
+    }
+    return undefined;
   }
 
   render() {
     return (<List
       scopes={this.state.scopes}
       jobId={this.props.job.id}
-      canClickComplete={this.canClickComplete}
       onClickComplete={this.onClickComplete}
-      canClickVerify={this.canClickVerify}
       onClickVerify={this.onClickVerify}
-      canClickReject={this.canClickReject}
       onClickReject={this.onClickReject}
+      onClickEdit={this.onClickEdit}
     />);
   }
 }
