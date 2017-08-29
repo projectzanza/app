@@ -4,6 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import * as actions from './actions';
 import ModalEditScope from './EditModal/container';
 import Scope from './model';
+import ConfirmModal from '../../components/ConfirmModal/confirm';
 
 class ScopeController {
   static fetchScopes(store, jobId) {
@@ -27,7 +28,15 @@ class ScopeController {
   }
 
   static deleteScope(store, jobId, scopeId) {
-    return store.dispatch(actions.deleteScope(jobId, scopeId));
+    ReactDOM.render(
+      <ConfirmModal
+        onConfirm={() => store.dispatch(actions.deleteScope(jobId, scopeId))}
+        title="Confirm Deleting Scope"
+        body="Deleting a scope will remove it from this job"
+        show
+      />,
+      document.getElementById('modal'),
+    );
   }
 
   static createScope(store, jobId) {

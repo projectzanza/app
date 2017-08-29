@@ -29,7 +29,7 @@ describe('job model integration', () => {
         nock(Config.apiUrl)
           .get(`/jobs/${jobId}/users/match`)
           .reply(200, userResponses.users);
-        UserController.fetchMatchingUsersForJob(store, { jobId }).then(() => {
+        UserController.fetchMatchingUsersForJob(store, jobId).then(() => {
           expect(Job.find(store, jobId).matchingUsers(store).length)
             .toEqual(2);
         });
@@ -52,7 +52,7 @@ describe('job model integration', () => {
         nock(Config.apiUrl)
           .get(`/jobs/${jobId}/users/collaborating`)
           .reply(200, userResponses.collaboratingUsers);
-        UserController.fetchCollaboratingUsersForJob(store, { jobId }).then(() => {
+        UserController.fetchCollaboratingUsersForJob(store, jobId).then(() => {
           expect(Job.find(store, jobId).collaboratingUsers(store).length).toEqual(8);
           expect(Job.find(store, jobId).invitedUsers(store).length).toEqual(2);
           expect(Job.find(store, jobId).interestedUsers(store).length).toEqual(2);

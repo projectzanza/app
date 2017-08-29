@@ -1,8 +1,11 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import * as actions from './actions';
 import Job from './model';
 import ScopeController from '../scopes/controller';
 import CardsController from '../cards/controller';
+import ConfirmModal from '../../components/ConfirmModal/confirm';
 
 class JobController {
 
@@ -42,17 +45,29 @@ class JobController {
     return !job.verified_at && job.user_id === userId;
   }
 
-  static verifyJobComplete(store, jobId) {
-    return new Promise((resolve) => {
-      CardsController.completePaymentDetails({
-        store,
-        jobId,
-        onComplete: () => {
-          store.dispatch(actions.postVerifyJob({ jobId }))
-            .then(() => resolve());
-        },
-      });
+  static payForJob(store, jobId) {
+    CardsController.completePaymentDetails({
+      store,
+      jobId,
+      onComplete: () => {
+        store.dispatch(actions.postVerifyJob({ jobId }))
+          .then(() => JobController.fetchScopes(store, jobId));
+      },
     });
+  }
+
+  static verifyJobComplete(store, jobId) {
+    ReactDOM.render(
+      <ConfirmModal
+        title="Confirm Verify Job"
+        body={'This will verify a job is complete \n ' +
+        'Verify all scopes are complete \n ' +
+        'Start the payment process'}
+        onConfirm={JobController.payForJob(store, jobId)}
+        show
+      />,
+      document.getElementById('modal'),
+    );
   }
 
   static fetchScopes(store, jobId) {

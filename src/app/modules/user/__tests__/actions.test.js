@@ -166,7 +166,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsersForJob({ jobId }))
+      return store.dispatch(actions.getMatchingUsersForJob(jobId))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -185,10 +185,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsersForJob({
-        jobId,
-        filter: 'barry',
-      }))
+      return store.dispatch(actions.getMatchingUsersForJob(jobId, 'barry'))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -221,7 +218,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getCollaboratingUsersForJob({ jobId }))
+      return store.dispatch(actions.getCollaboratingUsersForJob(jobId))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
@@ -240,10 +237,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getCollaboratingUsersForJob({
-        jobId,
-        filter: 'barry',
-      }))
+      return store.dispatch(actions.getCollaboratingUsersForJob(jobId, 'barry'))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
