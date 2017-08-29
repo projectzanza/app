@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Edit from './components/edit';
@@ -7,8 +6,6 @@ import View from './components/view';
 import { putJob } from '../actions';
 import Job from '../model';
 import JobController from '../controller';
-
-import ModalConfirmVerify from '../ModalConfirmVerify/modal';
 
 class ShowJobContainer extends React.Component {
   constructor(props, context) {
@@ -27,7 +24,6 @@ class ShowJobContainer extends React.Component {
     this.canClickAccept = this.canClickAccept.bind(this);
     this.onClickAccept = this.onClickAccept.bind(this);
     this.onClickVerify = this.onClickVerify.bind(this);
-    this.verifyJob = this.verifyJob.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,10 +44,12 @@ class ShowJobContainer extends React.Component {
 
   onEdit() {
     this.setState({ mode: 'edit' });
+    this.props.onModeChange('edit');
   }
 
   onCancelEdit() {
     this.setState({ mode: 'view' });
+    this.props.onModeChange('view');
   }
 
   onClickRegisterInterest() {
@@ -65,13 +63,7 @@ class ShowJobContainer extends React.Component {
   onClickVerify() {
     if (JobController.canVerifyJobComplete(this.state.job, this.props.currentUser.id)) {
       return () => {
-        ReactDOM.render(
-          <ModalConfirmVerify
-            onConfirm={this.verifyJob}
-            show
-          />,
-          document.getElementById('modal'),
-        );
+        JobController.verifyJobComplete(this.store, this.state.job.id);
       };
     }
     return undefined;
@@ -84,11 +76,6 @@ class ShowJobContainer extends React.Component {
   showRegisterInterest() {
     return (this.props.currentUser.id !== this.state.job.user_id) &&
       !_.get(this.state.job, 'meta.current_user.collaboration_state');
-  }
-
-  verifyJob() {
-    JobController.verifyJobComplete(this.store, this.state.job.id)
-      .then(() => JobController.fetchScopes(this.store, this.state.job.id));
   }
 
   render() {
@@ -122,6 +109,7 @@ ShowJobContainer.propTypes = {
     id: PropTypes.string,
   }).isRequired,
   onSubmitSuccess: PropTypes.func.isRequired,
+  onModeChange: PropTypes.func.isRequired,
 };
 
 ShowJobContainer.defaultProps = {

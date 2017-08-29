@@ -107,14 +107,15 @@ export function putUser(user) {
       .then(json => dispatch(ActionTypes.httpRespUser(json)));
 }
 
-export function getMatchingUsersForJob(props) {
+export function getMatchingUsersForJob(jobId, filter) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
-    const url = URL.format({
-      pathname: `/jobs/${props.jobId}/users/match`,
-      query: _.omit(props, ['jobId']),
-    });
+    const urlParams = { pathname: `/jobs/${jobId}/users/match` };
+    if (filter) {
+      Object.assign(urlParams, { query: { filter } });
+    }
+    const url = URL.format(urlParams);
 
     return fetch(
       url,
@@ -126,19 +127,20 @@ export function getMatchingUsersForJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActions.jobMatchingUsers(props.jobId, json, 'reset'));
+        dispatch(joinActions.jobMatchingUsers(jobId, json, 'reset'));
       });
   };
 }
 
-export function getCollaboratingUsersForJob(props) {
+export function getCollaboratingUsersForJob(jobId, filter) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
-    const url = URL.format({
-      pathname: `/jobs/${props.jobId}/users/collaborating`,
-      query: _.omit(props, ['jobId']),
-    });
+    const urlParams = { pathname: `/jobs/${jobId}/users/collaborating` };
+    if (filter) {
+      Object.assign(urlParams, { query: { filter } });
+    }
+    const url = URL.format(urlParams);
 
     return fetch(
       url,
@@ -150,7 +152,7 @@ export function getCollaboratingUsersForJob(props) {
       .then(response => response.json())
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
-        dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'reset'));
+        dispatch(joinActions.jobCollaboratingUsers(jobId, json, 'reset'));
         dispatchEstimateActions(dispatch, json);
       });
   };

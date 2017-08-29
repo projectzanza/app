@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 
 class ConfirmModal extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = { show: true };
+    this.state = { show: props.show };
     this.onHide = this.onHide.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ show: nextProps.show });
   }
 
   onHide() {
@@ -30,12 +33,12 @@ class ConfirmModal extends React.Component {
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body className="linebreak">
           {this.props.body}
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={this.onHide}>Close</Button>
+          <Button onClick={this.onHide}>Cancel</Button>
           <Button
             bsStyle="primary"
             onClick={this.onConfirm}
@@ -51,6 +54,7 @@ ConfirmModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
+  show: PropTypes.bool.isRequired,
 };
 
 export default ConfirmModal;

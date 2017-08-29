@@ -48,6 +48,7 @@ class EstimateController {
         title="Confirm delete estimate"
         body="Deleting this estiamte cannot be undone"
         onConfirm={() => store.dispatch(actions.deleteEstimate(estimate))}
+        show
       />,
       document.getElementById('modal'),
     );

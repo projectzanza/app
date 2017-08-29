@@ -21,9 +21,11 @@ class JobShowScene extends React.Component {
       user: UserController.currentUser(this.store),
       job: JobController.getJob(this.store, props.params.id),
       matchingUsers: [],
+      mode: this.props.params.mode,
     };
     this.onClickUser = this.onClickUser.bind(this);
     this.onSubmitSuccess = this.onSubmitSuccess.bind(this);
+    this.onModeChange = this.onModeChange.bind(this);
     this.filterMatchingUser = this.filterMatchingUser.bind(this);
     this.filterCollaboratingUser = this.filterCollaboratingUser.bind(this);
   }
@@ -45,6 +47,10 @@ class JobShowScene extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ mode: nextProps.params.mode });
+  }
+
   componentWillUnmount() {
     this.unsubscribe();
   }
@@ -56,6 +62,11 @@ class JobShowScene extends React.Component {
 
   onSubmitSuccess() {
     browserHistory.replace(routes.job.show(this.state.job.id));
+    UserController.fetchCollaboratingUsersForJob(this.store, this.state.job.id);
+  }
+
+  onModeChange(mode) {
+    this.setState({ mode });
   }
 
   fetchData() {
@@ -70,28 +81,28 @@ class JobShowScene extends React.Component {
     return this.state.job && this.state.job.user_id === this.state.user.id;
   }
 
+  inViewMode() {
+    return this.state.mode !== 'edit';
+  }
+
   filterMatchingUser(filterText) {
     UserController.fetchMatchingUsersForJob(
       this.store,
-      {
-        jobId: this.props.params.id,
-        filter: filterText,
-      },
+      this.props.params.id,
+      filterText,
     );
   }
 
   filterCollaboratingUser(filterText) {
     UserController.fetchCollaboratingUsersForJob(
       this.store,
-      {
-        jobId: this.props.params.id,
-        filter: filterText,
-      },
+      this.props.params.id,
+      filterText,
     );
   }
 
   collaboratingUserList() {
-    if (this.userOwnsJob()) {
+    if (this.userOwnsJob() && this.inViewMode()) {
       return (
         <Panel title="Collaborating Users" filter={this.filterCollaboratingUser}>
           <UserList
@@ -108,7 +119,7 @@ class JobShowScene extends React.Component {
 
 
   matchingUserList() {
-    if (this.userOwnsJob()) {
+    if (this.userOwnsJob() && this.inViewMode()) {
       return (
         <Panel title="Matching Consultants" filter={this.filterMatchingUser}>
           <UserList
@@ -161,9 +172,10 @@ class JobShowScene extends React.Component {
       <div>
         <ShowJob
           job={this.state.job}
-          mode={this.props.params.mode}
+          mode={this.state.mode}
           currentUser={this.state.user}
           onSubmitSuccess={this.onSubmitSuccess}
+          onModeChange={this.onModeChange}
         />
 
         {this.scopes()}
