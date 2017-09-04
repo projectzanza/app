@@ -172,7 +172,7 @@ export function postInviteToJob(props) {
       dispatch)
       .then(response => response.json())
       .then((json) => {
-        dispatch(ActionTypes.httpRespUsers(json));
+        dispatch(ActionTypes.httpRespUser(json));
         dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'merge'));
       });
   };

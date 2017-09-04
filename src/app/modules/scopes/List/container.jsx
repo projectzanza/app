@@ -38,7 +38,7 @@ class ListContainer extends React.Component {
   }
 
   onClickComplete(scope) {
-    if ((this.props.currentUser.id === _.get(this.props.participatingUser, 'id')) &&
+    if ((this.props.currentUser.id === _.get(this.props.acceptedUser, 'id')) &&
       (scope.state === Scope.states.open || scope.state === Scope.states.rejected)) {
       return () => {
         ScopeController.completeScope(this.store, this.props.job.id, scope.id);
@@ -107,14 +107,14 @@ ListContainer.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.string,
   }).isRequired,
-  participatingUser: PropTypes.shape({
+  acceptedUser: PropTypes.shape({
     id: PropTypes.string,
   }),
 };
 
 ListContainer.defaultProps = {
   job: undefined,
-  participatingUser: undefined,
+  acceptedUser: undefined,
 };
 
 ListContainer.contextTypes = {

@@ -63,7 +63,7 @@ class JobController {
         body={'This will verify a job is complete \n ' +
         'Verify all scopes are complete \n ' +
         'Start the payment process'}
-        onConfirm={JobController.payForJob(store, jobId)}
+        onConfirm={() => JobController.payForJob(store, jobId)}
         show
       />,
       document.getElementById('modal'),
@@ -78,7 +78,7 @@ class JobController {
     const items = [].reduce.call(args, (list, item) => list.concat(item), []);
     return _.uniq(_.sortBy(
       items,
-      item => ['participating', 'awarded', 'invited', 'interested', undefined]
+      item => ['accepted', 'awarded', 'invited', 'interested', undefined]
         .indexOf(_.get(item, 'meta.current_user.collaboration_state')),
     ));
   }

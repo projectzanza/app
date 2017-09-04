@@ -41,7 +41,7 @@ class JobShowScene extends React.Component {
             this.state.job.matchingUsers(this.store),
           ),
           collaboratingUsers: this.state.job.collaboratingUsers(this.store),
-          participatingUser: this.state.job.participatingUsers(this.store)[0],
+          acceptedUser: this.state.job.acceptedUsers(this.store)[0],
         });
       }
     });
@@ -141,7 +141,7 @@ class JobShowScene extends React.Component {
           <ListScope
             job={this.state.job}
             currentUser={this.state.user}
-            participatingUser={this.state.participatingUser}
+            acceptedUser={this.state.acceptedUser}
           />
           <CreateScope job={this.state.job} />
         </Panel>

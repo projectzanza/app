@@ -14,12 +14,12 @@ const EstimateView = props => (
     <td>
       <ButtonToolbar>
         { props.onClickEdit(props.estimate) &&
-          <Button onClick={() => props.onClickEdit(props.estimate)}> Edit </Button>
+          <Button onClick={() => props.onClickEdit(props.estimate)()}> Edit </Button>
         }
         { props.onClickDelete(props.estimate) &&
           <Button
             bsStyle="danger"
-            onClick={() => props.onClickDelete(props.estimate)}
+            onClick={() => props.onClickDelete(props.estimate)()}
           > Delete </Button>
         }
         { props.onClickAccept(props.estimate) &&

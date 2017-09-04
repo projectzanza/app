@@ -108,7 +108,7 @@ export const collaboratingUsers = {
       username: 'user7',
       meta: {
         job: {
-          collaboration_state: 'participant',
+          collaboration_state: 'accepted',
         },
       },
     },

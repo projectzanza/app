@@ -29,7 +29,7 @@ export const acceptedJob = {
     verified_at: '01-02-2017',
     meta: {
       current_user: {
-        collaboration_state: 'participant',
+        collaboration_state: 'accepted',
       },
     },
   },
