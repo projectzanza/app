@@ -59,7 +59,7 @@ class UserController {
     const items = [].reduce.call(args, (list, item) => list.concat(item), []);
     return _.uniq(_.sortBy(
       items,
-      item => ['participating', 'awarded', 'invited', 'interested', undefined]
+      item => ['accepted', 'awarded', 'invited', 'interested', undefined]
         .indexOf(_.get(item, 'meta.job.collaboration_state')),
     ));
   }

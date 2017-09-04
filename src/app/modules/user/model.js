@@ -51,10 +51,10 @@ export default class User extends Model {
     );
   }
 
-  participatingJobs(store) {
+  acceptedJobs(store) {
     return _.filter(
       this.collaboratingJobs(store),
-      ['meta.current_user.collaboration_state', 'participating'],
+      ['meta.current_user.collaboration_state', 'accepted'],
     );
   }
 

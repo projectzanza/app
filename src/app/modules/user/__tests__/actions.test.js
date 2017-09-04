@@ -251,12 +251,12 @@ describe('userActions', () => {
 
       nock(Config.apiUrl)
         .post(`/users/${userId}/invite`)
-        .reply(200, responses.users);
+        .reply(200, responses.user);
 
       const expectedActions = [
         {
-          type: actionTypes.Types.HTTP_RESP_USERS,
-          data: responses.users.data,
+          type: actionTypes.Types.HTTP_RESP_USER,
+          data: responses.user.data,
         },
       ];
 

@@ -58,7 +58,7 @@ describe('job model integration', () => {
           expect(Job.find(store, jobId).interestedUsers(store).length).toEqual(2);
           expect(Job.find(store, jobId).prospectiveUsers(store).length).toEqual(2);
           expect(Job.find(store, jobId).awardedUsers(store).length).toEqual(1);
-          expect(Job.find(store, jobId).participatingUsers(store).length).toEqual(1);
+          expect(Job.find(store, jobId).acceptedUsers(store).length).toEqual(1);
         });
       });
     });

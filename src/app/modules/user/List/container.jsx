@@ -33,7 +33,7 @@ class ListContainer extends React.Component {
   }
 
   onClickAwardUserFunc(user) {
-    if (['awarded', 'participant'].indexOf(_.get(user, 'meta.job.collaboration_state')) < 0) {
+    if (['awarded', 'accepted'].indexOf(_.get(user, 'meta.job.collaboration_state')) < 0) {
       return (ev, clickedUser) => {
         ev.preventDefault();
         UserController.awardJob(this.store, this.props.jobId, clickedUser.id);

@@ -4,6 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import ModalEditEstimate from './EditModal/container';
 import ConfirmModal from '../../components/ConfirmModal/confirm';
 import * as actions from './actions';
+import Estimate from './model';
 
 class EstimateController {
   static submitEstimate(store, jobId, estimate) {
@@ -24,6 +25,7 @@ class EstimateController {
         <ModalEditEstimate
           jobId={estimate.job_id}
           estimate={estimate}
+          show
         />
       </ReduxProvider>,
       document.getElementById('modal'),
@@ -35,6 +37,7 @@ class EstimateController {
       <ReduxProvider store={store}>
         <ModalEditEstimate
           jobId={jobId}
+          estimate={new Estimate()}
           show
         />
       </ReduxProvider>,
