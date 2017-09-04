@@ -84,7 +84,8 @@ User.defaults = {
 User.propTypes =
   PropTypes.shape({
     name: PropTypes.string,
-    bio: PropTypes.string,
+    headline: PropTypes.string,
+    summary: PropTypes.string,
     tag_list: PropTypes.arrayOf(
       PropTypes.string,
     ),

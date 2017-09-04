@@ -12,7 +12,7 @@ export const signin = {
 export const profile = {
   id: 1,
   name: 'user1',
-  bio: 'user1 bio',
+  summary: 'user1 bio',
   per_diem: {
     min: 200,
     max: 500,
