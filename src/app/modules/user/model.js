@@ -74,6 +74,15 @@ export default class User extends Model {
     });
     return _.intersection(jobEstimateIds, userEstimateIds);
   }
+
+  positions(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userPositions',
+      entityTable: 'positions',
+    });
+  }
 }
 
 User.defaults = {
@@ -84,7 +93,8 @@ User.defaults = {
 User.propTypes =
   PropTypes.shape({
     name: PropTypes.string,
-    bio: PropTypes.string,
+    headline: PropTypes.string,
+    summary: PropTypes.string,
     tag_list: PropTypes.arrayOf(
       PropTypes.string,
     ),
@@ -92,6 +102,7 @@ User.propTypes =
       min: PropTypes.int,
       max: PropTypes.int,
     }),
+    positions: PropTypes.func,
   });
 
 User.table = 'user';

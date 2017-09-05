@@ -2,6 +2,7 @@ import reducer, { initialState } from '../reducer';
 import * as actionTypes from '../actionTypes';
 import * as responses from '../__mocks__/user_responses';
 import * as forms from '../__mocks__/user_forms';
+import User from '../model';
 
 describe('user reducer', () => {
   it('should return the initial state', () => {
@@ -52,7 +53,7 @@ describe('user reducer', () => {
     it('should add a single user to the entities list', () => {
       const action = actionTypes.httpRespUser(responses.user);
       const state = reducer(undefined, action);
-      expect(Object.keys(state.entities).length).toEqual(1);
+      expect(state.entities[responses.user.data.id]).toEqual(new User(responses.user.data));
     });
 
     it('should not add a user if user data is null', () => {

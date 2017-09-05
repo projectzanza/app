@@ -54,12 +54,21 @@ class Edit extends React.Component {
           />
         </FormGroup>
         <FormGroup>
-          <ControlLabel htmlFor="bio">Bio</ControlLabel>
+          <ControlLabel htmlFor="headline">Headline</ControlLabel>
+          <FormControl
+            type="text"
+            name="headline"
+            value={this.state.headline}
+            onChange={this.onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <ControlLabel htmlFor="summary">Summary</ControlLabel>
           <FormControl
             type="textarea"
-            name="bio"
+            name="summary"
             componentClass="textarea"
-            value={this.state.bio}
+            value={this.state.summary}
             onChange={this.onChange}
           />
         </FormGroup>

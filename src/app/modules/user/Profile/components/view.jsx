@@ -12,8 +12,10 @@ const View = props => (
     <dl className="dl-horizontal">
       <dt>Name</dt>
       <dd>{props.user.name}</dd>
-      <dt>Bio</dt>
-      <dd>{props.user.bio}</dd>
+      <dt>Headline</dt>
+      <dd>{props.user.headline}</dd>
+      <dt>Summary</dt>
+      <dd>{props.user.summary}</dd>
       <dt>Day Rate</dt>
       <dd>{props.user.per_diem.min} - {props.user.per_diem.max}</dd>
       <dt>Tags</dt>
