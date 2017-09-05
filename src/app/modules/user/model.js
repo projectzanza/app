@@ -74,6 +74,15 @@ export default class User extends Model {
     });
     return _.intersection(jobEstimateIds, userEstimateIds);
   }
+
+  positions(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'userPositions',
+      entityTable: 'positions',
+    });
+  }
 }
 
 User.defaults = {

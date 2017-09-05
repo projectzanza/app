@@ -7,6 +7,7 @@ import UserController from '../../modules/user/controller';
 import Job from '../../modules/jobs/model';
 import User from '../../modules/user/model';
 import EstimateList from '../../modules/estimates/List/container';
+import PositionList from '../../modules/positions/List/container';
 
 class UserShowScene extends React.Component {
   constructor(props, context) {
@@ -61,6 +62,11 @@ class UserShowScene extends React.Component {
             user={this.state.user}
             mode={this.props.params.mode}
           />
+
+          <PositionList
+            user={this.state.user}
+          />
+
           { this.estimateList() }
         </div>
       );

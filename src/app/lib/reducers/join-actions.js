@@ -10,6 +10,8 @@ export const Types = {
   JOB_ESTIMATES_DELETE: 'JOB_ESTIMATES_DELETE',
   USER_ESTIMATES_DELETE: 'USER_ESTIMATES_DELETE',
   JOB_SCOPES_DELETE: 'JOB_SCOPES_DELETE',
+  USER_POSITIONS: 'USER_POSITIONS',
+  USER_POSITION_DELETE: 'USER_POSITION_DELETE',
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -88,3 +90,22 @@ export const userEstimateDelete = estimateJson => ({
   data: estimateJson,
   joinAction: 'purge',
 });
+
+export const userPositions = (userId, positionJson) => {
+  const data = [].concat(positionJson.data);
+
+  return {
+    type: Types.USER_POSITIONS,
+    userId,
+    positionIds: data.map(position => position.id),
+    joinAction: 'merge',
+  };
+};
+
+export const userPositionDelete = (userId, positionId) => ({
+  type: Types.USER_POSITION_DELETE,
+  positionId,
+  userId,
+  joinAction: 'purge',
+});
+
