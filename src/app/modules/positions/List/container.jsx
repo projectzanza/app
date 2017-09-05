@@ -8,16 +8,31 @@ class ListContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
-    this.state = { positions: [] };
+    this.state = {
+      user: props.user,
+      positions: [],
+    };
   }
 
   componentDidMount() {
-    PositionController.fetchPositions(this.store, this.props.user.id);
+    if (this.state.user) {
+      PositionController.fetchPositions(this.store, this.state.user.id);
+    }
+
     this.unsubscribe = this.store.subscribe(() => {
-      this.setState({
-        positions: this.props.user.positions(this.store),
-      });
+      if (this.state.user) {
+        this.setState({
+          positions: this.state.user.positions(this.store),
+        });
+      }
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.user !== nextProps.user) {
+      this.setState({ user: nextProps.user });
+      PositionController.fetchPositions(this.store, nextProps.user.id);
+    }
   }
 
   componentWillUnmount() {

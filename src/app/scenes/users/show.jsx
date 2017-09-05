@@ -16,14 +16,13 @@ class UserShowScene extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.params.jobId) {
       JobController.fetchJob(this.store, this.props.params.jobId);
     }
     UserController.fetchUser(this.store, this.props.params.id, _.get(this.props.params, 'jobId'));
-  }
 
-  componentDidMount() {
+
     this.unsubscribe = this.store.subscribe(() => {
       this.setState({
         user: User.find(this.store, this.props.params.id),

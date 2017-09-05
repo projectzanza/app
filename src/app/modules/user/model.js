@@ -102,6 +102,7 @@ User.propTypes =
       min: PropTypes.int,
       max: PropTypes.int,
     }),
+    positions: PropTypes.func,
   });
 
 User.table = 'user';
