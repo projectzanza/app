@@ -48,7 +48,7 @@ describe('positionActions', () => {
     it('does a PUT request when position is already persisted', () => {
       const userId = 1;
       nock(Config.apiUrl)
-        .put(`/positions`)
+        .put(`/positions/${responses.position.data.id}`)
         .reply(200, responses.position);
 
       const store = mockStore();

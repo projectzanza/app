@@ -10,11 +10,8 @@ class List extends React.Component {
     return this.props.positions.map(position => <PositionView
       key={position.id}
       position={position}
-      // onClickComplete={this.props.onClickComplete}
-      // onClickVerify={this.props.onClickVerify}
-      // onClickReject={this.props.onClickReject}
-      // onClickEdit={this.props.onClickEdit}
-      // onClickDelete={this.props.onClickDelete}
+      onClickEdit={this.props.onClickEdit}
+      onClickDelete={this.props.onClickDelete}
     />);
   }
 
@@ -33,11 +30,8 @@ List.propTypes = {
   positions: PropTypes.arrayOf(
     Position.propTypes,
   ).isRequired,
-  // onClickComplete: PropTypes.func.isRequired,
-  // onClickVerify: PropTypes.func.isRequired,
-  // onClickReject: PropTypes.func.isRequired,
-  // onClickEdit: PropTypes.func.isRequired,
-  // onClickDelete: PropTypes.func.isRequired,
+  onClickEdit: PropTypes.func.isRequired,
+  onClickDelete: PropTypes.func.isRequired,
 };
 
 export default List;

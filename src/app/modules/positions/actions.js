@@ -4,10 +4,15 @@ import * as joinActions from '../../lib/reducers/join-actions';
 
 export function submitPosition(userId, position) {
   return (dispatch, getState) => {
-    const method = position.id ? 'PUT' : 'POST';
+    let method = 'POST';
+    let url = '/positions';
+    if (position.id) {
+      url += `/${position.id}`;
+      method = 'PUT';
+    }
 
     return fetch(
-      '/positions',
+      url,
       {
         method,
         body: JSON.stringify(position),

@@ -8,6 +8,7 @@ import Job from '../../modules/jobs/model';
 import User from '../../modules/user/model';
 import EstimateList from '../../modules/estimates/List/container';
 import PositionList from '../../modules/positions/List/container';
+import CreatePosition from '../../modules/positions/Create/container';
 
 class UserShowScene extends React.Component {
   constructor(props, context) {
@@ -53,7 +54,8 @@ class UserShowScene extends React.Component {
 
   render() {
     // // job needs to be loaded before showing the ShowUser
-    if (!this.props.params.jobId || (this.props.params.jobId && this.state.job)) {
+    if (this.state.user &&
+      (!this.props.params.jobId || (this.props.params.jobId && this.state.job))) {
       return (
         <div>
           <ShowUser
@@ -65,6 +67,8 @@ class UserShowScene extends React.Component {
           <PositionList
             user={this.state.user}
           />
+          <CreatePosition userId={this.state.user.id} />
+
 
           { this.estimateList() }
         </div>
