@@ -20,7 +20,7 @@ describe('positionActions', () => {
       const userId = 1;
 
       nock(Config.apiUrl)
-        .post(`/positions`)
+        .post('/positions')
         .reply(200, responses.position);
 
       const positionIds = [responses.position.data.id];
@@ -52,7 +52,7 @@ describe('positionActions', () => {
         .reply(200, responses.position);
 
       const store = mockStore();
-      return store.dispatch(actions.submitPosition(userId, responses.position.data))
+      return store.dispatch(actions.submitPosition(userId, responses.position.data));
     });
   });
 
@@ -114,6 +114,6 @@ describe('positionActions', () => {
         .then(() => {
           expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
-    })
-  })
+    });
+  });
 });

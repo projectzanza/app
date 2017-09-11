@@ -65,7 +65,7 @@ describe('jobActions', () => {
 
     return store.dispatch(actions.submitEstimate(jobId, forms.estimate))
     .then(() => {
-      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
+      expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
     });
   });
 
@@ -95,14 +95,14 @@ describe('jobActions', () => {
       const store = mockStore();
       return store.dispatch(actions.deleteEstimate(estimate))
         .then(() => {
-          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
+          expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions));
         });
     });
   });
 
   describe('acceptEstimate', () => {
     it('dispatches the correct events on success', () => {
-      const estimate = Object.assign({id: 1}, forms.estimate);
+      const estimate = Object.assign({ id: 1 }, forms.estimate);
       nock(Config.apiUrl)
         .post(`/estimates/${estimate.id}/accept`)
         .reply(200, responses.acceptedEstimate);
@@ -123,7 +123,7 @@ describe('jobActions', () => {
 
   describe('rejectEstimate', () => {
     it('dispatches the correct events on success', () => {
-      const estimate = Object.assign({id: 1}, forms.estimate);
+      const estimate = Object.assign({ id: 1 }, forms.estimate);
       nock(Config.apiUrl)
         .post(`/estimates/${estimate.id}/reject`)
         .reply(200, responses.rejectedEstimate);

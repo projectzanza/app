@@ -12,7 +12,7 @@ export const positions = {
       title: 'title 101',
       summary: 'summary 101',
     },
-  ]
+  ],
 };
 
 export const position = {
@@ -21,7 +21,7 @@ export const position = {
     user_id: 1,
     title: 'title 100',
     summary: 'summary 100',
-  }
+  },
 };
 
 export const deleteSuccess = {

@@ -22,7 +22,7 @@ describe('position reducer', () => {
       const state = reducer(undefined, action);
 
       expect(state.entities[responses.position.data.id]).toBeTruthy();
-    })
+    });
   });
 
 
@@ -37,5 +37,4 @@ describe('position reducer', () => {
       expect(state.entities[positionId]).toBeFalsy();
     });
   });
-
 });

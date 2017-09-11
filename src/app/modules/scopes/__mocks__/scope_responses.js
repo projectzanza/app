@@ -31,5 +31,5 @@ export const noScopes = {
 };
 
 export const deletedScope = {
-  success: true
+  success: true,
 };

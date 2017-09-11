@@ -4,12 +4,16 @@ import { browserHistory } from 'react-router';
 import Panel from '../../components/Panel/container';
 import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
+import Job from '../../modules/jobs/model';
+import ReviewController from '../../modules/reviews/controller';
 import ShowJob from '../../modules/jobs/Show/container';
 import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
 import CreateScope from '../../modules/scopes/Create/container';
 import EstimateList from '../../modules/estimates/List/container';
 import CreateEstimate from '../../modules/estimates/Create/container';
+import CreateReview from '../../modules/reviews/Create/container';
+import ReviewList from '../../modules/reviews/List/container';
 import RocketChat from '../../modules/rocketchat/chat/container';
 import routes from '../routes';
 
@@ -22,6 +26,9 @@ class JobShowScene extends React.Component {
       job: JobController.getJob(this.store, props.params.id),
       matchingUsers: [],
       mode: this.props.params.mode,
+      collaboratingUsers: [],
+      reviews: [],
+      estimates: [],
     };
     this.onClickUser = this.onClickUser.bind(this);
     this.onSubmitSuccess = this.onSubmitSuccess.bind(this);
@@ -31,19 +38,9 @@ class JobShowScene extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData();
-
-    this.unsubscribe = this.store.subscribe(() => {
-      this.setState({ job: JobController.getJob(this.store, this.props.params.id) });
-      if (this.state.job) {
-        this.setState({
-          matchingUsers: UserController.sortByCollaborationState(
-            this.state.job.matchingUsers(this.store),
-          ),
-          collaboratingUsers: this.state.job.collaboratingUsers(this.store),
-          acceptedUser: this.state.job.acceptedUsers(this.store)[0],
-        });
-      }
+    Promise.all(this.fetchData()).then(() => {
+      this.updateState();
+      this.subscribe();
     });
   }
 
@@ -69,12 +66,32 @@ class JobShowScene extends React.Component {
     this.setState({ mode });
   }
 
-  fetchData() {
-    JobController.fetchJob(this.store, this.props.params.id).then(() => {
-      UserController.fetchUser(this.store, this.state.user.id, this.props.params.id);
+  updateState() {
+    const job = Job.find(this.store, this.props.params.id);
+    this.setState({
+      job,
+      matchingUsers: UserController.sortByCollaborationState(job.matchingUsers(this.store)),
+      collaboratingUsers: job.collaboratingUsers(this.store),
+      acceptedUser: job.acceptedUser(this.store),
+      reviews: job.reviews(this.store),
+      estimates: job.estimates(this.store, this.state.user.id),
     });
-    this.filterCollaboratingUser();
-    this.filterMatchingUser();
+  }
+
+  subscribe() {
+    this.unsubscribe = this.store.subscribe(() => {
+      this.updateState();
+    });
+  }
+
+  fetchData() {
+    return [
+      JobController.fetchJob(this.store, this.props.params.id),
+      UserController.fetchUser(this.store, this.state.user.id, this.props.params.id),
+      ReviewController.fetchReviews(this.store, 'jobs', this.props.params.id),
+      this.filterCollaboratingUser(),
+      this.filterMatchingUser(),
+    ];
   }
 
   userOwnsJob() {
@@ -86,7 +103,7 @@ class JobShowScene extends React.Component {
   }
 
   filterMatchingUser(filterText) {
-    UserController.fetchMatchingUsersForJob(
+    return UserController.fetchMatchingUsersForJob(
       this.store,
       this.props.params.id,
       filterText,
@@ -94,7 +111,7 @@ class JobShowScene extends React.Component {
   }
 
   filterCollaboratingUser(filterText) {
-    UserController.fetchCollaboratingUsersForJob(
+    return UserController.fetchCollaboratingUsersForJob(
       this.store,
       this.props.params.id,
       filterText,
@@ -167,6 +184,29 @@ class JobShowScene extends React.Component {
     return null;
   }
 
+  reviews() {
+    if (this.state.job && this.state.acceptedUser) {
+      return (
+        <Panel title="Reviews">
+
+          <ReviewList
+            reviews={this.state.reviews}
+          />
+
+          <CreateReview
+            job={this.state.job}
+            subjectId={ReviewController.subjectId(
+              this.state.job,
+              this.state.user,
+              this.state.acceptedUser,
+            )}
+          />
+        </Panel>
+      );
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
@@ -180,6 +220,7 @@ class JobShowScene extends React.Component {
 
         {this.scopes()}
         {this.estimates()}
+        {this.reviews()}
 
         {this.collaboratingUserList()}
         {this.matchingUserList()}

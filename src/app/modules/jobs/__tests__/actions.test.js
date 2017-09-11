@@ -193,7 +193,7 @@ describe('jobActions', () => {
 
 
       const jobIds = response.data.map(job => job.id);
-      const estimatesJson = _.flatten(response.data.map(job => job.meta.current_user.estimates ));
+      const estimatesJson = _.flatten(response.data.map(job => job.meta.current_user.estimates));
 
       const expectedActions = [
         {
