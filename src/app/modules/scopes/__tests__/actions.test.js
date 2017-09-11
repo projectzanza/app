@@ -67,7 +67,7 @@ describe('scopeActions', () => {
         .put(`/scopes/${scopeId}`)
         .reply(200, responses.scope);
 
-      const scope = Object.assign({id: scopeId}, forms.scope);
+      const scope = Object.assign({ id: scopeId }, forms.scope);
       const store = mockStore();
       return store.dispatch(actions.submitScope(jobId, scope));
     });
@@ -176,7 +176,7 @@ describe('scopeActions', () => {
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));
-        })
+        });
     });
   });
 });

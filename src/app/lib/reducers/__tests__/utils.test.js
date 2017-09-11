@@ -1,7 +1,7 @@
 import {
   createEntityEntries,
   updateJoinTableState,
-  deleteEntityEntries
+  deleteEntityEntries,
 } from '../utils';
 
 describe('utils', () => {
@@ -81,7 +81,6 @@ describe('utils', () => {
       state = deleteEntityEntries(state, 1);
       expect(state.entities['1']).toEqual(undefined);
       expect(Object.keys(state.entities).length).toEqual(entities.length - 1);
-
-    })
-  })
+    });
+  });
 });

@@ -50,11 +50,11 @@ export default class Job extends Model {
     );
   }
 
-  acceptedUsers(store) {
+  acceptedUser(store) {
     return _.filter(
       this.collaboratingUsers(store),
       ['meta.job.collaboration_state', 'accepted'],
-    );
+    )[0];
   }
 
   scopes(store) {
@@ -81,6 +81,19 @@ export default class Job extends Model {
       entityTable: 'estimates',
     });
     return _.intersection(jobEstimateIds, userEstimateIds);
+  }
+
+  reviews(store, userId) {
+    const reviews = getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'jobReviews',
+      entityTable: 'reviews',
+    });
+    if (userId) {
+      return _.filter(reviews, { user_id: userId });
+    }
+    return reviews;
   }
 }
 

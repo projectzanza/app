@@ -12,7 +12,7 @@ export const estimate = {
 };
 
 export const deleteEstimate = {
-  success: 'true'
+  success: 'true',
 };
 
 export const acceptedEstimate = {

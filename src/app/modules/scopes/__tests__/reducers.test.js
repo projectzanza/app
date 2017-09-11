@@ -37,5 +37,5 @@ describe('scope reducer', () => {
       const scopeIds = Object.keys(state.entities);
       expect(scopeIds.includes(deletedScope.id)).toEqual(false);
     });
-  })
+  });
 });

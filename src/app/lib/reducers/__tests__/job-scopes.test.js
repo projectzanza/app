@@ -9,7 +9,7 @@ describe('job scopes reducer', () => {
       const action = joinActions.jobScopes(jobId, responses.scopes);
       const state = reducer.jobScopes(undefined, action);
 
-      const scopeIds = responses.scopes.data.map((scope) => scope.id);
+      const scopeIds = responses.scopes.data.map(scope => scope.id);
       expect(state.entities[1]).toEqual(expect.arrayContaining(scopeIds));
     });
   });
@@ -25,6 +25,6 @@ describe('job scopes reducer', () => {
       state = reducer.jobScopes(state, action);
 
       expect(state.entities[1].includes(deletedScope.id)).toEqual(false);
-    })
-  })
+    });
+  });
 });

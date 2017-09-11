@@ -1,10 +1,14 @@
 import _ from 'lodash';
 import * as reducer from '../job-user-estimates';
-import * as joinActionTypes from '../join-actions'
+import * as joinActionTypes from '../join-actions';
 import * as responses from '../../../modules/jobs/__mocks__/job_responses';
 
 describe('job estimates reducer', () => {
-  const estimates = _.flatten(responses.jobsWithEstimates.data.map(job => job.meta.current_user.estimates));
+  const estimates = _.flatten(
+    responses.jobsWithEstimates.data.map(
+      job => job.meta.current_user.estimates,
+    ),
+  );
 
   it('should return an initial state', () => {
     expect(reducer.jobEstimates(undefined, {}))
@@ -37,7 +41,11 @@ describe('job estimates reducer', () => {
 });
 
 describe('user estimates reducer', () => {
-  const estimates = _.flatten(responses.jobsWithEstimates.data.map(job => job.meta.current_user.estimates));
+  const estimates = _.flatten(
+    responses.jobsWithEstimates.data.map(
+      job => job.meta.current_user.estimates,
+    ),
+  );
 
   it('should return an initial state', () => {
     expect(reducer.userEstimates(undefined, {}))
@@ -65,6 +73,6 @@ describe('user estimates reducer', () => {
       state = reducer.userEstimates(state, action);
 
       expect(state.entities[userId].includes(deletedEstimate.id)).toEqual(false);
-    })
-  })
+    });
+  });
 });

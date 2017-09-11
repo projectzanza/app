@@ -91,7 +91,7 @@ export const jobsWithEstimates = {
               per_diem: '$110',
               days: 4,
               total: '$440',
-            }
+            },
           ],
         },
       },
@@ -120,7 +120,7 @@ export const jobsWithEstimates = {
               per_diem: '$220',
               days: 4,
               total: '$880',
-            }
+            },
           ],
         },
       },
