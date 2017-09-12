@@ -88,7 +88,7 @@ export default class User extends Model {
     return getJoinEntities({
       store,
       primaryKey: this.id,
-      joinTable: 'userReviews',
+      joinTable: 'subjectReviews',
       entityTable: 'reviews',
     });
   }

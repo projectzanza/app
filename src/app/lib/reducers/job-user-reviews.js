@@ -30,3 +30,16 @@ export const jobReviews = (state = initialState, action) => {
       return state;
   }
 };
+
+export const subjectReviews = (state = initialState, action) => {
+  switch (action.type) {
+    case Types.SUBJECT_REVIEWS:
+      return action.data.reduce((loopState, review) =>
+          updateJoinTableState(loopState, review.subject_id, review.id, action.joinAction),
+        state,
+      );
+
+    default:
+      return state;
+  }
+};

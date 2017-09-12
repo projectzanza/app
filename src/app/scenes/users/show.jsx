@@ -92,7 +92,10 @@ class UserShowScene extends React.Component {
   reviewList() {
     return (
       <Panel title="Reviews">
-        <ReviewList reviews={this.state.reviews} />
+        <ReviewList
+          reviews={this.state.reviews}
+          readonly
+        />
       </Panel>
     );
   }

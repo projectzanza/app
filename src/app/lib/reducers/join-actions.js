@@ -14,6 +14,7 @@ export const Types = {
   USER_POSITION_DELETE: 'USER_POSITION_DELETE',
   JOB_REVIEWS: 'JOB_REVIEWS',
   USER_REVIEWS: 'USER_REVIEWS',
+  SUBJECT_REVIEWS: 'SUBJECT_REVIEWS',
 };
 
 export const userMatchingJobs = (userId, jobJson, joinAction) => ({
@@ -119,6 +120,12 @@ export const jobReviews = reviewJson => ({
 
 export const userReviews = reviewJson => ({
   type: Types.USER_REVIEWS,
+  data: [].concat(reviewJson.data),
+  joinAction: 'merge',
+});
+
+export const subjectReviews = reviewJson => ({
+  type: Types.SUBJECT_REVIEWS,
   data: [].concat(reviewJson.data),
   joinAction: 'merge',
 });

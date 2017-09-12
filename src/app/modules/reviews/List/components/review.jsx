@@ -40,7 +40,7 @@ const ReviewView = props => (
     </td>
     <td>
       <ButtonToolbar>
-        { props.onEdit(props.review) &&
+        { !props.readonly && props.onEdit(props.review) &&
           <Button onClick={props.onEdit(props.review)}> Edit </Button>
         }
       </ButtonToolbar>
@@ -51,5 +51,6 @@ const ReviewView = props => (
 ReviewView.propTypes = {
   review: Review.propTypes.isRequired,
   onEdit: PropTypes.func.isRequired,
+  readonly: PropTypes.bool.isRequired,
 };
 export default ReviewView;

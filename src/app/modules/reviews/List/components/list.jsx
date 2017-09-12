@@ -11,6 +11,7 @@ class List extends React.Component {
       key={review.id}
       review={review}
       onEdit={this.props.onEdit}
+      readonly={this.props.readonly}
     />);
   }
 
@@ -30,6 +31,7 @@ List.propTypes = {
     Review.propTypes,
   ).isRequired,
   onEdit: PropTypes.func.isRequired,
+  readonly: PropTypes.bool.isRequired,
 };
 
 export default List;
