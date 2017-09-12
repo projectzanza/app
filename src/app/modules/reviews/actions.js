@@ -6,6 +6,7 @@ const reviewResponseActions = (dispatch, json) => {
   dispatch(ActionTypes.httpRespReviews(json));
   dispatch(joinActions.jobReviews(json));
   dispatch(joinActions.userReviews(json));
+  dispatch(joinActions.subjectReviews(json));
 };
 
 export function submitReview(review) {

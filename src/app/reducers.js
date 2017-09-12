@@ -13,7 +13,7 @@ import { jobScopes } from './lib/reducers/job-scopes';
 import { userJobs } from './lib/reducers/user-jobs';
 import { jobEstimates, userEstimates } from './lib/reducers/job-user-estimates';
 import { userPositions } from './lib/reducers/user-positions';
-import { userReviews, jobReviews } from './lib/reducers/job-user-reviews';
+import { userReviews, jobReviews, subjectReviews } from './lib/reducers/job-user-reviews';
 
 
 function app(state = {}) {
@@ -35,6 +35,7 @@ export default combineReducers({
   reviews,
   userReviews,
   jobReviews,
+  subjectReviews,
   scopes,
   jobScopes,
   user,

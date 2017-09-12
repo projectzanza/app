@@ -7,7 +7,6 @@ import { Provider as ReduxProvider } from 'react-redux';
 import Routes from './routes';
 import rootReducer from './reducers';
 import { loadState, saveState } from './localStorage';
-import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import './css/app.scss';
 import User from './modules/user/model';
 

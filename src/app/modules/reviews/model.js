@@ -9,16 +9,16 @@ Review.propTypes = PropTypes.shape({
   subject_id: PropTypes.string,
   job_id: PropTypes.string,
   description: PropTypes.string,
-  ability: PropTypes.string,
-  communication: PropTypes.string,
-  speed: PropTypes.string,
-  overall: PropTypes.string,
+  ability: PropTypes.number,
+  communication: PropTypes.number,
+  speed: PropTypes.number,
+  overall: PropTypes.number,
 });
 
 Review.defaults = {
   description: value => value || '',
-  ability: value => value || '',
-  communication: value => value || '',
-  speed: value => value || '',
-  overall: value => value || '',
+  ability: value => value || 0,
+  communication: value => value || 0,
+  speed: value => value || 0,
+  overall: value => value || 0,
 };

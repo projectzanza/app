@@ -33,6 +33,7 @@ class ReviewListContainer extends React.Component {
     return (<List
       reviews={this.state.reviews}
       onEdit={this.onEdit}
+      readonly={this.props.readonly}
     />);
   }
 }
@@ -45,6 +46,11 @@ ReviewListContainer.propTypes = {
   reviews: PropTypes.arrayOf(
     Review.propTypes,
   ).isRequired,
+  readonly: PropTypes.bool,
+};
+
+ReviewListContainer.defaultProps = {
+  readonly: false,
 };
 
 export default ReviewListContainer;

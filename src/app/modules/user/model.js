@@ -83,6 +83,15 @@ export default class User extends Model {
       entityTable: 'positions',
     });
   }
+
+  reviews(store) {
+    return getJoinEntities({
+      store,
+      primaryKey: this.id,
+      joinTable: 'subjectReviews',
+      entityTable: 'reviews',
+    });
+  }
 }
 
 User.defaults = {

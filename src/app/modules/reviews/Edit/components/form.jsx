@@ -6,6 +6,7 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
+import StarRating from '../../../../components/Rating/rating';
 import Review from '../../model';
 
 class ReviewForm extends React.Component {
@@ -17,11 +18,18 @@ class ReviewForm extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onRatingChange = this.onRatingChange.bind(this);
   }
 
   onChange(event) {
     const review = this.state.review;
     review[event.target.name] = event.target.value;
+    this.setState({ review });
+  }
+
+  onRatingChange(name, rating) {
+    const review = this.state.review;
+    review[name] = rating;
     this.setState({ review });
   }
 
@@ -36,6 +44,42 @@ class ReviewForm extends React.Component {
             value={this.state.review.description}
             onChange={this.onChange}
           />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="ability">Ability
+            <StarRating
+              name="ability"
+              onChange={this.onRatingChange}
+              value={this.state.review.ability}
+            />
+          </label>
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="communication">Communication
+            <StarRating
+              name="communication"
+              onChange={this.onRatingChange}
+              value={this.state.review.communication}
+            />
+          </label>
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="speed">Speed
+            <StarRating
+              name="speed"
+              onChange={this.onRatingChange}
+              value={this.state.review.speed}
+            />
+          </label>
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="overall">Overall
+            <StarRating
+              name="overall"
+              onChange={this.onRatingChange}
+              value={this.state.review.overall}
+            />
+          </label>
         </FormGroup>
         <FormGroup>
           <Button onClick={this.props.onCancel}>Cancel</Button>

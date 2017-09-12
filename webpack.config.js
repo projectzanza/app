@@ -12,7 +12,8 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     sourceMapFilename: '[file].map',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
 
   devtool: 'inline-source-map',
