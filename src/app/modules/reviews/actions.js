@@ -1,6 +1,7 @@
 import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
+import AlertController from '../alerts/controller';
 
 const reviewResponseActions = (dispatch, json) => {
   dispatch(ActionTypes.httpRespReviews(json));
@@ -24,10 +25,13 @@ export function submitReview(review) {
       body: JSON.stringify(review),
       headers: getState().headers,
     }, dispatch)
-      .then(response => response.json())
       .then((json) => {
         reviewResponseActions(dispatch, json);
-      });
+      })
+    .then(() => {
+      const message = method === 'POST' ? 'Review created' : 'Review updated';
+      AlertController.dispatchAlert(dispatch, 'success', message);
+    });
 }
 
 export function getReviews(resource, id) {
@@ -37,7 +41,7 @@ export function getReviews(resource, id) {
       method: 'GET',
       headers: getState().headers,
     }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         reviewResponseActions(dispatch, json);
       });

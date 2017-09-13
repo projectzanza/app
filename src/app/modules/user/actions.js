@@ -4,6 +4,7 @@ import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
 import * as estimateActionTypes from '../estimates/actionTypes';
+import AlertController from '../alerts/controller';
 
 function dispatchEstimateActions(dispatch, json) {
   let estimates;
@@ -33,7 +34,7 @@ export function createUser(user) {
         body: JSON.stringify(user),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then(json => dispatch(ActionTypes.httpRespUser(json)));
   };
 }
@@ -49,7 +50,7 @@ export function loginUser(user) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatch(ActionTypes.httpRespSignIn(json));
@@ -67,7 +68,7 @@ export function logoutUser() {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then(json => dispatch(ActionTypes.httpRespSignOut(json)));
 }
 
@@ -86,7 +87,7 @@ export function getUser(userId, jobId) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatchEstimateActions(dispatch, json);
@@ -103,8 +104,9 @@ export function putUser(user) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
-      .then(json => dispatch(ActionTypes.httpRespUser(json)));
+
+      .then(json => dispatch(ActionTypes.httpRespUser(json)))
+      .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Profile updated'));
 }
 
 export function getMatchingUsersForJob(jobId, filter) {
@@ -124,7 +126,7 @@ export function getMatchingUsersForJob(jobId, filter) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActions.jobMatchingUsers(jobId, json, 'reset'));
@@ -149,7 +151,7 @@ export function getCollaboratingUsersForJob(jobId, filter) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
         dispatch(joinActions.jobCollaboratingUsers(jobId, json, 'reset'));
@@ -170,7 +172,7 @@ export function postInviteToJob(props) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'merge'));
@@ -190,7 +192,7 @@ export function postAwardJob(props) {
         headers: getState().headers,
       },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatch(joinActions.jobCollaboratingUsers(props.jobId, json, 'merge'));
@@ -207,7 +209,7 @@ export function postRejectUser(props) {
       headers: getState().headers,
     },
       dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
       });

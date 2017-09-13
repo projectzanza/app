@@ -7,6 +7,7 @@ import estimates from './modules/estimates/reducer';
 import cards from './modules/cards/reducer';
 import positions from './modules/positions/reducer';
 import reviews from './modules/reviews/reducer';
+import alerts from './modules/alerts/reducer';
 import { userCollaboratingJobs, jobCollaboratingUsers } from './lib/reducers/user-collaborating-jobs';
 import { userMatchingJobs, jobMatchingUsers } from './lib/reducers/user-matching-jobs';
 import { jobScopes } from './lib/reducers/job-scopes';
@@ -21,6 +22,7 @@ function app(state = {}) {
 }
 
 export default combineReducers({
+  alerts,
   app,
   cards,
   estimates,

@@ -7,7 +7,7 @@ export function postLogin() {
       method: 'POST',
       headers: getState().headers,
     }, dispatch)
-    .then(response => response.json())
+
     .then(json => json.data.loginToken);
 }
 

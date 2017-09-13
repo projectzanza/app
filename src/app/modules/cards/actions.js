@@ -1,5 +1,6 @@
 import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
+import AlertController from '../alerts/controller';
 
 export function postToken(token, jobId) {
   return (dispatch, getState) => {
@@ -11,7 +12,9 @@ export function postToken(token, jobId) {
         body: JSON.stringify(token),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json());
+      .then(() => {
+        AlertController.dispatchAlert(dispatch, 'success', 'Card saved');
+      });
   };
 }
 
@@ -22,6 +25,6 @@ export function getCards() {
       method: 'GET',
       headers: getState().headers,
     }, dispatch)
-    .then(response => response.json())
+
     .then(json => dispatch(ActionTypes.httpRespCards(json)));
 }

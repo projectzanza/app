@@ -1,6 +1,7 @@
 import fetch from '../../lib/fetch/fetch';
 import * as actionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
+import AlertController from '../alerts/controller';
 
 export function submitEstimate(jobId, estimate) {
   return (dispatch, getState) => {
@@ -24,13 +25,16 @@ export function submitEstimate(jobId, estimate) {
         body: JSON.stringify(body),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(actionTypes.httpRespEstimates(json));
         dispatch(joinActions.jobEstimates(json));
         dispatch(joinActions.userEstimates(json));
-      },
-    );
+      })
+      .then(() => {
+        const message = method === 'POST' ? 'Estimate created' : 'Estimate updated';
+        AlertController.dispatchAlert(dispatch, 'success', message);
+      });
   };
 }
 
@@ -48,7 +52,8 @@ export function deleteEstimate(estimate) {
         dispatch(actionTypes.httpRespDeleteEstimate(estimate));
         dispatch(joinActions.jobEstimateDelete(estimate));
         dispatch(joinActions.userEstimateDelete(estimate));
-      });
+      })
+      .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Estimate deleted'));
   };
 }
 
@@ -59,8 +64,7 @@ export function acceptEstimate(estimate) {
       method: 'POST',
       headers: getState().headers,
     }, dispatch)
-      .then(response => response.json())
-      .then(json => dispatch(actionTypes.httpRespEstimates(json)));
+    .then(json => dispatch(actionTypes.httpRespEstimates(json)));
 }
 
 export function rejectEstimate(estimate) {
@@ -70,6 +74,5 @@ export function rejectEstimate(estimate) {
       method: 'POST',
       headers: getState().headers,
     }, dispatch)
-      .then(response => response.json())
-      .then(json => dispatch(actionTypes.httpRespEstimates(json)));
+    .then(json => dispatch(actionTypes.httpRespEstimates(json)));
 }
