@@ -24,6 +24,7 @@
     "react-bootstrap": "^0.30.8",
     "react-bootstrap-date-picker": "^5.0.1",
     "react-bootstrap-slider": "^1.1.7",
+    "react-bs-notifier": "^4.3.2",
     "react-dom": "^15.4.2",
     "react-intl": "^2.2.3",
     "react-rating": "^0.8.1",

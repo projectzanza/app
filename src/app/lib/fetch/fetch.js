@@ -2,8 +2,16 @@ import originalFetch from 'isomorphic-fetch';
 import url from 'url';
 import { httpHeaderResponse } from './actions';
 import Config from '../../config/app';
+import AlertController from '../../modules/alerts/controller';
 
-function fetch(path, params, dispatch) {
+const throwOnHttpError = response => response.json().then((json) => {
+  if (response.ok) {
+    return json;
+  }
+  throw Error(json.message);
+});
+
+const fetch = (path, params, dispatch) => {
   const defaultParams = {
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +44,13 @@ function fetch(path, params, dispatch) {
     .then((response) => {
       dispatch(httpHeaderResponse(response));
       return response;
+    })
+    .then(throwOnHttpError)
+    .catch((error) => {
+      AlertController.dispatchAlert(dispatch, 'error', error.message);
+      // throw the error again, so it will skip the next thens, but can still be caught
+      throw Error(error.message);
     });
-}
+};
 
 export default fetch;

@@ -1,6 +1,7 @@
 import fetch from '../../lib/fetch/fetch';
 import * as ActionTypes from './actionTypes';
 import * as joinActions from '../../lib/reducers/join-actions';
+import AlertController from '../alerts/controller';
 
 export function submitScope(jobId, scope) {
   return (dispatch, getState) => {
@@ -21,11 +22,15 @@ export function submitScope(jobId, scope) {
         body: JSON.stringify(scope),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
         dispatch(joinActions.jobScopes(jobId, json));
         return json.data;
+      })
+      .then(() => {
+        const message = method === 'POST' ? 'Scope created' : 'Scope updated';
+        AlertController.dispatchAlert(dispatch, 'success', message);
       });
   };
 }
@@ -40,7 +45,7 @@ export function getScopes(jobId) {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
         dispatch(joinActions.jobScopes(jobId, json));
@@ -63,7 +68,7 @@ export function postStateScope(jobId, scopeId, state) {
         method: 'POST',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
         dispatch(joinActions.jobScopes(jobId, json));
@@ -82,5 +87,6 @@ export function deleteScope(jobId, scopeId) {
       .then(() => {
         dispatch(ActionTypes.httpRespDeleteScope(scopeId));
         dispatch(joinActions.jobScopesDelete(jobId, scopeId));
-      });
+      })
+    .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Scope deleted'));
 }

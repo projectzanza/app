@@ -3,6 +3,7 @@ import fetch from '../../lib/fetch/fetch';
 import * as joinActions from '../../lib/reducers/join-actions';
 import * as ActionTypes from './actionTypes';
 import * as estimateActionTypes from '../estimates/actionTypes';
+import AlertController from '../alerts/controller';
 
 function dispatchEstimateActions(dispatch, json) {
   let estimates;
@@ -32,10 +33,14 @@ export function createJob(job) {
         body: JSON.stringify(job),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
         return json.data.id;
+      })
+      .then((id) => {
+        AlertController.dispatchAlert(dispatch, 'success', 'Job created');
+        return id;
       });
   };
 }
@@ -54,7 +59,7 @@ export function getJob(jobId, userId) {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
         dispatchEstimateActions(dispatch, json);
@@ -73,8 +78,9 @@ export function putJob(job) {
         body: JSON.stringify(job),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
-      .then(json => dispatch(ActionTypes.httpRespJob(json)));
+
+      .then(json => dispatch(ActionTypes.httpRespJob(json)))
+      .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Job updated'));
   };
 }
 
@@ -88,7 +94,7 @@ export function getUserJobs(props) {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userJobs(props.userId, json));
@@ -106,7 +112,7 @@ export function getCollaboratingJobs(props) {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'reset'));
@@ -125,7 +131,7 @@ export function getMatchingJobsForUser(props) {
         method: 'GET',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userMatchingJobs(props.userId, json, 'reset'));
@@ -143,7 +149,7 @@ export function postRegisterInterestInJob(props) {
         method: 'POST',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'merge'));
@@ -161,7 +167,7 @@ export function postAcceptJob(props) {
         method: 'POST',
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
         dispatch(joinActions.userCollaboratingJobs(props.userId, json, 'merge'));
@@ -180,7 +186,7 @@ export function postVerifyJob(props) {
         body: JSON.stringify({ scopes: true }),
         headers: getState().headers,
       }, dispatch)
-      .then(response => response.json())
+
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
       });
