@@ -175,6 +175,23 @@ export function postAcceptJob(props) {
   };
 }
 
+export function postCompleteJob(jobId) {
+  return (dispatch, getState) => {
+    dispatch(ActionTypes.httpGetJob());
+
+    return fetch(
+      `/jobs/${jobId}/complete`,
+      {
+        method: 'POST',
+        headers: getState().headers,
+      }, dispatch)
+
+      .then((json) => {
+        dispatch(ActionTypes.httpRespJob(json));
+      });
+  };
+}
+
 export function postVerifyJob(props) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetJob());

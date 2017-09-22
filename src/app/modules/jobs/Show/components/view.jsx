@@ -35,34 +35,42 @@ const View = props => (
     </dl>
     <ButtonToolbar>
 
-      { props.showEdit &&
+      { props.onEdit(props.job) &&
       <Button
         bsStyle="primary"
-        onClick={() => props.onEdit(props.job)}
+        onClick={props.onEdit(props.job)}
       > Edit
       </Button>
       }
 
-      { props.showRegisterInterest &&
+      { props.onClickRegisterInterest() &&
       <Button
         bsStyle="primary"
-        onClick={e => props.onClickRegisterInterest(e)}
+        onClick={props.onClickRegisterInterest()}
       > Register Interest
       </Button>
       }
 
-      { props.onClickAccept &&
+      { props.onClickAccept() &&
         <Button
           bsStyle="primary"
-          onClick={e => props.onClickAccept(e)}
+          onClick={props.onClickAccept()}
         > Accept Job
         </Button>
       }
 
-      { props.onClickVerify &&
+      { props.onClickComplete() &&
+      <Button
+        bsStyle="primary"
+        onClick={props.onClickComplete()}
+      > Complete
+      </Button>
+      }
+
+      { props.onClickVerify() &&
         <Button
           bsStyle="danger"
-          onClick={e => props.onClickVerify(e)}
+          onClick={props.onClickVerify()}
         > Verify Complete
         </Button>
       }
@@ -72,19 +80,19 @@ const View = props => (
 
 View.propTypes = {
   job: Job.propTypes.isRequired,
-  showEdit: PropTypes.bool,
-  onEdit: PropTypes.func.isRequired,
-  showRegisterInterest: PropTypes.bool,
-  onClickRegisterInterest: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+  onClickRegisterInterest: PropTypes.func,
   onClickAccept: PropTypes.func,
   onClickVerify: PropTypes.func,
+  onClickComplete: PropTypes.func,
 };
 
 View.defaultProps = {
-  showEdit: false,
-  showRegisterInterest: false,
+  onEdit: undefined,
+  onClickRegisterInterest: undefined,
   onClickAccept: undefined,
   onClickVerify: undefined,
+  onClickComplete: undefined,
 };
 
 export default View;

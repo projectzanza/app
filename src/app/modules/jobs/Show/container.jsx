@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Edit from './components/edit';
 import View from './components/view';
 import { putJob } from '../actions';
@@ -19,11 +18,10 @@ class ShowJobContainer extends React.Component {
     this.onEdit = this.onEdit.bind(this);
     this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.showRegisterInterest = this.showRegisterInterest.bind(this);
     this.onClickRegisterInterest = this.onClickRegisterInterest.bind(this);
-    this.canClickAccept = this.canClickAccept.bind(this);
     this.onClickAccept = this.onClickAccept.bind(this);
     this.onClickVerify = this.onClickVerify.bind(this);
+    this.onClickComplete = this.onClickComplete.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,8 +41,13 @@ class ShowJobContainer extends React.Component {
   }
 
   onEdit() {
-    this.setState({ mode: 'edit' });
-    this.props.onModeChange('edit');
+    if (this.props.currentUser.id === this.state.job.user_id) {
+      return () => {
+        this.setState({ mode: 'edit' });
+        this.props.onModeChange('edit');
+      };
+    }
+    return undefined;
   }
 
   onCancelEdit() {
@@ -53,11 +56,20 @@ class ShowJobContainer extends React.Component {
   }
 
   onClickRegisterInterest() {
-    JobController.registerInterest(this.store, this.state.job.id, this.props.currentUser.id);
+    if (JobController.canRegisterInterest(this.state.job, this.props.currentUser)) {
+      return () => {
+        JobController.registerInterest(this.store, this.state.job.id, this.props.currentUser.id);
+      };
+    }
+    return undefined;
   }
 
   onClickAccept() {
-    JobController.acceptJob(this.store, this.state.job.id, this.props.currentUser.id);
+    if (JobController.canAcceptJob(this.state.job, this.props.currentUser)) {
+      return () =>
+        JobController.acceptJob(this.store, this.state.job.id, this.props.currentUser.id);
+    }
+    return undefined;
   }
 
   onClickVerify() {
@@ -69,13 +81,11 @@ class ShowJobContainer extends React.Component {
     return undefined;
   }
 
-  canClickAccept() {
-    return JobController.canAcceptJob(this.state.job, this.props.currentUser) || undefined;
-  }
-
-  showRegisterInterest() {
-    return (this.props.currentUser.id !== this.state.job.user_id) &&
-      !_.get(this.state.job, 'meta.current_user.collaboration_state');
+  onClickComplete() {
+    if (JobController.canCompleteJob(this.store, this.state.job, this.props.currentUser.id)) {
+      return () => JobController.completeJob(this.store, this.state.job.id);
+    }
+    return undefined;
   }
 
   render() {
@@ -91,12 +101,11 @@ class ShowJobContainer extends React.Component {
     return (
       <View
         job={this.state.job}
-        showEdit={this.props.currentUser.id === this.state.job.user_id}
         onEdit={this.onEdit}
-        showRegisterInterest={this.showRegisterInterest()}
         onClickRegisterInterest={this.onClickRegisterInterest}
-        onClickAccept={this.canClickAccept() && this.onClickAccept}
-        onClickVerify={this.onClickVerify()}
+        onClickAccept={this.onClickAccept}
+        onClickVerify={this.onClickVerify}
+        onClickComplete={this.onClickComplete}
       />
     );
   }

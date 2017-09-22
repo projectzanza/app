@@ -34,16 +34,10 @@ class DashboardScene extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchJobs();
-
-    this.unsubscribe = this.store.subscribe(() => {
-      const user = this.state.user;
-      this.setState({
-        userJobs: user.jobs(this.store),
-        matchingJobs: JobController.sortByCollaborationState(
-          user.collaboratingJobs(this.store),
-          user.matchingJobs(this.store),
-        ),
+    Promise.all(this.fetchJobs()).then(() => {
+      this.updateState();
+      this.unsubscribe = this.store.subscribe(() => {
+        this.updateState();
       });
     });
   }
@@ -52,10 +46,24 @@ class DashboardScene extends React.Component {
     this.unsubscribe();
   }
 
+
+  updateState() {
+    const user = this.state.user;
+    this.setState({
+      userJobs: user.jobs(this.store),
+      matchingJobs: JobController.sortByCollaborationState(
+        user.collaboratingJobs(this.store),
+        user.matchingJobs(this.store),
+      ),
+    });
+  }
+
   fetchJobs() {
-    JobController.fetchUserJobs(this.store, this.state.user.id);
-    JobController.fetchCollaboratingJobs(this.store, this.state.user.id);
-    JobController.fetchMatchingJobsForUser(this.store, this.state.user.id);
+    return [
+      JobController.fetchUserJobs(this.store, this.state.user.id),
+      JobController.fetchCollaboratingJobs(this.store, this.state.user.id),
+      JobController.fetchMatchingJobsForUser(this.store, this.state.user.id),
+    ];
   }
 
   render() {

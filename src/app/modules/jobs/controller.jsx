@@ -29,6 +29,11 @@ class JobController {
     return Job.find(store, id);
   }
 
+  static canRegisterInterest(job, user) {
+    return (user.id !== job.user_id) &&
+      ([undefined, 'invited'].indexOf(_.get(job, 'meta.current_user.collaboration_state')) >= 0);
+  }
+
   static registerInterest(store, jobId, userId) {
     return store.dispatch(actions.postRegisterInterestInJob({ jobId, userId }));
   }
@@ -39,6 +44,22 @@ class JobController {
 
   static acceptJob(store, jobId, userId) {
     return store.dispatch(actions.postAcceptJob({ jobId, userId }));
+  }
+
+  static canCompleteJob(store, job, userId) {
+    return job.state === 'open' && job.acceptedUser(store).id === userId;
+  }
+
+  static completeJob(store, jobId) {
+    ReactDOM.render(
+      <ConfirmModal
+        title="Confirm Complete Job"
+        body={'This alert the client that the work has been completed'}
+        onConfirm={() => store.dispatch(actions.postCompleteJob(jobId))}
+        show
+      />,
+      document.getElementById('modal'),
+    );
   }
 
   static canVerifyJobComplete(job, userId) {

@@ -16,6 +16,20 @@ export const verifiedJob = {
     created_at: '01-01-2017',
     updated_at: '01-01-2017',
     verified_at: '01-02-2017',
+    state: 'verified',
+  },
+};
+
+export const completedJob = {
+  data: {
+    id: 1,
+    title: 'job title',
+    tag_list: ['tag1', 'tag2', 'tag3'],
+    created_at: '01-01-2017',
+    updated_at: '01-01-2017',
+    verified_at: '',
+    completed_at: '01-01-2017',
+    state: 'completed',
   },
 };
 
