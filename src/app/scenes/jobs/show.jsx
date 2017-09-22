@@ -210,13 +210,15 @@ class JobShowScene extends React.Component {
   render() {
     return (
       <div>
-        <ShowJob
-          job={this.state.job}
-          mode={this.state.mode}
-          currentUser={this.state.user}
-          onSubmitSuccess={this.onSubmitSuccess}
-          onModeChange={this.onModeChange}
-        />
+        {this.state.job &&
+          <ShowJob
+            job={this.state.job}
+            mode={this.state.mode}
+            currentUser={this.state.user}
+            onSubmitSuccess={this.onSubmitSuccess}
+            onModeChange={this.onModeChange}
+          />
+        }
 
         {this.scopes()}
         {this.estimates()}

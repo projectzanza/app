@@ -271,6 +271,35 @@ describe('jobActions', () => {
     });
   });
 
+  describe('postCompleteJob', () => {
+    it('should create HTTP_RESP_JOB on success', () => {
+      const jobId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/jobs/${jobId}/complete`)
+        .reply(200, responses.completedJob);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_GET_JOB,
+        },
+        {
+          type: actionTypes.Types.HTTP_RESP_JOB,
+          data: responses.completedJob.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postCompleteJob(jobId))
+        .then(() => {
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining(expectedActions),
+          );
+        });
+    });
+  });
+
   describe('postVerifyJob', () => {
     it('should create HTTP_RESP_JOB on success', () => {
       const jobId = 1;
