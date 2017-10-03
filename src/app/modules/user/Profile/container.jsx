@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
 import _ from 'lodash';
 import Edit from './components/edit';
 import View from './components/view';
 import { putUser } from '../actions';
 import UserController from '../controller';
 import User from '../model';
+import * as Uploads from '../../../lib/uploads/uploads';
+import routes from '../../../scenes/routes';
 
 class ProfileContainer extends React.Component {
   constructor(props, context) {
@@ -21,6 +24,7 @@ class ProfileContainer extends React.Component {
     this.onCancelEdit = this.onCancelEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onClickInvite = this.onClickInvite.bind(this);
+    this.onDropAccepted = this.onDropAccepted.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,19 +35,36 @@ class ProfileContainer extends React.Component {
     });
   }
 
+  onDropAccepted(acceptedFiles) {
+    acceptedFiles.forEach((file) => {
+      this.setState({ profilePic: file });
+      Uploads.requestSignedUploadUrl(this.store, file).then((uploadUrl) => {
+        this.setState({ uploadUrl });
+      });
+    });
+  }
+
   onSubmit(ev, form) {
     ev.preventDefault();
+    if (this.state.profilePic && this.state.uploadUrl) {
+      // upload the file to directly S3 then place the upload URL into the user form
+      // so the rails server can access the file and process it
+      Uploads.uploadFile(this.store, this.state.uploadUrl, this.state.profilePic);
+      form.uploadUrl = this.state.uploadUrl;
+    }
     this.store.dispatch(putUser(form))
       .then(() => {
-        this.setState({ mode: 'view' });
+        this.onCancelEdit();
       });
   }
 
   onCancelEdit() {
+    browserHistory.replace(routes.user.show(this.state.user.id));
     this.setState({ mode: 'view' });
   }
 
   onEdit() {
+    browserHistory.replace(routes.user.edit(this.state.user.id));
     this.setState({ mode: 'edit' });
   }
 
@@ -64,9 +85,11 @@ class ProfileContainer extends React.Component {
     if (this.state.mode === 'edit') {
       return (
         <Edit
+          profilePic={this.state.profilePic}
           user={this.state.user}
           onSubmit={this.onSubmit}
           onCancel={this.onCancelEdit}
+          onDropAccepted={this.onDropAccepted}
         />
       );
     }

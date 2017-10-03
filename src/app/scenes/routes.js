@@ -9,6 +9,7 @@ export default {
   },
   user: {
     show: userId => `/user/${userId}`,
+    edit: userId => `/user/${userId}/edit`,
   },
   job: {
     edit: jobId => `/job/${jobId}/edit`,
