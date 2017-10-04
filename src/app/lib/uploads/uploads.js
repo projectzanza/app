@@ -1,35 +1,42 @@
-import fetch from '../fetch/fetch';
 import corsFetch from 'isomorphic-fetch';
-
-export const requestSignedUploadUrl = (store, file) => store.dispatch(postSignedUploadUrl(file.name));
-
+import fetch from '../fetch/fetch';
 
 const postSignedUploadUrl = filename => (dispatch, getState) => fetch(
-      '/uploads',
+  '/uploads',
   {
     method: 'POST',
     body: JSON.stringify({ filename }),
     headers: getState().headers,
   }, dispatch)
-      .then(json => decodeURIComponent(json.data.url));
+  .then(json => json.data);
 
 
-export const uploadFile = (store, signedUrl, file) => {
+export const requestSignedUploadUrl = (store, file) =>
+  store.dispatch(postSignedUploadUrl(file.name));
+
+export const uploadFile = (store, signedPost, file) => {
   const body = new FormData();
+  Object.keys(signedPost.fields).forEach((key) => {
+    body.append(key, signedPost.fields[key]);
+  });
   body.append('file', file);
 
 
   const fetchParams = {
-    headers: {
-      'Content-Type': file.type,
-    },
     mode: 'cors',
-    method: 'PUT',
+    method: 'POST',
     body,
   };
 
   return corsFetch(
-    signedUrl,
+    signedPost.url,
     fetchParams,
-  );
+  )
+    .then(response => response.text())
+    .then((text) => {
+      const xmlDoc = new DOMParser().parseFromString(text, 'text/xml');
+      return new Promise((resolve, reject) => {
+        resolve(xmlDoc.getElementsByTagName('Location')[0].childNodes[0].nodeValue);
+      });
+    });
 };

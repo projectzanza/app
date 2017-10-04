@@ -38,24 +38,29 @@ class ProfileContainer extends React.Component {
   onDropAccepted(acceptedFiles) {
     acceptedFiles.forEach((file) => {
       this.setState({ profilePic: file });
-      Uploads.requestSignedUploadUrl(this.store, file).then((uploadUrl) => {
-        this.setState({ uploadUrl });
+      Uploads.requestSignedUploadUrl(this.store, file).then((signedPost) => {
+        this.setState({ signedPost });
       });
     });
   }
 
   onSubmit(ev, form) {
     ev.preventDefault();
-    if (this.state.profilePic && this.state.uploadUrl) {
+    if (this.state.profilePic && this.state.signedPost) {
       // upload the file to directly S3 then place the upload URL into the user form
       // so the rails server can access the file and process it
-      Uploads.uploadFile(this.store, this.state.uploadUrl, this.state.profilePic);
-      form.uploadUrl = this.state.uploadUrl;
+      Uploads.uploadFile(this.store, this.state.signedPost, this.state.profilePic)
+        .then((uploadUrl) => {
+          form.uploadUrl = uploadUrl;
+          this.store.dispatch(putUser(form));
+          this.onCancelEdit();
+        });
+    } else {
+      this.store.dispatch(putUser(form))
+        .then(() => {
+          this.onCancelEdit();
+        });
     }
-    this.store.dispatch(putUser(form))
-      .then(() => {
-        this.onCancelEdit();
-      });
   }
 
   onCancelEdit() {
