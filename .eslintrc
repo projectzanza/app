@@ -4,7 +4,9 @@
   "globals": {
     "window": true,
     "document": true,
-    "localStorage": true
+    "localStorage": true,
+    "FormData": true,
+    "DOMParser": true,
   },
   "env": {
     "jest": true
