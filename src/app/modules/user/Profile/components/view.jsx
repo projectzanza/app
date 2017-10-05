@@ -10,6 +10,8 @@ import TagInput from '../../../../components/TagInput/container';
 const View = props => (
   <div>
     <dl className="dl-horizontal">
+      <dt>Avatar</dt>
+      <dd><img src={props.user.avatar_url} /></dd>
       <dt>Name</dt>
       <dd>{props.user.name}</dd>
       <dt>Headline</dt>

@@ -19,6 +19,7 @@ class Edit extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
     this.onSliderChange = this.onSliderChange.bind(this);
+    this.avatarImg = this.avatarImg.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,16 +47,26 @@ class Edit extends React.Component {
     this.setState({ user });
   }
 
+  avatarImg() {
+    const avatarImgSrc = this.props.avatarPreview ?
+      this.props.avatarPreview.preview : this.state.user.avatar_url;
+
+    if (avatarImgSrc) {
+      return <img src={avatarImgSrc} className="fill-parent" alt="avatar" />;
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
         <Dropzone
           onDropAccepted={this.props.onDropAccepted}
           multiple={false}
-          children={this.props.profilePic &&
-            <img src={this.props.profilePic.preview} className="fill-parent" />
-          }
-        />
+        >
+          {this.avatarImg()}
+        </Dropzone>
+
         <form onSubmit={e => this.props.onSubmit(e, this.state.user)}>
           <FormGroup>
             <ControlLabel htmlFor="name">Name</ControlLabel>
@@ -114,10 +125,15 @@ class Edit extends React.Component {
 }
 
 Edit.propTypes = {
+  avatarPreview: PropTypes.shape({ preview: PropTypes.string, name: PropTypes.string }),
   user: User.propTypes.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onDropAccepted: PropTypes.func.isRequired,
+};
+
+Edit.defaultProps = {
+  avatarPreview: undefined,
 };
 
 export default Edit;

@@ -35,8 +35,9 @@ export const uploadFile = (store, signedPost, file) => {
     .then(response => response.text())
     .then((text) => {
       const xmlDoc = new DOMParser().parseFromString(text, 'text/xml');
-      return new Promise((resolve, reject) => {
-        resolve(xmlDoc.getElementsByTagName('Location')[0].childNodes[0].nodeValue);
+      const uploadLocation = decodeURIComponent(xmlDoc.getElementsByTagName('Location')[0].childNodes[0].nodeValue);
+      return new Promise((resolve) => {
+        resolve(uploadLocation);
       });
     });
 };
