@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   context: __dirname + '/src',
@@ -81,7 +82,8 @@ module.exports = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({ template: './app/index.html' })
+    new HtmlWebpackPlugin({ template: './app/index.html' }),
+    new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }])
   ],
 
   devServer: {

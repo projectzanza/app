@@ -47,7 +47,11 @@ class JobController {
   }
 
   static canCompleteJob(store, job, userId) {
-    return job.state === 'open' && job.acceptedUser(store).id === userId;
+    const acceptedUser = job.acceptedUser(store);
+    if (acceptedUser) {
+      return job.state === 'open' && acceptedUser.id === userId;
+    }
+    return false;
   }
 
   static completeJob(store, jobId) {
