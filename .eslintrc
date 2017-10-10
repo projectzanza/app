@@ -8,6 +8,9 @@
     "FormData": true,
     "DOMParser": true,
   },
+  "settings": {
+    "import/resolver": "webpack"
+  },
   "env": {
     "jest": true
   }

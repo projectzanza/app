@@ -1,7 +1,7 @@
 import originalFetch from 'isomorphic-fetch';
 import url from 'url';
+import Config from 'Config';
 import { httpHeaderResponse } from './actions';
-import Config from '../../config/app';
 import AlertController from '../../modules/alerts/controller';
 
 const throwOnHttpError = response => response.json().then((json) => {

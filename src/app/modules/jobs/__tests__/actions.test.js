@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import Config from 'Config';
 import _ from 'lodash';
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
@@ -8,7 +9,6 @@ import * as joinActionTypes from '../../../lib/reducers/join-actions';
 import { Types as estimateTypes } from '../../estimates/actionTypes';
 import * as responses from '../__mocks__/job_responses';
 import * as forms from '../__mocks__/job_forms';
-import Config from '../../../config/app';
 
 const mockStore = configureMockStore([thunk]);
 

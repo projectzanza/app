@@ -49,10 +49,11 @@ class ProfileContainer extends React.Component {
     if (this.state.avatarPreview && this.state.signedPost) {
       // upload the file to directly S3 then place the upload URL into the user form
       // so the rails server can access the file and process it
+      const formWithUpload = form;
       Uploads.uploadFile(this.store, this.state.signedPost, this.state.avatarPreview)
         .then((uploadLocation) => {
-          form.avatar_upload_url = uploadLocation;
-          this.store.dispatch(putUser(form));
+          formWithUpload.avatar_upload_url = uploadLocation;
+          this.store.dispatch(putUser(formWithUpload));
           this.onCancelEdit();
         });
     } else {
