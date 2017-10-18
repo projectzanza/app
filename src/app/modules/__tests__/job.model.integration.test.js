@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import nock from 'nock';
+import Config from 'Config';
 import rootReducer from '../../reducers';
 import * as jobResponses from '../jobs/__mocks__/job_responses';
 import * as userResponses from '../user/__mocks__/user_responses';
 import UserController from '../user/controller';
 import JobController from '../jobs/controller';
 import Job from '../jobs/model';
-import Config from '../../config/app';
 
 describe('job model integration', () => {
   beforeEach(() => {

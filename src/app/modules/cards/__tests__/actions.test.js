@@ -1,9 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import Config from 'Config';
 import * as actionTypes from '../actionTypes';
 import * as actions from '../actions';
-import Config from '../../../config/app';
 import * as responses from '../__mocks__/payment_responses';
 
 const mockStore = configureMockStore([thunk]);

@@ -2,94 +2,108 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var environmentConfig = {
+  'production': 'production.js',
+  'development': 'development.js',
+};
+var NODE_ENV = process.env.NODE_ENV || 'local';
 
-module.exports = {
-  context: __dirname + '/src',
+module.exports = env => {
 
-  entry: [
-    './app/main.jsx'
-  ],
+  return {
+    context: __dirname + '/src',
 
-  output: {
-    filename: 'bundle.js',
-    sourceMapFilename: '[file].map',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
-  },
+    entry: [
+      './app/main.jsx'
+    ],
 
-  devtool: 'inline-source-map',
+    output: {
+      filename: 'bundle.js',
+      sourceMapFilename: '[file].map',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/'
+    },
 
-  resolve: {
-    extensions: ['.js', '.jsx', '.json'],
-    alias: {
-      jquery: path.resolve(__dirname, './jquery-stub.js')
-    }
-  },
+    devtool: 'inline-source-map',
 
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['react-hot-loader', 'babel-loader'],
-        include: path.join(__dirname, 'src'),
-        exclude: /node_modules/,
-
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
-        options: {
-          emitWarning: true,
-          fix: true
-        }
-      },
-      {
-        test: /\.scss$/,
-        include: /src/,
-        loader: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.css$/,
-        loader: "style-loader!css-loader"
-      },
-      {
-        test: /\.png$/,
-        loader: 'url-loader?limit=100000'
-      },
-      {
-        test: /\.jpg$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
-      },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
-      },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+    resolve: {
+      extensions: ['.js', '.jsx', '.json'],
+      alias: {
+        jquery: path.resolve(__dirname, 'jquery-stub.js'),
+        Config: path.resolve(__dirname, 'src', 'app', 'config', environmentConfig[NODE_ENV]),
       }
-    ]
-  },
+    },
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({ template: './app/index.html' }),
-    new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }])
-  ],
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot-loader', 'babel-loader'],
+          include: path.join(__dirname, 'src'),
+          exclude: /node_modules/,
 
-  devServer: {
-    hot: true,
-    host: '0.0.0.0',
-    port: '8080',
-    historyApiFallback: true,
-  },
+        },
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          loader: 'eslint-loader',
+          options: {
+            emitWarning: true,
+            fix: true
+          }
+        },
+        {
+          test: /\.scss$/,
+          include: /src/,
+          loader: ['style-loader', 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.css$/,
+          loader: "style-loader!css-loader"
+        },
+        {
+          test: /\.png$/,
+          loader: 'url-loader?limit=100000'
+        },
+        {
+          test: /\.jpg$/,
+          loader: 'file-loader'
+        },
+        {
+          test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'file-loader'
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
+        }
+      ]
+    },
+
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({ template: './app/index.html' }),
+      new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': `'${process.env.NODE_ENV}'`
+        }
+      })
+    ],
+
+    devServer: {
+      hot: true,
+      host: '0.0.0.0',
+      port: '8080',
+      historyApiFallback: true,
+    },
+  }
 };

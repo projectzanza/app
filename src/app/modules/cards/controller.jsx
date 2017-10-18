@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StripeProvider } from 'react-stripe-elements';
+import Config from 'Config';
 import ModalCompletePaymentDetails from './ModalCompletePaymentDetails/container';
-import Config from '../../config/app';
 import * as actions from './actions';
 
 class PaymentController {

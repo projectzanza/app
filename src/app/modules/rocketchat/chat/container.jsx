@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Config from 'Config';
 import RocketChatController from '../controller';
-import Config from '../../../config/app';
 
 class Chat extends React.Component {
 
