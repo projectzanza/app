@@ -18,3 +18,18 @@ npm run lint
 # run frontend dev server 
 npm run build:watch
 ```
+
+### Building for an environment
+Webpack will build for a local instance by default.
+The config files are in ./src/app/config
+
+To build for development or production, set the NODE_ENV environment variable when building.
+
+```
+NODE_ENV=development npm run build
+```
+
+To build the a docker instance with the source and dev files - 
+```
+docker build --build-arg NODE_ENV=development . -t zanza/app:latest
+```

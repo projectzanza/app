@@ -6,7 +6,7 @@ var environmentConfig = {
   'production': 'production.js',
   'development': 'development.js',
 };
-var NODE_ENV = process.env.NODE_ENV || 'development';
+var NODE_ENV = process.env.NODE_ENV || 'local';
 
 module.exports = env => {
 
@@ -94,7 +94,7 @@ module.exports = env => {
       new CopyWebpackPlugin([{ from: 'assets', to: 'assets' }]),
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': process.env.NODE_ENV
+          'NODE_ENV': `'${process.env.NODE_ENV}'`
         }
       })
     ],
