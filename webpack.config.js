@@ -1,12 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var environmentConfig = {
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const environmentConfig = {
+  'local': 'local.js',
   'production': 'production.js',
   'development': 'development.js',
 };
-var NODE_ENV = process.env.NODE_ENV || 'local';
+const NODE_ENV = process.env.NODE_ENV || 'local';
 
 module.exports = env => {
 

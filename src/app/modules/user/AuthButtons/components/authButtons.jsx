@@ -8,6 +8,18 @@ import User from '../../model';
 
 class AuthButtons extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      headers: props.headers,
+    };
+    this.store = context.store;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(nextProps);
+  }
+
   loggedOutState() {
     return (
       <div>
@@ -29,8 +41,7 @@ class AuthButtons extends React.Component {
   render() {
     return (
       <ButtonToolbar>
-        { !(this.props.user) && this.loggedOutState() }
-        { this.props.user && this.loggedInState() }
+        { this.state.headers['access-token'] ? this.loggedInState() : this.loggedOutState() }
       </ButtonToolbar>
     );
   }
@@ -41,6 +52,7 @@ AuthButtons.propTypes = {
   onClickSignOut: PropTypes.func.isRequired,
   onClickSignUp: PropTypes.func.isRequired,
   onClickProfile: PropTypes.func.isRequired,
+  headers: PropTypes.shape({ 'access-token': PropTypes.string }).isRequired,
   user: User.propTypes,
 };
 
