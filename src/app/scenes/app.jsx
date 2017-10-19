@@ -15,10 +15,6 @@ class App extends React.Component {
     browserHistory.push(routes.app.signin);
   }
 
-  static onSignOut() {
-    browserHistory.push(routes.app.home);
-  }
-
   static onClickSignUp() {
     browserHistory.push(routes.app.signup);
   }
@@ -31,7 +27,6 @@ class App extends React.Component {
     return (
       <AuthButtons
         onClickLogin={App.onClickSignIn}
-        onSignOut={App.onSignOut}
         onClickSignUp={App.onClickSignUp}
         onClickProfile={App.onClickProfile}
       />
