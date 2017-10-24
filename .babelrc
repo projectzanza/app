@@ -4,6 +4,12 @@
     "react"
   ],
   "plugins": [
-    "transform-es2015-classes"
+    "transform-es2015-classes",
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "Config": "./src/app/config/local.js"
+      }
+    }]
   ]
 }
