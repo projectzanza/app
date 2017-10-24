@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
+import { Button } from 'react-bootstrap';
 import Panel from '../../components/Panel/container';
 import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
@@ -14,7 +15,6 @@ import EstimateList from '../../modules/estimates/List/container';
 import CreateEstimate from '../../modules/estimates/Create/container';
 import CreateReview from '../../modules/reviews/Create/container';
 import ReviewList from '../../modules/reviews/List/container';
-import RocketChat from '../../modules/rocketchat/chat/container';
 import routes from '../routes';
 
 class JobShowScene extends React.Component {
@@ -219,6 +219,9 @@ class JobShowScene extends React.Component {
             onModeChange={this.onModeChange}
           />
         }
+        <br />
+        <Button onClick={() => window.open('/chat')}> Open RocketChat </Button>
+        <br />
 
         {this.scopes()}
         {this.estimates()}
@@ -226,8 +229,6 @@ class JobShowScene extends React.Component {
 
         {this.collaboratingUserList()}
         {this.matchingUserList()}
-
-        <RocketChat />
       </div>
     );
   }

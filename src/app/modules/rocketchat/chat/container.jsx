@@ -38,8 +38,7 @@ class Chat extends React.Component {
         <iframe
           ref={(iframe) => { this.iframe = iframe; }}
           src={Config.rocketChatUrl}
-          width="100%"
-          height="900"
+          style={{ width: '100%', height: '100vh', border: 'none' }}
           onLoad={this.onLoad}
         />
       );
