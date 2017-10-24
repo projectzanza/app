@@ -9,6 +9,7 @@ import UserSignInScene from './scenes/users/signin';
 import UserSignUpScene from './scenes/users/signup';
 import DashboardScene from './scenes/dashboard/show';
 import UserConfirmedScene from './scenes/users/confirmed';
+import ChatScene from './scenes/chat/show';
 
 class Routes extends React.Component {
   constructor(props, context) {
@@ -19,6 +20,7 @@ class Routes extends React.Component {
   render() {
     return (
       <Router history={browserHistory}>
+        <Route path="/chat" component={ChatScene} />
         <Route path="/" component={App} >
           <Route path="signup" component={UserSignUpScene} />
           <Route path="signin" component={UserSignInScene} />
