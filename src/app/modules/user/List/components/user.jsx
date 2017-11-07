@@ -19,6 +19,9 @@ const View = (props, context) => {
     <tr>
       <td>
         <Button block className="clear" onClick={e => props.onClick(e, props.user)} >
+          { props.user.certified &&
+            <Label bsStyle="primary">certified</Label>
+          }
           { collaborationState &&
           <Label bsStyle="success">{ collaborationState }</Label>
           }
@@ -52,6 +55,18 @@ const View = (props, context) => {
               Reject
             </Button>
           }
+          {
+            props.onClickCertify && !props.user.certified &&
+            <Button bsStyle="danger" onClick={e => props.onClickCertify(e, props.user)}>
+              Certify
+            </Button>
+          }
+          {
+            props.onClickDecertify && props.user.certified &&
+            <Button bsStyle="danger" onClick={e => props.onClickDecertify(e, props.user)}>
+              De-Certify
+            </Button>
+          }
         </ButtonToolbar>
       </td>
     </tr>
@@ -65,6 +80,8 @@ View.propTypes = {
   onClickInvite: PropTypes.func,
   onClickAward: PropTypes.func,
   onClickReject: PropTypes.func,
+  onClickCertify: PropTypes.func,
+  onClickDecertify: PropTypes.func,
 };
 
 View.defaultProps = {
@@ -72,6 +89,8 @@ View.defaultProps = {
   onClickInvite: undefined,
   onClickAward: undefined,
   onClickReject: undefined,
+  onClickCertify: undefined,
+  onClickDecertify: undefined,
 };
 
 View.contextTypes = {

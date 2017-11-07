@@ -95,6 +95,29 @@ describe('userActions', () => {
     });
   });
 
+  describe('getUsers', () => {
+    it('creates HTTP_USER_RESPS on success', () => {
+      nock(Config.apiUrl)
+        .get('/users')
+        .reply(200, responses.users);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_USERS,
+          data: responses.users.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.getUsers())
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
   describe('getUser', () => {
     it('creates HTTP_USER_RESP on success', () => {
       nock(Config.apiUrl)
@@ -288,6 +311,56 @@ describe('userActions', () => {
       const store = mockStore();
 
       return store.dispatch(actions.postRejectUser({ jobId: 1, userId }))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('postCertifyUser', () => {
+    it('creates HTTP_RESP_USER on success', () => {
+      const userId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/users/${userId}/certify`)
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_USER,
+          data: responses.user.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postCertifyUser(userId))
+        .then(() => {
+          expect(store.getActions())
+            .toEqual(expect.arrayContaining(expectedActions));
+        });
+    });
+  });
+
+  describe('postDecertifyUser', () => {
+    it('creates HTTP_RESP_USER on success', () => {
+      const userId = 1;
+
+      nock(Config.apiUrl)
+        .post(`/users/${userId}/decertify`)
+        .reply(200, responses.user);
+
+      const expectedActions = [
+        {
+          type: actionTypes.Types.HTTP_RESP_USER,
+          data: responses.user.data,
+        },
+      ];
+
+      const store = mockStore();
+
+      return store.dispatch(actions.postDecertifyUser(userId))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

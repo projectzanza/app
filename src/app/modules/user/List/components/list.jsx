@@ -14,6 +14,8 @@ class List extends React.Component {
       onClickInvite={this.props.onClickInviteUserFunc(user)}
       onClickAward={this.props.onClickAwardUserFunc(user)}
       onClickReject={this.props.onClickRejectUserFunc(user)}
+      onClickCertify={this.props.onClickCertifyUserFunc(user)}
+      onClickDecertify={this.props.onClickDecertifyUserFunc(user)}
     />);
   }
 
@@ -36,6 +38,8 @@ List.propTypes = {
   onClickInviteUserFunc: PropTypes.func,
   onClickAwardUserFunc: PropTypes.func,
   onClickRejectUserFunc: PropTypes.func,
+  onClickCertifyUserFunc: PropTypes.func,
+  onClickDecertifyUserFunc: PropTypes.func,
   onClickUser: PropTypes.func.isRequired,
 };
 
@@ -44,6 +48,8 @@ List.defaultProps = {
   onClickInviteUserFunc: undefined,
   onClickAwardUserFunc: undefined,
   onClickRejectUserFunc: undefined,
+  onClickCertifyUserFunc: undefined,
+  onClickDecertifyUserFunc: undefined,
 };
 
 List.contextTypes = {

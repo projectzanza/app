@@ -6,6 +6,7 @@ export default {
   },
   dashboard: {
     show: '/dashboard',
+    admin: '/admin',
   },
   user: {
     show: userId => `/user/${userId}`,

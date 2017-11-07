@@ -42,6 +42,10 @@ class UserController {
     return store.dispatch(actions.getUser(userId, jobId));
   }
 
+  static fetchUsers(store) {
+    return store.dispatch(actions.getUsers());
+  }
+
   static showInviteToJob(props) {
     return (_.get(props.job, 'user_id') === UserController.currentUser(props.store).id) &&
       (_.includes([undefined, 'interested'], _.get(props.user, 'meta.job.collaboration_state')));
@@ -53,6 +57,14 @@ class UserController {
 
   static rejectUser(store, jobId, userId) {
     return store.dispatch(actions.postRejectUser({ userId, jobId }));
+  }
+
+  static certifyUser(store, userId) {
+    return store.dispatch(actions.postCertifyUser(userId));
+  }
+
+  static decertifyUser(store, userId) {
+    return store.dispatch(actions.postDecertifyUser(userId));
   }
 
   static sortByCollaborationState(...args) {
