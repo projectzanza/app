@@ -16,6 +16,8 @@ class ListContainer extends React.Component {
     this.onClickInviteUserFunc = this.onClickInviteUserFunc.bind(this);
     this.onClickAwardUserFunc = this.onClickAwardUserFunc.bind(this);
     this.onClickRejectUserFunc = this.onClickRejectUserFunc.bind(this);
+    this.onClickCertifyUserFunc = this.onClickCertifyUserFunc.bind(this);
+    this.onClickDecertifyUserFunc = this.onClickDecertifyUserFunc.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,7 +25,10 @@ class ListContainer extends React.Component {
   }
 
   onClickInviteUserFunc(user) {
-    if ([undefined, 'interested'].indexOf(_.get(user, 'meta.job.collaboration_state')) >= 0) {
+    if (
+      this.props.allowChangeCollaborationState &&
+      [undefined, 'interested'].indexOf(_.get(user, 'meta.job.collaboration_state')) >= 0
+    ) {
       return (ev, clickedUser) => {
         ev.preventDefault();
         UserController.inviteUser(this.store, this.props.jobId, clickedUser.id);
@@ -33,7 +38,10 @@ class ListContainer extends React.Component {
   }
 
   onClickAwardUserFunc(user) {
-    if (['awarded', 'accepted'].indexOf(_.get(user, 'meta.job.collaboration_state')) < 0) {
+    if (
+      this.props.allowChangeCollaborationState &&
+      ['awarded', 'accepted'].indexOf(_.get(user, 'meta.job.collaboration_state')) < 0
+    ) {
       return (ev, clickedUser) => {
         ev.preventDefault();
         UserController.awardJob(this.store, this.props.jobId, clickedUser.id);
@@ -43,10 +51,33 @@ class ListContainer extends React.Component {
   }
 
   onClickRejectUserFunc(user) {
-    if (_.get(user, 'meta.job.collaboration_state')) {
+    if (
+      this.props.allowChangeCollaborationState &&
+      _.get(user, 'meta.job.collaboration_state')
+    ) {
       return (ev, clickedUser) => {
         ev.preventDefault();
         UserController.rejectUser(this.store, this.props.jobId, clickedUser.id);
+      };
+    }
+    return undefined;
+  }
+
+  onClickCertifyUserFunc() {
+    if (this.props.allowCertifyUser) {
+      return (ev, clickedUser) => {
+        ev.preventDefault();
+        UserController.certifyUser(this.store, clickedUser.id);
+      };
+    }
+    return undefined;
+  }
+
+  onClickDecertifyUserFunc() {
+    if (this.props.allowCertifyUser) {
+      return (ev, clickedUser) => {
+        ev.preventDefault();
+        UserController.decertifyUser(this.store, clickedUser.id);
       };
     }
     return undefined;
@@ -57,15 +88,11 @@ class ListContainer extends React.Component {
       <List
         users={this.state.users}
         jobId={this.props.jobId}
-        onClickInviteUserFunc={
-          this.props.allowChangeCollaborationState && this.onClickInviteUserFunc
-        }
-        onClickAwardUserFunc={
-          this.props.allowChangeCollaborationState && this.onClickAwardUserFunc
-        }
-        onClickRejectUserFunc={
-          this.props.allowChangeCollaborationState && this.onClickRejectUserFunc
-        }
+        onClickInviteUserFunc={this.onClickInviteUserFunc}
+        onClickAwardUserFunc={this.onClickAwardUserFunc}
+        onClickRejectUserFunc={this.onClickRejectUserFunc}
+        onClickCertifyUserFunc={this.onClickCertifyUserFunc}
+        onClickDecertifyUserFunc={this.onClickDecertifyUserFunc}
         onClickUser={this.props.onClickUser}
       />
     );
@@ -82,11 +109,13 @@ ListContainer.propTypes = {
   ),
   onClickUser: PropTypes.func.isRequired,
   allowChangeCollaborationState: PropTypes.bool,
+  allowCertifyUser: PropTypes.bool,
   jobId: PropTypes.string,
 };
 
 ListContainer.defaultProps = {
   allowChangeCollaborationState: undefined,
+  allowCertifyUser: undefined,
   match: undefined,
   invited: undefined,
   users: [],

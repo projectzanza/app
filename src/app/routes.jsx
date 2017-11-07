@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Route, Router, browserHistory } from 'react-router';
 import App from './scenes/app';
 import UserSession from './scenes/users/session';
+import AdminSession from './scenes/users/adminSession';
 import JobShowScene from './scenes/jobs/show';
 import UserShowScene from './scenes/users/show';
 import UserSignInScene from './scenes/users/signin';
 import UserSignUpScene from './scenes/users/signup';
+import AdminScene from './scenes/admin/show';
 import DashboardScene from './scenes/dashboard/show';
 import UserConfirmedScene from './scenes/users/confirmed';
 import ChatScene from './scenes/chat/show';
@@ -26,6 +28,9 @@ class Routes extends React.Component {
           <Route path="signin" component={UserSignInScene} />
           <Route path="confirmed" component={UserConfirmedScene} />
           <Route component={UserSession} >
+            <Route component={AdminSession}>
+              <Route path="/admin" component={AdminScene} />
+            </Route>
             <Route path="/dashboard" component={DashboardScene} />
             <Route path="/job/:id(/:mode)" component={JobShowScene} />
             <Route path="/user/:id(/:mode)" component={UserShowScene} />

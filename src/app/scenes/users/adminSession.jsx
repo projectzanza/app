@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import routes from '../routes';
 import SessionContainer from '../../modules/user/Session/container';
+import UserController from '../../modules/user/controller';
 
-class UserSession extends React.Component {
+class AdminSession extends React.Component {
   static onAuthError() {
-    browserHistory.push(routes.app.signin);
+    browserHistory.push(routes.dashboard.show);
   }
 
   constructor(props, context) {
@@ -17,13 +18,15 @@ class UserSession extends React.Component {
   }
 
   validSession() {
-    return this.store.getState().headers['access-token'];
+    const currentUser = UserController.currentUser(this.store);
+    console.log(currentUser);
+    return currentUser && currentUser.admin;
   }
 
   render() {
     return (
       <SessionContainer
-        onAuthError={UserSession.onAuthError}
+        onAuthError={AdminSession.onAuthError}
         validSession={this.validSession}
       >
         { this.props.children }
@@ -32,16 +35,16 @@ class UserSession extends React.Component {
   }
 }
 
-UserSession.contextTypes = {
+AdminSession.contextTypes = {
   store: PropTypes.object,
 };
 
-UserSession.propTypes = {
+AdminSession.propTypes = {
   children: PropTypes.node,
 };
 
-UserSession.getDefaultProps = {
+AdminSession.getDefaultProps = {
   children: null,
 };
 
-export default UserSession;
+export default AdminSession;

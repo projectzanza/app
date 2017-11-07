@@ -72,6 +72,20 @@ export function logoutUser() {
       .then(json => dispatch(ActionTypes.httpRespSignOut(json)));
 }
 
+export function getUsers() {
+  return (dispatch, getState) =>
+    fetch(
+      '/users',
+      {
+        method: 'GET',
+        headers: getState().headers,
+      },
+      dispatch)
+      .then((json) => {
+        dispatch(ActionTypes.httpRespUsers(json));
+      });
+}
+
 
 export function getUser(userId, jobId) {
   let url = `/users/${userId}`;
@@ -213,4 +227,28 @@ export function postRejectUser(props) {
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
       });
+}
+
+export function postCertifyUser(userId) {
+  return (dispatch, getState) => fetch(
+    `/users/${userId}/certify`,
+    {
+      method: 'POST',
+      headers: getState().headers,
+    }, dispatch)
+    .then((json) => {
+      dispatch(ActionTypes.httpRespUser(json));
+    });
+}
+
+export function postDecertifyUser(userId) {
+  return (dispatch, getState) => fetch(
+    `/users/${userId}/decertify`,
+    {
+      method: 'POST',
+      headers: getState().headers,
+    }, dispatch)
+    .then((json) => {
+      dispatch(ActionTypes.httpRespUser(json));
+    });
 }
