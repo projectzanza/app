@@ -12,7 +12,6 @@ class ModalCompletePaymentDetails extends React.Component {
     super(props);
     this.state = {
       show: true,
-      submit: false,
     };
     this.onHide = this.onHide.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -78,7 +77,7 @@ class ModalCompletePaymentDetails extends React.Component {
 }
 
 ModalCompletePaymentDetails.propTypes = {
-  store: PropTypes.object.isRequired,    // eslint-disable-line react/forbid-prop-types
+  store: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   jobId: PropTypes.string.isRequired,
   onComplete: PropTypes.func.isRequired,
 };

@@ -22,4 +22,8 @@ View.propTypes = {
   value: TagListPropTypes,
 };
 
+View.defaultProps = {
+  value: '',
+};
+
 export default View;

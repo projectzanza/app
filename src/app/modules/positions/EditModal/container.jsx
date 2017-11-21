@@ -27,7 +27,7 @@ class EditModalContainer extends React.Component {
   }
 
   onCancel() {
-    this.setState({ scope: new Position() });
+    this.setState({ position: new Position() });
     this.onHide();
   }
 

@@ -11,7 +11,8 @@ const CreatePosition = (props, context) => {
       <Button
         bsStyle="primary"
         onClick={() => PositionController.createPosition(context.store, props.userId)}
-      > Create New Position </Button>
+      > Create New Position
+      </Button>
     );
   }
   return null;

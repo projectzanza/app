@@ -27,19 +27,19 @@ class Edit extends React.Component {
   }
 
   onChange(event) {
-    const user = this.state.user;
+    const { user } = this.state;
     user[event.target.name] = event.target.value;
     this.setState({ user });
   }
 
   onTagChange(tags) {
-    const user = this.state.user;
+    const { user } = this.state;
     user.tag_list = tags;
     this.setState({ user });
   }
 
   onSliderChange(event) {
-    const user = this.state.user;
+    const { user } = this.state;
     user.per_diem = {
       min: event.target.value[0],
       max: event.target.value[1],

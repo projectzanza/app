@@ -9,7 +9,8 @@ export default class User extends Model {
       store,
       primaryKey: this.id,
       joinTable: 'userJobs',
-      entityTable: 'jobs' });
+      entityTable: 'jobs',
+    });
   }
 
   matchingJobs(store) {
@@ -95,18 +96,16 @@ export default class User extends Model {
 }
 
 User.defaults = {
-  tag_list: tag_list => tag_list || [],         // eslint-disable-line camelcase
-  per_diem: per_diem => per_diem || { min: 0, max: 1000 },  // eslint-disable-line camelcase
+  tag_list: tag_list => tag_list || [], // eslint-disable-line camelcase
+  per_diem: per_diem => per_diem || { min: 0, max: 1000 }, // eslint-disable-line camelcase
 };
 
-User.propTypes =
+User.PropTypes =
   PropTypes.shape({
     name: PropTypes.string,
     headline: PropTypes.string,
     summary: PropTypes.string,
-    tag_list: PropTypes.arrayOf(
-      PropTypes.string,
-    ),
+    tag_list: PropTypes.arrayOf(PropTypes.string),
     per_diem: PropTypes.shape({
       min: PropTypes.int,
       max: PropTypes.int,

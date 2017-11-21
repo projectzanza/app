@@ -19,32 +19,37 @@ const ScopeView = props => (
         { props.onClickEdit(props.scope) &&
         <Button
           onClick={() => props.onClickEdit(props.scope)()}
-        > Edit </Button>
+        > Edit
+        </Button>
         }
         { props.onClickComplete(props.scope) &&
           <Button
             bsStyle="primary"
             onClick={() => props.onClickComplete(props.scope)()}
-          > Complete </Button>
+          > Complete
+          </Button>
         }
         { props.onClickVerify(props.scope) &&
           <Button
             bsStyle="primary"
             onClick={() => props.onClickVerify(props.scope)()}
-          > Verify </Button>
+          > Verify
+          </Button>
         }
         { props.onClickReject(props.scope) &&
           <Button
             bsStyle="danger"
             onClick={() => props.onClickReject(props.scope)()}
-          > Reject </Button>
+          > Reject
+          </Button>
         }
         {
           props.onClickDelete(props.scope) &&
           <Button
             bsStyle="danger"
             onClick={() => props.onClickDelete(props.scope)()}
-          > Delete </Button>
+          > Delete
+          </Button>
         }
       </ButtonToolbar>
     </td>

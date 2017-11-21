@@ -23,13 +23,13 @@ class Edit extends React.Component {
   }
 
   onChange(event) {
-    const estimate = this.state.estimate;
+    const { estimate } = this.state;
     estimate[event.target.name] = event.target.value;
     this.setState({ estimate });
   }
 
   onDateChange(name, value) {
-    const estimate = this.state.estimate;
+    const { estimate } = this.state;
     estimate[name] = value;
     this.setState({ estimate });
   }

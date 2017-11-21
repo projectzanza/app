@@ -10,7 +10,6 @@ import StarRating from '../../../../components/Rating/rating';
 import Review from '../../model';
 
 class ReviewForm extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -22,13 +21,13 @@ class ReviewForm extends React.Component {
   }
 
   onChange(event) {
-    const review = this.state.review;
+    const { review } = this.state;
     review[event.target.name] = event.target.value;
     this.setState({ review });
   }
 
   onRatingChange(name, rating) {
-    const review = this.state.review;
+    const { review } = this.state;
     review[name] = rating;
     this.setState({ review });
   }

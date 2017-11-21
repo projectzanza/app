@@ -7,7 +7,8 @@ const postSignedUploadUrl = filename => (dispatch, getState) => fetch(
     method: 'POST',
     body: JSON.stringify({ filename }),
     headers: getState().headers,
-  }, dispatch)
+  }, dispatch,
+)
   .then(json => json.data);
 
 

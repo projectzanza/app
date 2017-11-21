@@ -5,7 +5,6 @@ import { logoutUser } from '../actions';
 import UserController from '../controller';
 
 class AuthButtonsContainer extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;

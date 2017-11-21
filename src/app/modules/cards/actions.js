@@ -11,7 +11,8 @@ export function postToken(token, jobId) {
         method: 'POST',
         body: JSON.stringify(token),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
       .then(() => {
         AlertController.dispatchAlert(dispatch, 'success', 'Card saved');
       });
@@ -24,7 +25,8 @@ export function getCards() {
     {
       method: 'GET',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
 
     .then(json => dispatch(ActionTypes.httpRespCards(json)));
 }

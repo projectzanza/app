@@ -6,7 +6,6 @@ import Form from './components/form';
 import ReviewController from '../controller';
 
 class EditContainer extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;

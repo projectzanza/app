@@ -14,11 +14,9 @@ const Form = props => (
 Form.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired,
-  stripe: PropTypes.shape(
-    {
-      createToken: PropTypes.func,
-    },
-  ).isRequired,
+  stripe: PropTypes.shape({
+    createToken: PropTypes.func,
+  }).isRequired,
 };
 
 export default injectStripe(Form);

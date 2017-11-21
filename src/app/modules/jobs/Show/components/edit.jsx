@@ -31,13 +31,13 @@ class Edit extends React.Component {
   }
 
   onChange(event) {
-    let value;
+    let eventValue;
     if (event.target.type === 'checkbox') {
-      value = event.target.checked;
+      eventValue = event.target.checked;
     } else {
-      value = event.target.value;
+      eventValue = event.target.value;
     }
-    this.setState({ [event.target.name]: value });
+    this.setState({ [event.target.name]: eventValue });
   }
 
   onTagChange(tags) {
@@ -122,7 +122,8 @@ class Edit extends React.Component {
             name="allow_contact"
             checked={this.state.allow_contact}
             onChange={this.onChange}
-          > Contact Me </Checkbox>
+          > Contact Me
+          </Checkbox>
         </FormGroup>
         <ButtonToolbar>
           <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>

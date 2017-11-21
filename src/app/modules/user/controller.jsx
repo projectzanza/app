@@ -22,12 +22,10 @@ class UserController {
   }
 
   static inviteUser(store, jobId, userId) {
-    return store.dispatch(
-      actions.postInviteToJob({
-        jobId,
-        userId,
-      }),
-    );
+    return store.dispatch(actions.postInviteToJob({
+      jobId,
+      userId,
+    }));
   }
 
   static fetchMatchingUsersForJob(store, jobId, filter) {

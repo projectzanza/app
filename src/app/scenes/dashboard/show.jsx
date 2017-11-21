@@ -10,7 +10,6 @@ import JobList from '../../modules/jobs/List/container';
 import DashboardContainer from '../../modules/dashboard/Dashboard/container';
 
 class DashboardScene extends React.Component {
-
   static onQuickCreateSuccess(job) {
     browserHistory.push(routes.job.edit(job.id));
   }
@@ -26,10 +25,7 @@ class DashboardScene extends React.Component {
     this.state = {
       user: UserController.currentUser(this.store),
       userJobs: [],
-      invitedToJobs: [],
       matchingJobs: [],
-      interestedInJobs: [],
-      awardedJobs: [],
     };
   }
 
@@ -48,7 +44,7 @@ class DashboardScene extends React.Component {
 
 
   updateState() {
-    const user = this.state.user;
+    const { user } = this.state;
     this.setState({
       userJobs: user.jobs(this.store),
       matchingJobs: JobController.sortByCollaborationState(

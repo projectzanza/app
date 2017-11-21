@@ -11,7 +11,8 @@ const CreateReview = (props, context) => {
       <Button
         bsStyle="primary"
         onClick={() => ReviewController.createReview(context.store, props.job.id, props.subjectId)}
-      > Create New Review </Button>
+      > Create New Review
+      </Button>
     );
   }
   return null;

@@ -6,12 +6,10 @@ import ItemView from './card';
 
 export default class List extends React.Component {
   listItems() {
-    return this.props.cards.map(
-      card => <ItemView
-        card={card}
-        onCardSelect={this.props.onCardSelect}
-      />,
-    );
+    return this.props.cards.map(card => (<ItemView
+      card={card}
+      onCardSelect={this.props.onCardSelect}
+    />));
   }
 
   render() {
@@ -26,8 +24,6 @@ export default class List extends React.Component {
 }
 
 List.propTypes = {
-  cards: PropTypes.arrayOf(
-    Card.propTypes,
-  ).isRequired,
+  cards: PropTypes.arrayOf(Card.propTypes).isRequired,
   onCardSelect: PropTypes.func.isRequired,
 };

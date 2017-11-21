@@ -28,7 +28,6 @@ class JobShowScene extends React.Component {
       mode: this.props.params.mode,
       collaboratingUsers: [],
       reviews: [],
-      estimates: [],
     };
     this.onClickUser = this.onClickUser.bind(this);
     this.onSubmitSuccess = this.onSubmitSuccess.bind(this);
@@ -74,7 +73,6 @@ class JobShowScene extends React.Component {
       collaboratingUsers: job.collaboratingUsers(this.store),
       acceptedUser: job.acceptedUser(this.store),
       reviews: job.reviews(this.store),
-      estimates: job.estimates(this.store, this.state.user.id),
     });
   }
 

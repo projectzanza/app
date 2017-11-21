@@ -104,9 +104,7 @@ ListContainer.contextTypes = {
 };
 
 ListContainer.propTypes = {
-  users: PropTypes.arrayOf(
-    User.propTypes,
-  ),
+  users: PropTypes.arrayOf(User.propTypes),
   onClickUser: PropTypes.func.isRequired,
   allowChangeCollaborationState: PropTypes.bool,
   allowCertifyUser: PropTypes.bool,
@@ -116,8 +114,6 @@ ListContainer.propTypes = {
 ListContainer.defaultProps = {
   allowChangeCollaborationState: undefined,
   allowCertifyUser: undefined,
-  match: undefined,
-  invited: undefined,
   users: [],
   jobId: undefined,
 };

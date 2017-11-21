@@ -18,7 +18,8 @@ export function submitPosition(userId, position) {
         method,
         body: JSON.stringify(position),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespPositions(json));
@@ -33,29 +34,30 @@ export function submitPosition(userId, position) {
 
 export function getPositions(userId) {
   return (dispatch, getState) => fetch(
-      `/users/${userId}/positions`,
+    `/users/${userId}/positions`,
     {
       method: 'GET',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
 
-      .then((json) => {
-        dispatch(ActionTypes.httpRespPositions(json));
-        dispatch(joinActions.userPositions(userId, json));
-      },
-    );
+    .then((json) => {
+      dispatch(ActionTypes.httpRespPositions(json));
+      dispatch(joinActions.userPositions(userId, json));
+    });
 }
 
 export function deletePosition(userId, positionId) {
   return (dispatch, getState) => fetch(
-      `/positions/${positionId}`,
+    `/positions/${positionId}`,
     {
       method: 'DELETE',
       headers: getState().headers,
-    }, dispatch)
-      .then(() => {
-        dispatch(ActionTypes.httpRespDeletePositions(positionId));
-        dispatch(joinActions.userPositionDelete(userId, positionId));
-      })
+    }, dispatch,
+  )
+    .then(() => {
+      dispatch(ActionTypes.httpRespDeletePositions(positionId));
+      dispatch(joinActions.userPositionDelete(userId, positionId));
+    })
     .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Position deleted'));
 }

@@ -7,7 +7,8 @@ const CreateEstimate = (props, context) => (
   <Button
     bsStyle="primary"
     onClick={() => EstimateController.createEstimate(context.store, props.jobId)}
-  > Create New Estiamte </Button>
+  > Create New Estiamte
+  </Button>
 );
 
 CreateEstimate.propTypes = {

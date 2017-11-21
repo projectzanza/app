@@ -5,14 +5,13 @@ import ReviewView from './review';
 import Review from '../../model';
 
 class List extends React.Component {
-
   listItems() {
-    return this.props.reviews.map(review => <ReviewView
+    return this.props.reviews.map(review => (<ReviewView
       key={review.id}
       review={review}
       onEdit={this.props.onEdit}
       readonly={this.props.readonly}
-    />);
+    />));
   }
 
   render() {
@@ -27,9 +26,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  reviews: PropTypes.arrayOf(
-    Review.propTypes,
-  ).isRequired,
+  reviews: PropTypes.arrayOf(Review.propTypes).isRequired,
   onEdit: PropTypes.func.isRequired,
   readonly: PropTypes.bool.isRequired,
 };

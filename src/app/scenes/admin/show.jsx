@@ -8,7 +8,6 @@ import UserList from '../../modules/user/List/container';
 import routes from '../routes';
 
 class AdminScene extends React.Component {
-
   static onClickUser(ev, user) {
     ev.preventDefault();
     browserHistory.push(routes.user.show(user.id));

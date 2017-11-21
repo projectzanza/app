@@ -43,9 +43,7 @@ ReviewListContainer.contextTypes = {
 };
 
 ReviewListContainer.propTypes = {
-  reviews: PropTypes.arrayOf(
-    Review.propTypes,
-  ).isRequired,
+  reviews: PropTypes.arrayOf(Review.propTypes).isRequired,
   readonly: PropTypes.bool,
 };
 

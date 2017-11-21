@@ -65,9 +65,7 @@ ShowJobListContainer.contextTypes = {
 
 ShowJobListContainer.propTypes = {
   onClickJob: PropTypes.func.isRequired,
-  jobs: PropTypes.arrayOf(
-    Job.propTypes,
-  ).isRequired,
+  jobs: PropTypes.arrayOf(Job.propTypes).isRequired,
   userId: PropTypes.string.isRequired,
   allowRegisterInterest: PropTypes.bool,
 };

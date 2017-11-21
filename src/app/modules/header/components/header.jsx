@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 
 
-const Header = props =>
+const Header = props => (
   <div className="header">
     <Grid>
       <Row>
@@ -24,7 +24,8 @@ const Header = props =>
         </Col>
       </Row>
     </Grid>
-  </div>;
+  </div>
+);
 
 Header.propTypes = {
   authButtons: PropTypes.node.isRequired,

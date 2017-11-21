@@ -7,11 +7,14 @@ class ConfirmedScene extends React.Component {
     this.store = context.store;
   }
 
-  componentDidMount() {
-  }
 
   render() {
-    return <div>Confirmed!</div>;
+    return (
+      <div>
+        <h2>Confirmed!</h2>
+        <h4> Login to continue </h4>
+      </div>
+    );
   }
 }
 

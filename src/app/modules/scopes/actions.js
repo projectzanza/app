@@ -21,7 +21,8 @@ export function submitScope(jobId, scope) {
         method,
         body: JSON.stringify(scope),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
@@ -44,7 +45,8 @@ export function getScopes(jobId) {
       {
         method: 'GET',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
@@ -67,7 +69,8 @@ export function postStateScope(jobId, scopeId, state) {
       {
         method: 'POST',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespScopes(json));
@@ -79,14 +82,15 @@ export function postStateScope(jobId, scopeId, state) {
 
 export function deleteScope(jobId, scopeId) {
   return (dispatch, getState) => fetch(
-      `/scopes/${scopeId}`,
+    `/scopes/${scopeId}`,
     {
       method: 'DELETE',
       headers: getState().headers,
-    }, dispatch)
-      .then(() => {
-        dispatch(ActionTypes.httpRespDeleteScope(scopeId));
-        dispatch(joinActions.jobScopesDelete(jobId, scopeId));
-      })
+    }, dispatch,
+  )
+    .then(() => {
+      dispatch(ActionTypes.httpRespDeleteScope(scopeId));
+      dispatch(joinActions.jobScopesDelete(jobId, scopeId));
+    })
     .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Scope deleted'));
 }

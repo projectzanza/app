@@ -25,13 +25,13 @@ class Form extends React.Component {
   }
 
   onChange(event) {
-    const position = this.state.position;
+    const { position } = this.state;
     position[event.target.name] = event.target.value;
     this.setState({ position });
   }
 
   onDateChange(name, value) {
-    const position = this.state.position;
+    const { position } = this.state;
     position[name] = value;
     this.setState({ position });
   }

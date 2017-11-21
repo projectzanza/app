@@ -5,16 +5,15 @@ import EstimateView from './estimate';
 import Estimate from '../../model';
 
 class List extends React.Component {
-
   listItems() {
-    return this.props.estimates.map(estimate => <EstimateView
+    return this.props.estimates.map(estimate => (<EstimateView
       key={estimate.id}
       estimate={estimate}
       onClickEdit={this.props.onClickEdit}
       onClickDelete={this.props.onClickDelete}
       onClickAccept={this.props.onClickAccept}
       onClickReject={this.props.onClickReject}
-    />);
+    />));
   }
 
   render() {
@@ -29,9 +28,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  estimates: PropTypes.arrayOf(
-    Estimate.propTypes,
-  ).isRequired,
+  estimates: PropTypes.arrayOf(Estimate.propTypes).isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
   onClickAccept: PropTypes.func.isRequired,

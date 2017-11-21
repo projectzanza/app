@@ -100,18 +100,16 @@ export default class Job extends Model {
 Job.defaults = {
   title: title => title || '',
   text: text => text || '',
-  tag_list: tag_list => tag_list || [],         // eslint-disable-line camelcase
-  per_diem: per_diem => per_diem || { min: 0, max: 1000 },  // eslint-disable-line camelcase
-  proposed_start_at: proposed_start_at => proposed_start_at || 0,   // eslint-disable-line camelcase
+  tag_list: tag_list => tag_list || [], // eslint-disable-line camelcase
+  per_diem: per_diem => per_diem || { min: 0, max: 1000 }, // eslint-disable-line camelcase
+  proposed_start_at: proposed_start_at => proposed_start_at || 0, // eslint-disable-line camelcase
   proposed_end_at: proposed_end_at => proposed_end_at || 0, // eslint-disable-line camelcase
 };
 
 Job.propTypes = PropTypes.shape({
   title: PropTypes.string,
   text: PropTypes.string,
-  tag_list: PropTypes.arrayOf(
-      PropTypes.string,
-    ),
+  tag_list: PropTypes.arrayOf(PropTypes.string),
   per_diem: PropTypes.shape({
     min: PropTypes.int,
     max: PropTypes.int,

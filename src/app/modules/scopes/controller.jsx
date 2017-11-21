@@ -64,7 +64,6 @@ class ScopeController {
       document.getElementById('modal'),
     );
   }
-
 }
 
 export default ScopeController;

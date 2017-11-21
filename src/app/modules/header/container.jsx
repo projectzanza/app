@@ -4,10 +4,10 @@ import Header from './components/header';
 import './style.scss';
 
 const HeaderContainer = props =>
-  <Header
+  (<Header
     onClickTitle={props.onClickTitle}
     authButtons={props.authButtons()}
-  />;
+  />);
 
 HeaderContainer.propTypes = {
   authButtons: PropTypes.func.isRequired,
