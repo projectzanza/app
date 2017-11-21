@@ -35,7 +35,10 @@ export function createUser(user) {
         headers: getState().headers,
       }, dispatch)
 
-      .then(json => dispatch(ActionTypes.httpRespUser(json)));
+      .then((json) => {
+        AlertController.dispatchAlert(dispatch, 'success', 'Check your email to confirm your email address');
+        return dispatch(ActionTypes.httpRespUser(json));
+      });
   };
 }
 

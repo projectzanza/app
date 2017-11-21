@@ -19,7 +19,6 @@ class AdminSession extends React.Component {
 
   validSession() {
     const currentUser = UserController.currentUser(this.store);
-    console.log(currentUser);
     return currentUser && currentUser.admin;
   }
 
