@@ -100,7 +100,7 @@ User.defaults = {
   per_diem: per_diem => per_diem || { min: 0, max: 1000 }, // eslint-disable-line camelcase
 };
 
-User.PropTypes =
+User.propTypes =
   PropTypes.shape({
     name: PropTypes.string,
     headline: PropTypes.string,
