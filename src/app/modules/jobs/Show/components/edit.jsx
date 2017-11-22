@@ -9,8 +9,7 @@ import {
   ButtonToolbar,
 } from 'react-bootstrap';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
-import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
-import DatePicker from 'react-bootstrap-date-picker';
+import DatePicker from 'react-datepicker';
 import TagInput from '../../../../components/TagInput/container';
 import Job from '../../model';
 
@@ -97,7 +96,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="proposed_start_at">Proposed State Date</ControlLabel>
           <DatePicker
             name="proposed_start_at"
-            value={this.state.proposed_start_at}
+            selected={this.state.proposed_start_at}
             onChange={this.onStartDateChange}
           />
         </FormGroup>
@@ -105,7 +104,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="proposed_end_at">Proposed End Date</ControlLabel>
           <DatePicker
             name="proposed_end_at"
-            value={this.state.proposed_end_at}
+            selected={this.state.proposed_end_at}
             onChange={this.onEndDateChange}
           />
         </FormGroup>

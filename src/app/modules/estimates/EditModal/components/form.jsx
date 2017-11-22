@@ -7,7 +7,7 @@ import {
   Button,
   ButtonToolbar,
 } from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
+import DatePicker from 'react-datepicker';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="start_at">Start Date</ControlLabel>
           <DatePicker
             name="start_at"
-            value={this.state.estimate.start_at}
+            selected={this.state.estimate.start_at}
             onChange={value => this.onDateChange('start_at', value)}
           />
         </FormGroup>
@@ -58,7 +58,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="end_at">End Date</ControlLabel>
           <DatePicker
             name="end_at"
-            value={this.state.estimate.end_at}
+            selected={this.state.estimate.end_at}
             onChange={value => this.onDateChange('end_at', value)}
           />
         </FormGroup>

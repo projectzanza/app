@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
+import 'react-datepicker/dist/react-datepicker.css';
 // import createLogger from 'redux-logger';
 import { Provider as ReduxProvider } from 'react-redux';
 import Routes from './routes';

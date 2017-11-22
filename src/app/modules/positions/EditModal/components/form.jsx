@@ -6,7 +6,7 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
+import DatePicker from 'react-datepicker';
 import Position from '../../model';
 
 class Form extends React.Component {
@@ -71,7 +71,7 @@ class Form extends React.Component {
           <ControlLabel htmlFor="start_at">State Date</ControlLabel>
           <DatePicker
             name="start_at"
-            value={this.state.position.start_at}
+            selected={this.state.position.start_at}
             onChange={date => this.onDateChange('start_at', date)}
           />
         </FormGroup>
@@ -79,7 +79,7 @@ class Form extends React.Component {
           <ControlLabel htmlFor="end_at">End Date</ControlLabel>
           <DatePicker
             name="end_at"
-            value={this.state.position.end_at}
+            selected={this.state.position.end_at}
             onChange={date => this.onDateChange('end_at', date)}
           />
         </FormGroup>
