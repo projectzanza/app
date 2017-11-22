@@ -6,7 +6,6 @@ import ModalCompletePaymentDetails from './ModalCompletePaymentDetails/container
 import * as actions from './actions';
 
 class PaymentController {
-
   static completePaymentDetails(props) {
     ReactDOM.render(
       <StripeProvider apiKey={Config.stripe.token}>

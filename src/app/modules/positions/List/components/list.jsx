@@ -5,14 +5,13 @@ import PositionView from './position';
 import Position from '../../model';
 
 class List extends React.Component {
-
   listItems() {
-    return this.props.positions.map(position => <PositionView
+    return this.props.positions.map(position => (<PositionView
       key={position.id}
       position={position}
       onClickEdit={this.props.onClickEdit}
       onClickDelete={this.props.onClickDelete}
-    />);
+    />));
   }
 
   render() {
@@ -27,9 +26,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  positions: PropTypes.arrayOf(
-    Position.propTypes,
-  ).isRequired,
+  positions: PropTypes.arrayOf(Position.propTypes).isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,
 };

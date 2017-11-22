@@ -8,8 +8,9 @@ export const initialState = {
 export const userReviews = (state = initialState, action) => {
   switch (action.type) {
     case Types.USER_REVIEWS:
-      return action.data.reduce((loopState, review) =>
-        updateJoinTableState(loopState, review.user_id, review.id, action.joinAction),
+      return action.data.reduce(
+        (loopState, review) =>
+          updateJoinTableState(loopState, review.user_id, review.id, action.joinAction),
         state,
       );
 
@@ -21,7 +22,8 @@ export const userReviews = (state = initialState, action) => {
 export const jobReviews = (state = initialState, action) => {
   switch (action.type) {
     case Types.JOB_REVIEWS:
-      return action.data.reduce((loopState, review) =>
+      return action.data.reduce(
+        (loopState, review) =>
           updateJoinTableState(loopState, review.job_id, review.id, action.joinAction),
         state,
       );
@@ -34,7 +36,8 @@ export const jobReviews = (state = initialState, action) => {
 export const subjectReviews = (state = initialState, action) => {
   switch (action.type) {
     case Types.SUBJECT_REVIEWS:
-      return action.data.reduce((loopState, review) =>
+      return action.data.reduce(
+        (loopState, review) =>
           updateJoinTableState(loopState, review.subject_id, review.id, action.joinAction),
         state,
       );

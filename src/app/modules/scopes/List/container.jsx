@@ -6,7 +6,6 @@ import ScopeController from '../controller';
 import Scope from '../model';
 
 class ListContainer extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;

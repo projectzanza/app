@@ -6,7 +6,7 @@ import User from '../../model';
 
 class List extends React.Component {
   listItems() {
-    return this.props.users.map(user => <UserView
+    return this.props.users.map(user => (<UserView
       key={user.id}
       user={user}
       jobId={this.props.jobId}
@@ -16,7 +16,7 @@ class List extends React.Component {
       onClickReject={this.props.onClickRejectUserFunc(user)}
       onClickCertify={this.props.onClickCertifyUserFunc(user)}
       onClickDecertify={this.props.onClickDecertifyUserFunc(user)}
-    />);
+    />));
   }
 
   render() {
@@ -31,9 +31,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  users: PropTypes.arrayOf(
-    User.propTypes,
-  ).isRequired,
+  users: PropTypes.arrayOf(User.propTypes).isRequired,
   jobId: PropTypes.string,
   onClickInviteUserFunc: PropTypes.func,
   onClickAwardUserFunc: PropTypes.func,

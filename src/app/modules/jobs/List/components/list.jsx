@@ -5,7 +5,6 @@ import JobView from './job';
 import Job from '../../model';
 
 class List extends React.Component {
-
   clickAcceptFunc(job) {
     if (this.props.canClickAccept && this.props.onClickAccept) {
       return this.props.canClickAccept(job) && this.props.onClickAccept;
@@ -14,7 +13,7 @@ class List extends React.Component {
   }
 
   listItems() {
-    return this.props.jobs.map(job => <JobView
+    return this.props.jobs.map(job => (<JobView
       key={job.id}
       job={job}
       userId={this.props.userId}
@@ -22,7 +21,7 @@ class List extends React.Component {
       allowRegisterInterest={this.props.allowRegisterInterest}
       onClickRegisterInterest={this.props.onClickRegisterInterest}
       onClickAccept={this.clickAcceptFunc(job)}
-    />);
+    />));
   }
 
   render() {
@@ -37,9 +36,7 @@ class List extends React.Component {
 }
 
 List.propTypes = {
-  jobs: PropTypes.arrayOf(
-    Job.propTypes,
-  ).isRequired,
+  jobs: PropTypes.arrayOf(Job.propTypes).isRequired,
   userId: PropTypes.string,
   onClickJob: PropTypes.func.isRequired,
   allowRegisterInterest: PropTypes.bool,

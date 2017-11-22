@@ -28,13 +28,15 @@ const PositionView = props => (
         { props.onClickEdit(props.position) &&
           <Button
             onClick={() => props.onClickEdit(props.position)()}
-          > Edit </Button>
+          > Edit
+          </Button>
         }
         { props.onClickDelete(props.position) &&
         <Button
           bsStyle="danger"
           onClick={() => props.onClickDelete(props.position)()}
-        > Delete </Button>
+        > Delete
+        </Button>
         }
       </ButtonToolbar>
     </td>

@@ -13,5 +13,8 @@
   },
   "env": {
     "jest": true
+  },
+  "rules": {
+    "react/no-typos": "off"
   }
 }

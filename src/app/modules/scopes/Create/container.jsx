@@ -11,7 +11,8 @@ const CreateScope = (props, context) => {
       <Button
         bsStyle="primary"
         onClick={() => ScopeController.createScope(context.store, props.job.id)}
-      > Create New Scope </Button>
+      > Create New Scope
+      </Button>
     );
   }
   return null;

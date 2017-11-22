@@ -39,7 +39,7 @@ module.exports = env => {
       rules: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot-loader', 'babel-loader'],
+          loaders: ['babel-loader'],
           include: path.join(__dirname, 'src'),
           exclude: /node_modules/,
 

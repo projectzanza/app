@@ -9,15 +9,14 @@ import {
   ButtonToolbar,
 } from 'react-bootstrap';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
-import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
-import DatePicker from 'react-bootstrap-date-picker';
+import DatePicker from 'react-datepicker';
 import TagInput from '../../../../components/TagInput/container';
 import Job from '../../model';
 
 class Edit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, props.job);
+    this.state = Object.assign({}, Job.defaults, props.job);
 
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
@@ -31,13 +30,13 @@ class Edit extends React.Component {
   }
 
   onChange(event) {
-    let value;
+    let eventValue;
     if (event.target.type === 'checkbox') {
-      value = event.target.checked;
+      eventValue = event.target.checked;
     } else {
-      value = event.target.value;
+      eventValue = event.target.value;
     }
-    this.setState({ [event.target.name]: value });
+    this.setState({ [event.target.name]: eventValue });
   }
 
   onTagChange(tags) {
@@ -79,7 +78,7 @@ class Edit extends React.Component {
             type="textarea"
             componentClass="textarea"
             name="text"
-            value={this.state.text || ''}
+            value={this.state.text}
             onChange={this.onChange}
           />
         </FormGroup>
@@ -97,7 +96,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="proposed_start_at">Proposed State Date</ControlLabel>
           <DatePicker
             name="proposed_start_at"
-            value={this.state.proposed_start_at}
+            selected={this.state.proposed_start_at}
             onChange={this.onStartDateChange}
           />
         </FormGroup>
@@ -105,7 +104,7 @@ class Edit extends React.Component {
           <ControlLabel htmlFor="proposed_end_at">Proposed End Date</ControlLabel>
           <DatePicker
             name="proposed_end_at"
-            value={this.state.proposed_end_at}
+            selected={this.state.proposed_end_at}
             onChange={this.onEndDateChange}
           />
         </FormGroup>
@@ -122,7 +121,8 @@ class Edit extends React.Component {
             name="allow_contact"
             checked={this.state.allow_contact}
             onChange={this.onChange}
-          > Contact Me </Checkbox>
+          > Contact Me
+          </Checkbox>
         </FormGroup>
         <ButtonToolbar>
           <Button onClick={() => this.props.onCancel(this.state)}> Cancel </Button>

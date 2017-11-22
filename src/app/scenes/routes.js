@@ -3,6 +3,8 @@ export default {
     home: '/',
     signin: '/signin',
     signup: '/signup',
+    confirm: '/confirm',
+    confirmed: '/confirmed',
   },
   dashboard: {
     show: '/dashboard',

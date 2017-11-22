@@ -32,7 +32,8 @@ export function createJob(job) {
         method: 'POST',
         body: JSON.stringify(job),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
@@ -58,7 +59,8 @@ export function getJob(jobId, userId) {
       {
         method: 'GET',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
@@ -77,7 +79,8 @@ export function putJob(job) {
         method: 'PUT',
         body: JSON.stringify(job),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then(json => dispatch(ActionTypes.httpRespJob(json)))
       .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Job updated'));
@@ -93,7 +96,8 @@ export function getUserJobs(props) {
       {
         method: 'GET',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
@@ -111,7 +115,8 @@ export function getCollaboratingJobs(props) {
       {
         method: 'GET',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
@@ -130,7 +135,8 @@ export function getMatchingJobsForUser(props) {
       {
         method: 'GET',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
@@ -148,7 +154,8 @@ export function postRegisterInterestInJob(props) {
       {
         method: 'POST',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
@@ -166,7 +173,8 @@ export function postAcceptJob(props) {
       {
         method: 'POST',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJobs(json));
@@ -184,7 +192,8 @@ export function postCompleteJob(jobId) {
       {
         method: 'POST',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));
@@ -202,7 +211,8 @@ export function postVerifyJob(props) {
         method: 'POST',
         body: JSON.stringify({ scopes: true }),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespJob(json));

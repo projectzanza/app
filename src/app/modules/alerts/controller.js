@@ -7,7 +7,6 @@ const Type = {
 };
 
 export default class AlertController {
-
   static get Type() {
     return Type;
   }

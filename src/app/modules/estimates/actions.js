@@ -24,7 +24,8 @@ export function submitEstimate(jobId, estimate) {
         method,
         body: JSON.stringify(body),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
       .then((json) => {
         dispatch(actionTypes.httpRespEstimates(json));
@@ -47,7 +48,8 @@ export function deleteEstimate(estimate) {
       {
         method: 'DELETE',
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
       .then(() => {
         dispatch(actionTypes.httpRespDeleteEstimate(estimate));
         dispatch(joinActions.jobEstimateDelete(estimate));
@@ -59,20 +61,22 @@ export function deleteEstimate(estimate) {
 
 export function acceptEstimate(estimate) {
   return (dispatch, getState) => fetch(
-      `/estimates/${estimate.id}/accept`,
+    `/estimates/${estimate.id}/accept`,
     {
       method: 'POST',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
     .then(json => dispatch(actionTypes.httpRespEstimates(json)));
 }
 
 export function rejectEstimate(estimate) {
   return (dispatch, getState) => fetch(
-      `/estimates/${estimate.id}/reject`,
+    `/estimates/${estimate.id}/reject`,
     {
       method: 'POST',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
     .then(json => dispatch(actionTypes.httpRespEstimates(json)));
 }

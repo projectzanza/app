@@ -122,7 +122,6 @@ ShowJobContainer.propTypes = {
 };
 
 ShowJobContainer.defaultProps = {
-  matchingUserListScene: undefined,
   mode: 'view',
   job: new Job(),
 };

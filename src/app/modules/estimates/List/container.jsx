@@ -80,9 +80,7 @@ EstimateListContainer.contextTypes = {
 };
 
 EstimateListContainer.propTypes = {
-  estimates: PropTypes.arrayOf(
-    Estimate.propTypes,
-  ).isRequired,
+  estimates: PropTypes.arrayOf(Estimate.propTypes).isRequired,
   job: Job.propTypes.isRequired,
 };
 

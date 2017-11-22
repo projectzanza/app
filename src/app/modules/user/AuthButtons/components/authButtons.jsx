@@ -7,7 +7,6 @@ import {
 import User from '../../model';
 
 class AuthButtons extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.state = {

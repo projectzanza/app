@@ -4,7 +4,6 @@ import Config from 'Config';
 import RocketChatController from '../controller';
 
 class Chat extends React.Component {
-
   constructor(props, context) {
     super(props, context);
     this.store = context.store;
@@ -27,7 +26,8 @@ class Chat extends React.Component {
             event: 'login-with-token',
             loginToken: this.state.token,
           },
-          Config.rocketChatUrl);
+          Config.rocketChatUrl,
+        );
       }
     });
   }
@@ -36,6 +36,7 @@ class Chat extends React.Component {
     if (this.state.token) {
       return (
         <iframe
+          title="chat"
           ref={(iframe) => { this.iframe = iframe; }}
           src={Config.rocketChatUrl}
           style={{ width: '100%', height: '100vh', border: 'none' }}

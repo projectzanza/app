@@ -55,7 +55,7 @@ class EditModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <Form
-            estimate={this.props.estimate}
+            estimate={this.state.estimate}
             onSubmit={this.onSubmit}
             onClickCancel={this.onClickCancel}
           />

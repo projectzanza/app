@@ -5,7 +5,6 @@ import { createJob } from '../actions';
 import Job from '../model';
 
 class QuickCreateJobContainer extends React.Component {
-
   constructor(props) {
     super(props);
     this.onSubmitCreateJob = this.onSubmitCreateJob.bind(this);

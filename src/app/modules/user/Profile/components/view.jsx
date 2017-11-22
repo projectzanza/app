@@ -33,7 +33,8 @@ const View = props => (
         <Button
           bsStyle="primary"
           onClick={() => props.onEdit(props.user)}
-        >Edit</Button>
+        >Edit
+        </Button>
       }
       { props.showInvite &&
       <Button

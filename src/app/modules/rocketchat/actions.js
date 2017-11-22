@@ -2,11 +2,12 @@ import fetch from '../../lib/fetch/fetch';
 
 export function postLogin() {
   return (dispatch, getState) => fetch(
-      '/rocket_chat/login',
+    '/rocket_chat/login',
     {
       method: 'POST',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
 
     .then(json => json.data.loginToken);
 }

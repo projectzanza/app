@@ -8,7 +8,6 @@ import CardsController from '../cards/controller';
 import ConfirmModal from '../../components/ConfirmModal/confirm';
 
 class JobController {
-
   static fetchJob(store, id) {
     return store.dispatch(actions.getJob(id));
   }
@@ -58,7 +57,7 @@ class JobController {
     ReactDOM.render(
       <ConfirmModal
         title="Confirm Complete Job"
-        body={'This alert the client that the work has been completed'}
+        body="This alert the client that the work has been completed"
         onConfirm={() => store.dispatch(actions.postCompleteJob(jobId))}
         show
       />,
@@ -107,7 +106,6 @@ class JobController {
         .indexOf(_.get(item, 'meta.current_user.collaboration_state')),
     ));
   }
-
 }
 
 export default JobController;

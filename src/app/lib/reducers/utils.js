@@ -55,7 +55,7 @@ export const updateJoinTableState = (state, primaryKey, foreignKeys, action) => 
 };
 
 export const deleteEntityEntries = (state, primaryKeys) => {
-  const entities = state.entities;
+  const { entities } = state;
   const pks = [].concat(primaryKeys);
   pks.map(pk => delete entities[pk]);
 

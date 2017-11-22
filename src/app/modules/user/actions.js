@@ -33,9 +33,13 @@ export function createUser(user) {
         method: 'POST',
         body: JSON.stringify(user),
         headers: getState().headers,
-      }, dispatch)
+      }, dispatch,
+    )
 
-      .then(json => dispatch(ActionTypes.httpRespUser(json)));
+      .then((json) => {
+        AlertController.dispatchAlert(dispatch, 'success', 'Check your email to confirm your email address');
+        return dispatch(ActionTypes.httpRespUser(json));
+      });
   };
 }
 
@@ -43,19 +47,20 @@ export function loginUser(user) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpPostSignIn(user));
 
-    return fetch('/auth/sign_in',
+    return fetch(
+      '/auth/sign_in',
       {
         method: 'POST',
         body: JSON.stringify(user),
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
         dispatch(ActionTypes.httpRespSignIn(json));
-      },
-      );
+      });
   };
 }
 
@@ -67,7 +72,8 @@ export function logoutUser() {
         method: 'DELETE',
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then(json => dispatch(ActionTypes.httpRespSignOut(json)));
 }
@@ -80,7 +86,8 @@ export function getUsers() {
         method: 'GET',
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
       });
@@ -100,7 +107,8 @@ export function getUser(userId, jobId) {
         method: 'GET',
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
@@ -117,7 +125,8 @@ export function putUser(user) {
         body: JSON.stringify(user),
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then(json => dispatch(ActionTypes.httpRespUser(json)))
       .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Profile updated'));
@@ -139,7 +148,8 @@ export function getMatchingUsersForJob(jobId, filter) {
         method: 'GET',
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
@@ -164,7 +174,8 @@ export function getCollaboratingUsersForJob(jobId, filter) {
         method: 'GET',
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUsers(json));
@@ -185,7 +196,8 @@ export function postInviteToJob(props) {
         body: JSON.stringify({ job_id: props.jobId }),
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
@@ -205,7 +217,8 @@ export function postAwardJob(props) {
         body: JSON.stringify({ job_id: props.jobId }),
         headers: getState().headers,
       },
-      dispatch)
+      dispatch,
+    )
 
       .then((json) => {
         dispatch(ActionTypes.httpRespUser(json));
@@ -216,17 +229,18 @@ export function postAwardJob(props) {
 
 export function postRejectUser(props) {
   return (dispatch, getState) => fetch(
-      `/users/${props.userId}/reject`,
+    `/users/${props.userId}/reject`,
     {
       method: 'POST',
       body: JSON.stringify({ job_id: props.jobId }),
       headers: getState().headers,
     },
-      dispatch)
+    dispatch,
+  )
 
-      .then((json) => {
-        dispatch(ActionTypes.httpRespUser(json));
-      });
+    .then((json) => {
+      dispatch(ActionTypes.httpRespUser(json));
+    });
 }
 
 export function postCertifyUser(userId) {
@@ -235,7 +249,8 @@ export function postCertifyUser(userId) {
     {
       method: 'POST',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
     .then((json) => {
       dispatch(ActionTypes.httpRespUser(json));
     });
@@ -247,7 +262,8 @@ export function postDecertifyUser(userId) {
     {
       method: 'POST',
       headers: getState().headers,
-    }, dispatch)
+    }, dispatch,
+  )
     .then((json) => {
       dispatch(ActionTypes.httpRespUser(json));
     });

@@ -23,7 +23,7 @@ class Form extends React.Component {
   }
 
   onChange(event) {
-    const scope = this.state.scope;
+    const { scope } = this.state;
     scope[event.target.name] = event.target.value;
     this.setState({ scope });
   }
