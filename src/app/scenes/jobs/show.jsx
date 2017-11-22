@@ -25,6 +25,7 @@ class JobShowScene extends React.Component {
       user: UserController.currentUser(this.store),
       job: JobController.getJob(this.store, props.params.id),
       matchingUsers: [],
+      acceptedUser: undefined,
       mode: this.props.params.mode,
       collaboratingUsers: [],
       reviews: [],
@@ -38,8 +39,8 @@ class JobShowScene extends React.Component {
 
   componentDidMount() {
     Promise.all(this.fetchData()).then(() => {
-      this.updateState();
       this.subscribe();
+      this.updateState();
     });
   }
 
@@ -48,7 +49,9 @@ class JobShowScene extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
 
   onClickUser(ev, user) {

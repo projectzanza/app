@@ -16,7 +16,7 @@ import Job from '../../model';
 class Edit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, props.job);
+    this.state = Object.assign({}, Job.defaults, props.job);
 
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
@@ -78,7 +78,7 @@ class Edit extends React.Component {
             type="textarea"
             componentClass="textarea"
             name="text"
-            value={this.state.text || ''}
+            value={this.state.text}
             onChange={this.onChange}
           />
         </FormGroup>
