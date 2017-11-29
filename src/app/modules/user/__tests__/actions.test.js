@@ -199,7 +199,7 @@ describe('userActions', () => {
     it('adds filter parameters onto the url', () => {
       const jobId = 1;
       nock(Config.apiUrl)
-        .get(`/jobs/${jobId}/users/match?filter=barry`)
+        .get(`/jobs/${jobId}/users/match?name=barry`)
         .reply(200, responses.users);
 
       const expectedActions = [{
@@ -208,7 +208,7 @@ describe('userActions', () => {
 
       const store = mockStore();
 
-      return store.dispatch(actions.getMatchingUsersForJob(jobId, 'barry'))
+      return store.dispatch(actions.getMatchingUsersForJob(jobId, {name: 'barry'}))
         .then(() => {
           expect(store.getActions())
             .toEqual(expect.arrayContaining(expectedActions));

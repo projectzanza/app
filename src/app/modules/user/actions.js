@@ -132,13 +132,13 @@ export function putUser(user) {
       .then(() => AlertController.dispatchAlert(dispatch, 'success', 'Profile updated'));
 }
 
-export function getMatchingUsersForJob(jobId, filter) {
+export function getMatchingUsersForJob(jobId, filters) {
   return (dispatch, getState) => {
     dispatch(ActionTypes.httpGetUsers());
 
     const urlParams = { pathname: `/jobs/${jobId}/users/match` };
-    if (filter) {
-      Object.assign(urlParams, { query: { filter } });
+    if (filters) {
+      Object.assign(urlParams, { query: filters });
     }
     const url = URL.format(urlParams);
 

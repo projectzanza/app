@@ -14,6 +14,10 @@ const View = props => (
       <dd><img src={props.user.avatar_url} alt="avatar" /></dd>
       <dt>Name</dt>
       <dd>{props.user.name}</dd>
+      <dt>Country</dt>
+      <dd>{props.user.country}</dd>
+      <dt>City</dt>
+      <dd>{props.user.city}</dd>
       <dt>Headline</dt>
       <dd>{props.user.headline}</dd>
       <dt>Summary</dt>
@@ -27,6 +31,8 @@ const View = props => (
           value={props.user.tag_list}
         />
       </dd>
+      <dt>Can travel onsite</dt>
+      <dd>{props.user.onsite ? 'true' : 'false'}</dd>
     </dl>
     <FormGroup>
       { props.showEdit &&
