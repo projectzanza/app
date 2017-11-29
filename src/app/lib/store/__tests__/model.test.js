@@ -15,4 +15,12 @@ describe('Model', () => {
     expect(em.text).toEqual('');
     expect(em.thing).toEqual('');
   });
+
+  describe('convertHashToBool', () => {
+    it('should convert only supplied keys to boolean values', () => {
+      const stringHash = { a: true, b: 'true', c: 'false', d: false, e: 'true', f: '', g: ''};
+      const boolHash = Model.convertHashToBool(stringHash, ['a', 'b', 'c', 'd', 'f']);
+      expect(boolHash).toEqual({ a: true, b: true, c: false, d: false, e: 'true', f: false, g: ''});
+    })
+  });
 });

@@ -106,8 +106,16 @@ Job.defaults = {
   per_diem: per_diem => per_diem || { min: 0, max: 1000 },
   proposed_start_at: proposed_start_at => moment(proposed_start_at) || moment(),
   proposed_end_at: proposed_end_at => moment(proposed_end_at) || moment(),
+  consultant_filter: value => Job.convertHashToBool(value, ['onsite']) || { country: '', city: '', onsite: false },
 };
 /* eslint-enable camelcase */
+
+Job.consultantFilterPropType = PropTypes.shape({
+  country: PropTypes.string,
+  city: PropTypes.string,
+  name: PropTypes.string,
+  onsite: PropTypes.bool,
+});
 
 Job.propTypes = PropTypes.shape({
   title: PropTypes.string,
@@ -118,6 +126,7 @@ Job.propTypes = PropTypes.shape({
     max: PropTypes.int,
   }),
   matchingUsers: PropTypes.func,
+  consultant_filter: Job.consultantFilterPropType,
 });
 
 Job.table = 'jobs';

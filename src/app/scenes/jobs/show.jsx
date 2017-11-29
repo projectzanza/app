@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
-import { Button } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 import Panel from '../../components/Panel/container';
 import UserController from '../../modules/user/controller';
 import JobController from '../../modules/jobs/controller';
 import Job from '../../modules/jobs/model';
-import ReviewController from '../../modules/reviews/controller';
 import ShowJob from '../../modules/jobs/Show/container';
+import ConsultantFilter from '../../modules/jobs/ConsultantFilter/container';
+import ReviewController from '../../modules/reviews/controller';
 import UserList from '../../modules/user/List/container';
 import ListScope from '../../modules/scopes/List/container';
 import CreateScope from '../../modules/scopes/Create/container';
@@ -139,14 +140,35 @@ class JobShowScene extends React.Component {
   matchingUserList() {
     if (this.userOwnsJob() && this.inViewMode()) {
       return (
-        <Panel title="Matching Consultants" filter={this.filterMatchingUser}>
-          <UserList
-            jobId={this.props.params.id}
-            users={this.state.matchingUsers}
-            onClickUser={this.onClickUser}
-            allowChangeCollaborationState
-          />
-        </Panel>
+        <div>
+          <Panel title="Matching Consultants">
+            <Grid fluid>
+              <Row className="show-grid">
+                <Col md={2}>
+                  <ConsultantFilter
+                    jobId={this.props.params.id}
+                    consultantFilter={this.state.job.consultant_filter}
+                    onSubmitSuccess={filters =>
+                      UserController.fetchMatchingUsersForJob(
+                        this.store,
+                        this.props.params.id,
+                        filters,
+                      )
+                    }
+                  />
+                </Col>
+                <Col md={10}>
+                  <UserList
+                    jobId={this.props.params.id}
+                    users={this.state.matchingUsers}
+                    onClickUser={this.onClickUser}
+                    allowChangeCollaborationState
+                  />
+                </Col>
+              </Row>
+            </Grid>
+          </Panel>
+        </div>
       );
     }
     return null;

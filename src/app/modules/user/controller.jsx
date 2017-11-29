@@ -28,8 +28,8 @@ class UserController {
     }));
   }
 
-  static fetchMatchingUsersForJob(store, jobId, filter) {
-    return store.dispatch(actions.getMatchingUsersForJob(jobId, filter));
+  static fetchMatchingUsersForJob(store, jobId, filters) {
+    return store.dispatch(actions.getMatchingUsersForJob(jobId, filters));
   }
 
   static fetchCollaboratingUsersForJob(store, jobId, filter) {

@@ -12,6 +12,18 @@ export default class Model {
     return getEntities(store, this.table);
   }
 
+  static convertHashToBool(hash, keys) {
+    // convert any hash parameters to boolean, as requested by the key list
+    if (hash) {
+      let convertedHash = {};
+      keys.forEach((key) => {
+        convertedHash = Object.assign(hash, { [key]: hash[key] === 'true' || hash[key] === true });
+      });
+      return convertedHash;
+    }
+    return hash;
+  }
+
   constructor(entity = {}) {
     // get all the keys from defaults and the entity
     // pass the keys from entity into the default function with the same key name
