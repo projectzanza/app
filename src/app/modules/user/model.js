@@ -96,6 +96,8 @@ export default class User extends Model {
 }
 
 User.defaults = {
+  country: country => country || '',
+  city: city => city || '',
   tag_list: tag_list => tag_list || [], // eslint-disable-line camelcase
   per_diem: per_diem => per_diem || { min: 0, max: 1000 }, // eslint-disable-line camelcase
 };
@@ -111,6 +113,9 @@ User.propTypes =
       max: PropTypes.int,
     }),
     positions: PropTypes.func,
+    country: PropTypes.string,
+    city: PropTypes.string,
+    onsite: PropTypes.bool,
   });
 
 User.table = 'user';

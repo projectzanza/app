@@ -106,7 +106,7 @@ Job.defaults = {
   per_diem: per_diem => per_diem || { min: 0, max: 1000 },
   proposed_start_at: proposed_start_at => moment(proposed_start_at) || moment(),
   proposed_end_at: proposed_end_at => moment(proposed_end_at) || moment(),
-  consultant_filter: value => Job.convertHashToBool(value, ['onsite']) || { country: '', city: '', onsite: false },
+  consultant_filter: value => Job.convertHashToBool(value, ['onsite']) || { country: '', city: '', name: '', onsite: false },
 };
 /* eslint-enable camelcase */
 

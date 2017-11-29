@@ -5,11 +5,13 @@ import {
   ControlLabel,
   FormControl,
   Button,
+  Checkbox,
 } from 'react-bootstrap';
 import ReactBootstrapSlider from 'react-bootstrap-slider';
 import Dropzone from 'react-dropzone';
 import 'react-bootstrap-slider/src/css/bootstrap-slider.min.css';
 import TagInput from '../../../../components/TagInput/container';
+import CountrySelect from '../../../../components/CountrySelect/container';
 import User from '../../model';
 
 class Edit extends React.Component {
@@ -19,6 +21,7 @@ class Edit extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
     this.onSliderChange = this.onSliderChange.bind(this);
+    this.onCountrySelectChange = this.onCountrySelectChange.bind(this);
     this.avatarImg = this.avatarImg.bind(this);
   }
 
@@ -28,7 +31,14 @@ class Edit extends React.Component {
 
   onChange(event) {
     const { user } = this.state;
-    user[event.target.name] = event.target.value;
+    let eventValue;
+
+    if (event.target.type === 'checkbox') {
+      eventValue = event.target.checked;
+    } else {
+      eventValue = event.target.value;
+    }
+    user[event.target.name] = eventValue;
     this.setState({ user });
   }
 
@@ -44,6 +54,12 @@ class Edit extends React.Component {
       min: event.target.value[0],
       max: event.target.value[1],
     };
+    this.setState({ user });
+  }
+
+  onCountrySelectChange(selected) {
+    const { user } = this.state;
+    user.country = selected ? selected.value : '';
     this.setState({ user });
   }
 
@@ -74,6 +90,24 @@ class Edit extends React.Component {
               type="text"
               name="name"
               value={this.state.user.name}
+              onChange={this.onChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel htmlFor="country">Country</ControlLabel>
+            <CountrySelect
+              type="text"
+              name="country"
+              value={this.state.user.country}
+              onChange={this.onCountrySelectChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel htmlFor="city">City</ControlLabel>
+            <FormControl
+              type="text"
+              name="city"
+              value={this.state.user.city}
               onChange={this.onChange}
             />
           </FormGroup>
@@ -113,6 +147,14 @@ class Edit extends React.Component {
               value={this.state.user.tag_list}
               onChange={this.onTagChange}
             />
+          </FormGroup>
+          <FormGroup>
+            <Checkbox
+              name="onsite"
+              checked={this.state.user.onsite}
+              onChange={this.onChange}
+            > Can work onsite
+            </Checkbox>
           </FormGroup>
           <FormGroup>
             <Button onClick={() => this.props.onCancel(this.state.user)}>Cancel</Button>

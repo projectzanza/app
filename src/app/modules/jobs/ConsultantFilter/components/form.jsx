@@ -8,12 +8,14 @@ import {
   Checkbox,
 } from 'react-bootstrap';
 import Job from '../../model';
+import CountrySelect from '../../../../components/CountrySelect/container';
 
 class ConsultantFilterForm extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = { filters: Object.assign({ save: true }, props.filters) };
     this.onChange = this.onChange.bind(this);
+    this.onCountrySelectChange = this.onCountrySelectChange.bind(this);
   }
 
   onChange(event) {
@@ -23,8 +25,14 @@ class ConsultantFilterForm extends React.Component {
     } else {
       eventValue = event.target.value;
     }
-    const filters = this.state.filters;
+    const { filters } = this.state;
     filters[event.target.name] = eventValue;
+    this.setState({ filters });
+  }
+
+  onCountrySelectChange(selected) {
+    const { filters } = this.state;
+    filters.country = selected ? selected.value : '';
     this.setState({ filters });
   }
 
@@ -33,11 +41,11 @@ class ConsultantFilterForm extends React.Component {
       <form onSubmit={e => this.props.onSubmit(e, this.state.filters)}>
         <FormGroup>
           <ControlLabel htmlFor="country">Country</ControlLabel>
-          <FormControl
+          <CountrySelect
             type="text"
             name="country"
             value={this.state.filters.country}
-            onChange={this.onChange}
+            onChange={this.onCountrySelectChange}
           />
         </FormGroup>
         <FormGroup>
